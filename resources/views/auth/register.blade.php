@@ -1,53 +1,71 @@
+
 @extends('layouts.app')
 @section('title', 'Register')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
+
+        <!-- Outer Row -->
         <div class="row d-flex justify-content-center align-items-center min-vh-100">
-            <div class="col-lg-4">
-                <div class="card shadow">
-                    <div class="card-header">
-                        <h2 class="fw-bold text-secondary">Register</h2>
-                    </div>
-                    <div class="card-body p-5">
-                        <div id="show-success-alert"></div>
-                        <form action="#" method="POST" id="register_form">
-                            @csrf
-                            <meta name="csrf-token" content="{{ csrf_token() }}">
-{{--                            @method('POST')--}}
-                            <div class="mb-3">
-                                <input type="text" name="name" id="name" class="form-control rounded-0" placeholder="Full Name">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                            <div class="mb-3">
-                                <input type="email" name="email" id="email" class="form-control rounded-0" placeholder="E-mail">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                            <div class="mb-3">
-                                <input type="password" name="password" id="password" class="form-control rounded-0" placeholder="Password">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                            <div class="mb-3">
-                                <input type="password" name="confirm_password" id="confirm_password" class="form-control rounded-0" placeholder="Confirm Password">
-                                <div class="invalid-feedback"></div>
-                            </div>
 
-                            <div class="mb-3 d-grid">
-                                <input type="submit" value="Register" class="btn btn-dark rounded-0" id="register_btn">
-                            </div>
+            <div class="col-xl-8 col-lg-10 col-md-7">
 
-                            <div class="text-center text-secondary">
-                                <div class="">
-                                    Already have an account? <a href="/" class="text-decoration-none">Login Here</a>
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block"style="background-image: url({{ asset('images/login.jpeg') }});background-size: cover; background-repeat: no-repeat;"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    </div>
+                                    <div id="show-success-alert"></div>
+                                    <form  class="user" action="#" method="POST" id="register_form">
+                                        @csrf
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user"
+                                                   name="name" id="name" aria-describedby="emailHelp"
+                                                   placeholder="Enter Your Name...">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" class="form-control form-control-user"
+                                                   name="email" id="email" aria-describedby="emailHelp"
+                                                   placeholder="Enter Email Address...">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                   name="password" id="password" aria-describedby="emailHelp"
+                                                   placeholder="Password">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                   name="confirm_password" id="confirm_password" aria-describedby="emailHelp"
+                                                   placeholder="Confirm Password">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="">
+                                            <input type="submit" value="Register" class="btn btn-primary btn-user btn-block" id="register_btn">
+                                        </div>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="/">Already have an account?</a>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
+
             </div>
+
         </div>
-    </div>
-@endsection
+
+    </div>@endsection
 
 @section('script')
     <script>

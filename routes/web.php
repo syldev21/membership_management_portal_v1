@@ -37,14 +37,7 @@ Route::group(['middleware'=>['LoginCheck']], function (){
 });
 Route::get('/test', function (){
 
-
-    $estates= config('membership.estate');
-
-    $estate_names = array_column($estates, 'id');
-    $found_key = array_search(1, $estate_names);
-
-    return response()->json($found_key, 200);
-//    return response()->json($estates, 200);
+return view('auth.signin');
 });
     Route::get('all-main-members', function (){
         $members = User::all();
