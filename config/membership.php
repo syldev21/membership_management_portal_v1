@@ -223,7 +223,8 @@ return [
             3 =>'Kariobangi South',
             4 =>'Chokaa-Berea',
             5 =>'Diaspora',
-            6 =>"laang'ata",
+            6 =>"lang'ata",
+            7 =>"Jericho",
             ],
         'gender' => [
             1 =>'Male',
@@ -304,15 +305,15 @@ return [
             14=>'Strategy, Monitoring & Evaluation Unit',
             15=>'Audit, Risk & Compliance UNit'
         ],
-
+        'age_cluster'=>[
+            0=>'All Members',
+            1=>'Children',
+            2=>'Teenies',
+            3=>'Youths',
+            4=>'Middle Age',
+            5=>'Adults',
     ],
-    'age_cluster_ids'=>[
-    0=>'All Members',
-    1=>'Children',
-    2=>'Teenies',
-    3=>'Youths',
-    4=>'Middle Age',
-    5=>'Adults',
 
-]
+
+    ]
 ];

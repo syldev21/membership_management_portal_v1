@@ -87,7 +87,7 @@
                             showError('email', res.messages.email);
                             showError('password', res.messages.password);
                             $('#login_button').val('Login');
-                        }else if(res.status == 4010){
+                        }else if(res.status == 401){
                             $('#login_alert').html(showMessage('danger', res.message));
                             $('#login_button').val('Login');
                         }else {
@@ -95,6 +95,10 @@
                                 window.location = '{{ route('profile') }}';
                             }
                         }
+                    },
+                    error: function (errors){
+                        console.log(errors)
+                        alert('errors')
                     }
                 })
             }) ;

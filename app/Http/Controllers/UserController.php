@@ -73,39 +73,27 @@ class UserController extends Controller
     }
     //handle login user ajax request
     public function loginUser(Request $request){
-
-       $validator = Validator::make($request->all(), [
+       $request->validate([
            'email' =>'required|email|max:100',
            'password' =>'required|min:6|max:100',
        ]);
+       if (Auth::attempt([
+           'email'=>$request->email,
+           'password'=>$request->password
+       ])){
 
-       if ($validator->fails()){
+           $request->session()->put('loggedInUser', Auth::id());
            return response()->json([
-               'status' =>400,
-               'messages' =>$validator->getMessageBag(),
+               'status'=>200,
+               'messages'=>'Success'
            ]);
-       }else{
-           $user = User::where('email', $request->email)->first();
-           if ($user){
-               if (Hash::check($request->password, $user->password)){
-                   $request->session()->put('loggedInUser', $user->id);
-                   return response()->json([
-                       'status'=>200,
-                       'messages'=>'Success'
-                   ]);
-               }else{
-                   return response()->json([
-                       'status'=>401,
-                       'messages'=>'Email or password is incorrect!',
-                   ]);
-               }
-           }else{
-               return  response()->json([
-                   'status' =>401,
-                   'messages' =>'User not found!',
-               ]);
-           }
-       }
+   }else{
+       return  response()->json([
+           'status' =>401,
+           'messages' =>'Invalid email or password',
+       ]);
+   }
+
     }
 
 //    profile page

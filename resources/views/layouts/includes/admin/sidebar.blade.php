@@ -56,32 +56,7 @@
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            Start Bootstrap
+            {{(\auth()->user()->name)}}
         </div>
     </nav>
 </div>
-
-{{--    <script>--}}
-{{--        $(function (){--}}
-{{--            $('#dt_select').DataTable();--}}
-
-{{--            $('.church-members').click(function (e) {--}}
-{{--                e.preventDefault();--}}
-{{--                let member_category = $(this).data('id');--}}
-{{--                $.ajaxSetup({--}}
-{{--                    headers: {--}}
-{{--                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
-{{--                    }--}}
-{{--                });--}}
-{{--                $.ajax({--}}
-{{--                    url: '{{route('members.index')}}',--}}
-{{--                    data: {--}}
-{{--                        member_category: member_category--}}
-{{--                    },--}}
-{{--                    success: function (data) {--}}
-{{--                        $('#dashboar').html(data)--}}
-{{--                    }--}}
-{{--                })--}}
-{{--            })--}}
-{{--        });--}}
-{{--    </script>--}}

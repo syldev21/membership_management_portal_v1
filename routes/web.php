@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -35,33 +36,8 @@ Route::group(['middleware'=>['LoginCheck']], function (){
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/main-church-members', [\App\Http\Controllers\Admin\DashboardController::class, 'churchMembers'])->name('members.index');
 });
-Route::get('/test', function (){
-
-return view('auth.signin');
+Route::get('/test', function (Request $request){
+dd($request->user()->name);
 });
-    Route::get('all-main-members', function (){
-        $members = User::all();
-        return view('admin.church-members', ['members'=>$members]);
-    });
-    Route::get('child-main-members', function (){
-        $members = User::all();
-        return view('admin.church-members', ['members'=>$members]);
-    });
-    Route::get('teenie-main-members', function (){
-        $members = User::all();
-        return view('admin.church-members', ['members'=>$members]);
-    });
-    Route::get('youth-main-members', function (){
-        $members = User::all();
-        return view('admin.church-members', ['members'=>$members]);
-    });
-    Route::get('middle-main-members', function (){
-        $members = User::all();
-        return view('admin.church-members', ['members'=>$members]);
-    });
-    Route::get('adult-main-members', function (){
-        $members = User::all();
-        return view('admin.church-members', ['members'=>$members]);
-    });
 
 

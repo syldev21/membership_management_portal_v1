@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Services\DataTable;
+use function PHPUnit\Framework\isEmpty;
 
 class DashboardController extends Controller
 {
@@ -22,39 +23,20 @@ class DashboardController extends Controller
 
         $member_category = $request->member_category;
 
-//        if ($member_category == config('membership.age_clusters.Children.id')){
-//            $members = where('age_cluster', )->get();
-//        }elseif ($member_category == config('membership.age_clusters.Teenies.id')){
-//            $members = User::all();
-//        }elseif ($member_category == config('membership.age_clusters.Youths.id')){
-//            $members = User::all();
-//        }elseif ($member_category == config('membership.age_clusters.Middle_Age.id')){
-//            $members = User::all();
-//        }elseif ($member_category == config('membership.age_clusters.Adults.id')){
-//            $members = User::all();
-//        }
-          if($member_category == config('membership.age_clusters.Children.id')){
-            $members = User::where('age_cluster', $member_category);
-            }elseif($member_category == config('membership.age_clusters.Teenies.id')){
-            $members = User::where('age_cluster', $member_category);
-            }elseif($member_category == config('membership.age_clusters.Youths.id')){
-            $members = User::where('age_cluster', $member_category);
-            }elseif($member_category == config('membership.age_clusters.Middle_Age.id')){
-            $members = User::where('age_cluster', $member_category);
-            }elseif($member_category == config('membership.age_clusters.Adults.id')){
-            $members = User::where('age_cluster', $member_category);
-            }else{
-            $members = User::all();
-         }
 
-        return response()->json($members, 200);
-          foreach ($members as $member){
-              $age =  Carbon::parse($member->dob)->age;
+          if ($member_category == config('membership.age_clusters.All_members')['id']){
+              $members= User::all();
+          }else{
+              $members = User::where(['age_cluster' => $member_category])->get();
           }
 
-
-
-
-        return view('admin.church-members', ['members' => $members, 'age'=>$age]);
+          if (count($members)>0){
+              foreach ($members as $member){
+                  $age =  Carbon::parse($member->dob)->age;
+              }
+          }else{
+              $age = null;
+          }
+        return view('admin.church-members', ['members' => $members, 'age'=>$age, 'member_category'=>$member_category]);
     }
 }
