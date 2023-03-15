@@ -20,6 +20,7 @@
                 <th>Leadership Status</th>
                 <th>Occupation</th>
                 <th>Ministry</th>
+                <th>Ministries of Interest</th>
                 <th>Level of Education</th>
                 <th colspan="2">Actions</th>
             </tr>
@@ -42,6 +43,7 @@
                   <td>{{isset($member->leadership_status_id)?config('membership.statuses.flag')[$member->leadership_status_id]:''}}</td>
                   <td>{{isset($member->occupation_id)?config('membership.statuses.occupation')[$member->occupation_id]:''}}</td>
                   <td>{{isset($member->ministry_id)?config('membership.statuses.ministry')[$member->ministry_id]:''}}</td>
+                  <td>{{isset($ministries)?$ministries:''}}</td>
                   <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
                   <td>
                       <button class="edit-modal btn btn-info"

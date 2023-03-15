@@ -143,6 +143,8 @@ public function profile(){
 
 //    handle profile update ajax request
     public function profileUpdate(Request $request){
+
+        $ministries_of_interest = implode ( ',', $request->check_box );
         if ($request->dob > Carbon::now()->format('Y-m-d')){
             return response()->json([
                 'status'=>400,
@@ -178,7 +180,8 @@ public function profile(){
                 'ministry_id' => $request->ministry,
                 'occupation_id' => $request->occupation,
                 'education_level_id' => $request->education_level,
-                'age_cluster' => $age_cluster
+                'age_cluster' => $age_cluster,
+                'ministries_of_interest' => $ministries_of_interest,
             ];
             foreach ($udpate_data_array as  $key=>$value){
                 if (is_null($value)){

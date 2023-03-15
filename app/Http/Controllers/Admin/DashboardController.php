@@ -29,14 +29,31 @@ class DashboardController extends Controller
           }else{
               $members = User::where(['age_cluster' => $member_category])->get();
           }
-
           if (count($members)>0){
               foreach ($members as $member){
                   $age =  Carbon::parse($member->dob)->age;
+
+                  if ($member->ministries_of_interest == null){
+                      $ministries = 'none';
+                  }else{
+                      if (strpos($member->ministries_of_interest, ',') == false){
+                          $ministries = config('membership.statuses.ministry')[$member->ministries_of_interest];
+//
+                      }else{
+                          $ministry_id_array = explode(',', $member->ministries_of_interest);
+                          $ministry_array = [];
+                          foreach ($ministry_id_array as $ministry_id){
+                              $ministry = config('membership.statuses.ministry')[$ministry_id];
+                              array_push($ministry_array, $ministry);
+                          }
+                          $ministries = implode(', ', $ministry_array);
+                      }
+                  }
               }
           }else{
               $age = null;
+              $ministries = null;
           }
-        return view('admin.church-members', ['members' => $members, 'age'=>$age, 'member_category'=>$member_category]);
+        return view('admin.church-members', ['members' => $members, 'age'=>$age, 'member_category'=>$member_category, 'ministries'=>$ministries]);
     }
 }

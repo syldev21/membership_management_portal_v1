@@ -186,7 +186,7 @@
                                         <label  class="fw-bold" for="leadership_status">Ministry of Interest (Tick all the applicable options)</label>
                                         @foreach(config('membership.ministry') as $ministry)
                                             <div class="form-check col-lg">
-                                                <input type="checkbox" class="form-check-input" id="check1" name="option1" value="{{$ministry['id']}}">
+                                                <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="{{$ministry['id']}}">
                                                 <label  class="" class="form-check-label" for="check1">{{$ministry['text']}}</label>
                                             </div>
                                         @endforeach
