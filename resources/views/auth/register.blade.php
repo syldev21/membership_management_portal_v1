@@ -8,14 +8,17 @@
         <!-- Outer Row -->
         <div class="row d-flex justify-content-center align-items-center min-vh-100">
 
-            <div class="col-xl-8 col-lg-10 col-md-7">
+            <div class="col-xl-10 col-lg-10 col-md-7">
 
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block"style="background-image: url({{ asset('images/login.jpeg') }});background-size: cover; background-repeat: no-repeat;"></div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-7 d-none d-lg-block" style="display: flex; justify-content: center; align-items: center; overflow: hidden">
+                                <img src="{{ asset('images/login.jpeg') }}" class="img-responsive" style="flex-shrink: 0; min-width: 100%; min-height: 100%">
+                            </div>
+                            <div class="vr"></div>
+                            <div class="col-lg-4">
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>

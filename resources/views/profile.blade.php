@@ -86,13 +86,13 @@
                                             <input type="tel" hidden="hidden"  name="phone" class="form-control rounded-0 profile_edit" id="phone" value="{{$userInfo->phone}}">
                                         </div>
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="marital_status">Marital Status</label>
+                                            <label  class="fw-bold hide-status" for="marital_status">Marital Status</label>
 
 
                                             <input type="text" disabled name="marital_status_id" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->marital_status_id) ? config('membership.statuses.marital_status')[$userInfo->marital_status_id] : ''}}">
 
 
-                                            <select hidden="hidden" name="marital_status" id="marital_status" class="form-select rounded-0 profile_edit">
+                                            <select hidden="hidden" name="marital_status" id="marital_status" class="form-select rounded-0 profile_edit hide-status">
                                                 <option selected disabled>--Select</option>
                                                 @foreach(config('membership.marital_status') as $marital_status)
                                                     <option value="{{$marital_status['id']}}" >
@@ -187,7 +187,7 @@
                                         @foreach(config('membership.ministry') as $ministry)
                                             <div class="form-check col-lg">
                                                 <input type="checkbox" class="form-check-input" id="check1" name="option1" value="{{$ministry['id']}}">
-                                                <label  class="fw-bold" class="form-check-label" for="check1">{{$ministry['text']}}</label>
+                                                <label  class="" class="form-check-label" for="check1">{{$ministry['text']}}</label>
                                             </div>
                                         @endforeach
                                     </div>
@@ -320,6 +320,28 @@
                     }
                 );
             })
+
+
+            $('#dob').change(function (e) {
+                e.preventDefault();
+                var dob = $(this).val();
+                var year = Number(dob.substr(0, 4));
+                var month = Number(dob.substr(5, 2)) - 1;
+                var day = Number(dob.substr(8, 2));
+
+                var today = new Date();
+                var age = today.getFullYear() - year;
+                if (today.getMonth() < month || (today.getMonth() == month && today.getDate() < day)) {
+                    age--;
+                }
+                if (age<18){
+                    $('.hide-status').hide()
+                }else {
+                    $('.hide-status').show()
+                }
+            })
+
+
         });
     </script>
 
