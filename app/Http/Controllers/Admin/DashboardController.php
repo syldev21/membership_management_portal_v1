@@ -40,7 +40,7 @@ class DashboardController extends Controller
                   if ($member->ministries_of_interest == null){
                       $ministries = 'none';
                   }else{
-                      if (strpos($member->ministries_of_interest, ',') == false){
+                      if (!strpos($member->ministries_of_interest, ',')){
                           $ministries = config('membership.statuses.ministry')[$member->ministries_of_interest];
 //
                       }else{
@@ -50,7 +50,6 @@ class DashboardController extends Controller
                               $ministry = config('membership.statuses.ministry')[$ministry_id];
                               array_push($ministry_array, $ministry);
                           }
-                          $ministries = implode(', ', $ministry_array);
                       }
                   }
               }
