@@ -22,16 +22,20 @@ class DashboardController extends Controller
 
 
         $member_category = $request->member_category;
+        $category_name = $request->category_name;
 
 
-          if ($member_category == config('membership.age_clusters.All_members')['id']){
-              $members= User::all();
+        if (strpos($request->category, 'church-members') == true){
+              if ($member_category == config('membership.age_clusters.All_members')['id']){
+                  $members= User::all();
+              }else{
+                  $members = User::where(['age_cluster' => $member_category])->get();
+              }
           }else{
-              $members = User::where(['age_cluster' => $member_category])->get();
+              $members = User::where('cell_group_id', $member_category)->get();
           }
           if (count($members)>0){
               foreach ($members as $member){
-                  $age =  Carbon::parse($member->dob)->age;
 
                   if ($member->ministries_of_interest == null){
                       $ministries = 'none';
@@ -51,9 +55,12 @@ class DashboardController extends Controller
                   }
               }
           }else{
-              $age = null;
               $ministries = null;
           }
-        return view('admin.church-members', ['members' => $members, 'age'=>$age, 'member_category'=>$member_category, 'ministries'=>$ministries]);
+        return view('admin.church-members', ['members' => $members,'category_name'=>$category_name, 'ministries'=>$ministries]);
+    }
+    public function cellGroupMembers(Request $request){
+        $cellGroupMembers = User::where('cell_group_id', $request->cell_group_id)->get();
+
     }
 }

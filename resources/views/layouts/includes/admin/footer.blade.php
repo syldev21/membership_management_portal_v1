@@ -1,4 +1,4 @@
-<footer class="py-4 bg-info mt-auto">
+<footer class="py-4 mt-auto" style="background-color: steelblue">
     <div class="container-fluid px-4">
         <div class="d-flex align-items-center justify-content-between small">
             <div class="text-muted">&copy; Copyright 1956<script>new Date().getFullYear()> 1956 &&document.write("-"+new Date().getFullYear());</script>, VOSH Church Buru Buru.</div>

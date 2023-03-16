@@ -21,7 +21,7 @@ return [
         'diapora' => [
             'text' => 'Diaspora',
             'id' => 5,
-        ],"lang'ata" => [
+        ],"langata" => [
             'text' => "Lang'ata",
             'id' => 6
         ],'Jericho' => [
@@ -223,7 +223,7 @@ return [
             3 =>'Kariobangi South',
             4 =>'Chokaa-Berea',
             5 =>'Diaspora',
-            6 =>"lang'ata",
+            6 =>"Lang'ata",
             7 =>"Jericho",
             ],
         'gender' => [

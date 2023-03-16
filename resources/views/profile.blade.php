@@ -76,7 +76,7 @@
                                         </div>
                                         <div class="col-lg profile_edit"  hidden="hidden">
                                             <label  class="fw-bold" for="dob" class="profile_edit">Date of Birth</label>
-                                            <input type="date"  name="dob" class="form-control rounded-0 profile_edit" id="dob" value="{{$userInfo->dob}}">
+                                            <input type="date"  name="dob" class="form-control rounded-0 profile_edit" id="dob" value="">
                                         </div>
                                     </div>
                                     <div class="row">

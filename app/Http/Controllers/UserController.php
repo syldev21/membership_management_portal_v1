@@ -143,28 +143,27 @@ public function profile(){
 
 //    handle profile update ajax request
     public function profileUpdate(Request $request){
-
-        $ministries_of_interest = implode ( ',', $request->check_box );
         if ($request->dob > Carbon::now()->format('Y-m-d')){
             return response()->json([
                 'status'=>400,
                 'messages'=> config('membership.LATER_DATE.message').Carbon::now()->format("Y-m-d"),
             ]);
         }else{
-            $age = Carbon::parse($request->dob)->age;
+            if (isset($request->dob)){
+                $age = Carbon::parse($request->dob)->age;
 
-            if ($age<12){
-                $age_cluster = config('membership.age_clusters.Children.id');
-            }elseif($age>=13 && $age<=19){
-                $age_cluster = config('membership.age_clusters.Teenies.id');
-            }elseif($age>=20 && $age<=35){
-                $age_cluster = config('membership.age_clusters.Youths.id');
-            }elseif($age>=36 && $age<=40){
-                $age_cluster = config('membership.age_clusters.Middle_Age.id');
-            }elseif($age>=41){
-                $age_cluster = config('membership.age_clusters.Adults.id');
+                if ($age<12){
+                    $age_cluster = config('membership.age_clusters.Children.id');
+                }elseif($age>=13 && $age<=19){
+                    $age_cluster = config('membership.age_clusters.Teenies.id');
+                }elseif($age>=20 && $age<=35){
+                    $age_cluster = config('membership.age_clusters.Youths.id');
+                }elseif($age>=36 && $age<=40){
+                    $age_cluster = config('membership.age_clusters.Middle_Age.id');
+                }elseif($age>=41){
+                    $age_cluster = config('membership.age_clusters.Adults.id');
+                }
             }
-
             $udpate_data_array = [
                 'name' => $request->name,
                 'email' => $request->email,
@@ -180,8 +179,8 @@ public function profile(){
                 'ministry_id' => $request->ministry,
                 'occupation_id' => $request->occupation,
                 'education_level_id' => $request->education_level,
-                'age_cluster' => $age_cluster,
-                'ministries_of_interest' => $ministries_of_interest,
+                'age_cluster' => isset($age_cluster)?$age_cluster:null,
+                'ministries_of_interest' => isset($request->check_box)?implode (',', $request->check_box):null,
             ];
             foreach ($udpate_data_array as  $key=>$value){
                 if (is_null($value)){

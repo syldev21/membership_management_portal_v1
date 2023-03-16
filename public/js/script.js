@@ -3,9 +3,11 @@ $(document).ready(function () {
 // $('#dt_select').DataTable();
 
 
-$('.church-members').click(function (e) {
+$('.church-members, .cell_group_members').click(function (e) {
     e.preventDefault();
     let member_category = $(this).data('id');
+    let category = $(this).attr('class')
+    let category_name = $(this).text();
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -14,70 +16,72 @@ $('.church-members').click(function (e) {
     $.ajax({
         url: '/main-church-members',
         data: {
-            member_category: member_category
+            member_category: member_category,
+            category: category,
+            category_name: category_name,
         },
         success: function (data) {
             $('#dashboar').html(data)
-            $('#dt_select').DataTable({
-                processing: false,
-                serverSide: true,
-                    destroy: true,
-                ajax: "{{ route('members.index}}",
-                columns: [
-                    {data: 'id'},
-                    {data: 'name'},
-                    // {data: 'email'},
-                    {data: 'phone'},
-                    {data: 'dob'},
-                    {data: 'born_again_id'},
-                    {data: 'gender'},
-                    {data: 'marital_status_id'},
-                    {data: 'estate_id'},
-                    {data: 'cell_group_id'},
-                    {data: 'employment_status_id'},
-                    {data: 'leadership_status_id'},
-                    {data: 'occupation_id'},
-                    {data: 'ministry_id'},
-                    {data: 'education_level_id'},
-                    {data: 'role_as'},
-                    {data: 'action'},
-                ]
-            });
+            // $('#dt_select').DataTable({
+            //     processing: false,
+            //     serverSide: true,
+            //         destroy: true,
+            //     ajax: "{{ route('members.index}}",
+            //     columns: [
+            //         {data: 'id'},
+            //         {data: 'name'},
+            //         // {data: 'email'},
+            //         {data: 'phone'},
+            //         {data: 'dob'},
+            //         {data: 'born_again_id'},
+            //         {data: 'gender'},
+            //         {data: 'marital_status_id'},
+            //         {data: 'estate_id'},
+            //         {data: 'cell_group_id'},
+            //         {data: 'employment_status_id'},
+            //         {data: 'leadership_status_id'},
+            //         {data: 'occupation_id'},
+            //         {data: 'ministry_id'},
+            //         {data: 'education_level_id'},
+            //         {data: 'role_as'},
+            //         {data: 'action'},
+            //     ]
+            // });
         }
     })
 })
-    $.ajaxSetup({
-
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    $('#dt_select').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{{ route('members.index}}",
-        columns: [
-            {data: 'id'},
-            {data: 'name'},
-            // {data: 'email'},
-            {data: 'phone'},
-            {data: 'dob'},
-            {data: 'born_again_id'},
-            {data: 'gender'},
-            {data: 'marital_status_id'},
-            {data: 'estate_id'},
-            {data: 'cell_group_id'},
-            {data: 'employment_status_id'},
-            {data: 'leadership_status_id'},
-            {data: 'occupation_id'},
-            {data: 'ministry_id'},
-            {data: 'education_level_id'},
-            {data: 'role_as'},
-            {data: 'action'},
-        ]
-    });
+//     $.ajaxSetup({
 //
+//         headers: {
+//             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//         }
+//     });
+//
+//     $('#dt_select').DataTable({
+//         processing: true,
+//         serverSide: true,
+//         ajax: "{{ route('members.index}}",
+//         columns: [
+//             {data: 'id'},
+//             {data: 'name'},
+//             // {data: 'email'},
+//             {data: 'phone'},
+//             {data: 'dob'},
+//             {data: 'born_again_id'},
+//             {data: 'gender'},
+//             {data: 'marital_status_id'},
+//             {data: 'estate_id'},
+//             {data: 'cell_group_id'},
+//             {data: 'employment_status_id'},
+//             {data: 'leadership_status_id'},
+//             {data: 'occupation_id'},
+//             {data: 'ministry_id'},
+//             {data: 'education_level_id'},
+//             {data: 'role_as'},
+//             {data: 'action'},
+//         ]
+//     });
+// //
 //     // $('.church-members').click(function (e) {
 //     //     e.preventDefault();
 //     //     $member_cluster = $(this).data("id");

@@ -1,4 +1,4 @@
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-info">
+<nav class="sb-topnav navbar navbar-expand" style="background-color: steelblue">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="index.html"><img src="{{asset('/images.login.jpeg')}}"></a>
     <!-- Sidebar Toggle-->

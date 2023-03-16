@@ -3,7 +3,7 @@
 {{--@section('content')--}}
 
     <div class="table-responsive m-5" id="main">
-        <h2 class="mb-4">{{config('membership.statuses.age_cluster')[$member_category]}}</h2>
+        <h2 class="mb-4">{{in_array($category_name, config('membership.statuses.estate'))?$category_name. ' Members':$category_name}}</h2>
         <table id="dt_select" class="table table-striped table-bordered thead-dark mt-5 " cellspacing="0" width="100%" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
       <thead>
             <tr>
@@ -33,7 +33,7 @@
                   <td>{{$loop->iteration}}</td>
                   <td>{{isset($member->name)?$member->name:''}}</td>
                   <td>{{isset($member->phone)?$member->phone:''}}</td>
-                  <td>{{isset($age)?$age:''}}</td>
+                  <td>{{isset($member->dob)?\Illuminate\Support\Carbon::parse($member->dob)->age:''}}</td>
                   <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
                   <td>{{isset($member->gender)?config('membership.statuses.gender')[$member->gender]:''}}</td>
                   <td>{{isset($member->marital_status_id)?config('membership.statuses.marital_status')[$member->marital_status_id]:''}}</td>

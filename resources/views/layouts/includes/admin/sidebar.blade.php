@@ -1,10 +1,10 @@
-<div id="layoutSidenav_nav" style="!important;background-color: #0a58ca">
+<div id="layoutSidenav_nav" style="">
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-        <div class="sb-sidenav-menu bg-info text-black">
+        <div class="sb-sidenav-menu fw-bolder fs-6" style="background-color: steelblue">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">Core</div>
                 <a class="nav-link" href="index.html">
-                    <div class="sb-nav-link-icon bg-info"><i class="fas fa-tachometer-alt"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
                 <div class="sb-sidenav-menu-heading">Membership Management</div>
@@ -32,11 +32,13 @@
                     <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
 
 
-                        <a class="nav-link" href="/cell-group">Kiambiu</a>
-                        <a class="nav-link" href="/cell-group">Umoja-Bethel</a>
-                        <a class="nav-link" href="/cell-group">Chokaa-Berea</a>
-                        <a class="nav-link" href="/cell-group">Lang'ata</a>
-                        <a class="nav-link" href="/cell-group">Jericho</a>
+                        <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.kiambiu.id')}}">{{config('membership.estate.kiambiu.text')}}</a>
+                        <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.umoja_bethel.id')}}">{{config('membership.estate.umoja_bethel.text')}}</a>
+                        <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.kariobangi_south.id')}}">{{config('membership.estate.kariobangi_south.text')}}</a>
+                        <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.chokaa_berea.id')}}">{{config('membership.estate.chokaa_berea.text')}}</a>
+                        <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.diapora.id')}}">{{config('membership.estate.diapora.text')}}</a>
+                        <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.langata.id')}}">{{config('membership.estate.langata.text')}}</a>
+                        <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.Jericho.id')}}">{{config('membership.estate.Jericho.text')}}</a>
 
                     </nav>
                 </div>
@@ -54,7 +56,7 @@
 
             </div>
         </div>
-        <div class="sb-sidenav-footer">
+        <div class="sb-sidenav-footer" style="background-color: ">
             <div class="small">Logged in as:</div>
             {{(\auth()->user()->name)}}
         </div>
