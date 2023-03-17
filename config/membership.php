@@ -169,7 +169,7 @@ return [
         ],
         'youth'=>[
             'id'=>11,
-            'text'=>'Youth & JUvenile Department'
+            'text'=>'Youth & Juvenile Department'
         ],
         'music'=>[
             'id'=>12,
@@ -299,11 +299,11 @@ return [
             9=>'Women Department'
             ,
             10=>'Information & Communication Technology Department',
-            11=>'Youth & JUvenile Department',
+            11=>'Youth & Juvenile Department',
             12=>'Music Department',
             13=>"Men's Fellowship",
             14=>'Strategy, Monitoring & Evaluation Unit',
-            15=>'Audit, Risk & Compliance UNit'
+            15=>'Audit, Risk & Compliance Unit'
         ],
         'age_cluster'=>[
             0=>'All Members',

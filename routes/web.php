@@ -35,10 +35,6 @@ Route::group(['middleware'=>['LoginCheck']], function (){
     Route::post('/profile-update', [\App\Http\Controllers\UserController::class, 'profileUpdate'])->name('profile.update');
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/main-church-members', [\App\Http\Controllers\Admin\DashboardController::class, 'churchMembers'])->name('members.index');
-    Route::get('/cell-group-members', [\App\Http\Controllers\Admin\DashboardController::class, 'cellGroupMembers'])->name('cellGroup.index');
-});
-Route::get('/test', function (Request $request){
-dd($request->user()->name);
 });
 
 
