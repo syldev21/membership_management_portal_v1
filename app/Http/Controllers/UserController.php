@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Conf\Config;
 use App\Mail\ForgotPassword;
 use App\Models\User;
 use Carbon\Carbon;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\Calculation\DateTime;
 
 class UserController extends Controller
 {
@@ -71,39 +73,27 @@ class UserController extends Controller
     }
     //handle login user ajax request
     public function loginUser(Request $request){
-
-       $validator = Validator::make($request->all(), [
+       $request->validate([
            'email' =>'required|email|max:100',
            'password' =>'required|min:6|max:100',
        ]);
+       if (Auth::attempt([
+           'email'=>$request->email,
+           'password'=>$request->password
+       ])){
 
-       if ($validator->fails()){
+           $request->session()->put('loggedInUser', Auth::id());
            return response()->json([
-               'status' =>400,
-               'messages' =>$validator->getMessageBag(),
+               'status'=>200,
+               'messages'=>'Success'
            ]);
-       }else{
-           $user = User::where('email', $request->email)->first();
-           if ($user){
-               if (Hash::check($request->password, $user->password)){
-                   $request->session()->put('loggedInUser', $user->id);
-                   return response()->json([
-                       'status'=>200,
-                       'messages'=>'Success'
-                   ]);
-               }else{
-                   return response()->json([
-                       'status'=>401,
-                       'messages'=>'Email or password is incorrect!',
-                   ]);
-               }
-           }else{
-               return  response()->json([
-                   'status' =>401,
-                   'messages' =>'User not found!',
-               ]);
-           }
-       }
+   }else{
+       return  response()->json([
+           'status' =>401,
+           'messages' =>'Invalid email or password',
+       ]);
+   }
+
     }
 
 //    profile page
@@ -153,32 +143,61 @@ public function profile(){
 
 //    handle profile update ajax request
     public function profileUpdate(Request $request){
-        User::where('id', $request->id)->update([
-           'name' => $request->name,
-           'email' => $request->email,
-           'gender' => $request->gender,
-           'dob' => $request->dob,
-           'phone' => $request->phone,
-           'marital_status_id' => $request->marital_status,
-           'estate_id' => $request->estate,
-           'cell_group_id' => $request->cell_group,
-           'employment_status_id' => $request->employment_status,
-           'born_again_id' => $request->born_again,
-           'leadership_status_id' => $request->leadership_status,
-           'ministry_id' => $request->ministry,
-           'occupation_id' => $request->occupation,
-           'education_level_id' => $request->education_level,
-        ]);
+        if ($request->dob > Carbon::now()->format('Y-m-d')){
+            return response()->json([
+                'status'=>400,
+                'messages'=> config('membership.LATER_DATE.message').Carbon::now()->format("Y-m-d"),
+            ]);
+        }else{
+            if (isset($request->dob)){
+                $age = Carbon::parse($request->dob)->age;
 
-//        return response()->json([
-//            'status'=>200,
-//            'messages'=>'Profile updated successfully!',
-//        ]);
+                if ($age<12){
+                    $age_cluster = config('membership.age_clusters.Children.id');
+                }elseif($age>=13 && $age<=19){
+                    $age_cluster = config('membership.age_clusters.Teenies.id');
+                }elseif($age>=20 && $age<=35){
+                    $age_cluster = config('membership.age_clusters.Youths.id');
+                }elseif($age>=36 && $age<=40){
+                    $age_cluster = config('membership.age_clusters.Middle_Age.id');
+                }elseif($age>=41){
+                    $age_cluster = config('membership.age_clusters.Adults.id');
+                }
+            }
+            $udpate_data_array = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'gender' => $request->gender,
+                'dob' => $request->dob,
+                'phone' => $request->phone,
+                'marital_status_id' => $request->marital_status,
+                'estate_id' => $request->estate,
+                'cell_group_id' => $request->cell_group,
+                'employment_status_id' => $request->employment_status,
+                'born_again_id' => $request->born_again,
+                'leadership_status_id' => $request->leadership_status,
+                'ministry_id' => $request->ministry,
+                'occupation_id' => $request->occupation,
+                'education_level_id' => $request->education_level,
+                'age_cluster' => isset($age_cluster)?$age_cluster:null,
+                'ministries_of_interest' => isset($request->check_box)?implode (',', $request->check_box):null,
+            ];
+            foreach ($udpate_data_array as  $key=>$value){
+                if (is_null($value)){
+                    unset($udpate_data_array[$key]);
+                }
+            }
+            $user = User::where('id', $request->id);
 
-        return redirect()->route('profile')->with([
-            'status'=>200,
-            'messages'=>'Profile updated successfully!',
-        ]);
+            $user->update(
+                $udpate_data_array
+            );
+
+            return response()->json([
+                'status'=>200,
+                'messages'=>'Profile updated successfully!',
+            ]);
+        }
     }
 
     //handle forgot password

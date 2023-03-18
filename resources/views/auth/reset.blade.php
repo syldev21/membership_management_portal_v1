@@ -2,40 +2,60 @@
 @section('title', 'Reset Password')
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row d-flex justify-content-center align-items-center min-vh-100">
-            <div class="col-lg-4">
-                <div class="card shadow">
-                    <div class="card-header">
-                        <h2 class="fw-bold text-secondary">Reset Password</h2>
-                    </div>
-                    <div class="card-body p-5">
-                        <div id="reset_alert"></div>
-                        <form action="#" method="POST" id="reset_form">
-                            @csrf
-                            <input type="hidden" name="email" value="{{$email}}">
-                            <input type="hidden" name="token" value="{{$token}}">
-                            <div class="mb-3">
-                                <input type="email" name="email" id="email" class="form-control rounded-0" placeholder="E-mail" value="{{$email}}" disabled>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                            <div class="mb-3">
-                                <input type="password" name="npassword" id="npassword" class="form-control rounded-0" placeholder="New Password">
-                                <div class="invalid-feedback"></div>
-                            </div>
-                            <div class="mb-3">
-                                <input type="password" name="cnpassword" id="cnpassword" class="form-control rounded-0" placeholder="Confirm New Password">
-                                <div class="invalid-feedback"></div>
-                            </div>
+    <div class="container">
 
-                            <div class="mb-3 d-grid">
-                                <input type="submit" value="Update Password" class="btn btn-dark rounded-0" id="reset_button">
+        <!-- Outer Row -->
+        <div class="row d-flex justify-content-center align-items-center min-vh-100">
+
+            <div class="col-xl-8 col-lg-10 col-md-7">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block"style="background-image: url({{ asset('images/login.jpeg') }});background-size: cover; background-repeat: no-repeat;"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Reset Password!</h1>
+                                    </div>
+                                    <div id="reset_alert"></div>
+                                    <form  class="user" action="#" method="POST" id="reset_form">
+                                        @csrf
+                                        <input type="hidden" name="email" value="{{$email}}">
+                                        <input type="hidden" name="token" value="{{$token}}">
+                                        <div class="form-group">
+                                            <input type="email" class="form-control form-control-user"
+                                                   name="email" id="email" aria-describedby="emailHelp"
+                                                   placeholder="Enter Email Address...">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                   name="npassword" id="npassword" aria-describedby="emailHelp"
+                                                   placeholder=" New Password">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                   name="cnpassword" id="cnpassword" aria-describedby="emailHelp"
+                                                   placeholder="Confirm New Password">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="">
+                                            <input type="submit" value="Update Password" class="btn btn-primary btn-user btn-block" id="reset_button">
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
+
             </div>
+
         </div>
+
     </div>
 @endsection
 

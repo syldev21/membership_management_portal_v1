@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,34 +27,14 @@ Route::post('/forgot-password', [\App\Http\Controllers\UserController::class, 'f
 Route::post('/reset-password', [\App\Http\Controllers\UserController::class, 'resetPassword'])->name('auth.reset');
 
 Route::group(['middleware'=>['LoginCheck']], function (){
-    Route::get('/', [\App\Http\Controllers\UserController::class, 'index']);
+    Route::get('/', [\App\Http\Controllers\UserController::class, 'index'])->name('register');
     Route::get('logout', [\App\Http\Controllers\UserController::class, 'logout'])->name('auth.logout');
     Route::get('/profile',[\App\Http\Controllers\UserController::class, 'profile'])->name('profile');
-    Route::post('profile-image', [\App\Http\Controllers\UserController::class, 'profileImageUpdate'])->name('profile.image');
-    Route::post('profile-edit', [\App\Http\Controllers\UserController::class, 'profileEdit'])->name('profile.edit');
-    Route::post('profile-update', [\App\Http\Controllers\UserController::class, 'profileUpdate'])->name('profile.update');
-
-//    Route::group(['middleware'=>['IsAdmin']], function (){
-        Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->middleware('IsAdmin');
-//    });
+    Route::post('/profile-image', [\App\Http\Controllers\UserController::class, 'profileImageUpdate'])->name('profile.image');
+    Route::post('/profile-edit', [\App\Http\Controllers\UserController::class, 'profileEdit'])->name('profile.edit');
+    Route::post('/profile-update', [\App\Http\Controllers\UserController::class, 'profileUpdate'])->name('profile.update');
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/main-church-members', [\App\Http\Controllers\Admin\DashboardController::class, 'churchMembers'])->name('members.index');
 });
-
-// Route::group(['middleware'=>['IsAdmin']], function (){
-//     Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->middleware('IsAdmin');
-// });
-    Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index']);
-
-    Route::get('all-members', function(){
-
-        // $members = User::all();
-        return view('admin.church-members');
-    });
-
-    Route::get('cell-group', function(){
-
-        // $members = User::all();
-        return view('admin.church-members');
-    });
-
 
 
