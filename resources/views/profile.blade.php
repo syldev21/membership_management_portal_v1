@@ -30,7 +30,7 @@
                                      @if($userInfo->role_as == 1)
                                          <div class="row">
                                              <div class="my-2">
-                                                 <input type="button"  class="btn btn-primary rounded-0 float-left" value="Admin Dashboard" id="admin_dashboard_button">
+                                                 <input type="button"  class="btn btn-primary rounded-0 float-left admin_dashboard_button" value="Admin Dashboard">
                                              </div>
                                          </div>
                                      @endif
@@ -305,7 +305,7 @@
                 $('.profile_edit, #profile_btn').removeAttr('hidden');
             });
 
-            $('#admin_dashboard_button').click(function (e) {
+            $('.admin_dashboard_button').click(function (e) {
                 e.preventDefault();
                 $.ajaxSetup({
                     headers: {

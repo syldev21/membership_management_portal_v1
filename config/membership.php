@@ -18,7 +18,7 @@ return [
             'text' => 'Chokaa-Berea',
             'id' => 4,
         ],
-        'diapora' => [
+        'diaspora' => [
             'text' => 'Diaspora',
             'id' => 5,
         ],"langata" => [

@@ -1,5 +1,5 @@
     <div class="table table-responsive m-2" id="main">
-        <h2 class="mb-4">{{in_array($category_name, config('membership.statuses.estate'))?$category_name. ' Members':$category_name}}</h2>
+        <h2 class="mb-4">{{in_array($category_name, config('membership.statuses.estate'))?$category_name. ' Cell Group Members':$category_name}}</h2>
         <table id="dt_select" class="table table-responsive table-striped table-bordered thead-dark" cellspacing="0" width="100%" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
       <thead>
             <tr>

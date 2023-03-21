@@ -14,8 +14,9 @@ use function PHPUnit\Framework\isEmpty;
 class DashboardController extends Controller
 {
     public function index(){
+        $all_members = count(User::all());
         return View("admin.dashboard")
-            ->with("value", "something");
+            ->with("all_members", $all_members);
     }
 
     public function churchMembers(Request $request){

@@ -47,6 +47,9 @@
                                         </div>
                                         <div class="">
                                             <input type="submit" value="Login" class="btn btn-primary btn-user btn-block" id="login_button">
+{{--                                            <a href="/signin" class="btn btn-primary btn-user btn-block">--}}
+                                                Login
+                                            </a>
                                         </div>
                                     </form>
                                     <hr>

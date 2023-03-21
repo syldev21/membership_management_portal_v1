@@ -23,6 +23,9 @@ Route::get('/reset/{email}/{token}', [\App\Http\Controllers\UserController::clas
 
 Route::post('/register', [\App\Http\Controllers\UserController::class, 'saveUser'])->name('auth.register');
 Route::post('/login', [\App\Http\Controllers\UserController::class, 'loginUser'])->name('auth.login');
+Route::get('/signin', function (){
+    return view('dashboard.index');
+});
 Route::post('/forgot-password', [\App\Http\Controllers\UserController::class, 'forgotPassword'])->name('auth.forgot');
 Route::post('/reset-password', [\App\Http\Controllers\UserController::class, 'resetPassword'])->name('auth.reset');
 

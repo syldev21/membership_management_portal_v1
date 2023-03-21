@@ -1,9 +1,11 @@
-<div id="layoutSidenav_nav" style="">
-    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-        <div class="sb-sidenav-menu fw-bolder fs-6" style="background-color: steelblue">
+<div id="layoutSidenav_nav" style="background-color: lightskyblue; text-emphasis-color: white">
+    <nav class="sb-sidenav accordion"style="background-color: lightskyblue" id="sidenavAccordion">
+        <div class="sb-sidenav-menu fw-bolder fs-6 text-white">
             <div class="nav">
-                <div class="sb-sidenav-menu-heading">Core</div>
-                <a class="nav-link" href="index.html">
+                <div class="">
+                    <img src="{{asset('images/login.jpeg')}}" style="height: 100px; width: 225px">
+                </div>
+                <a class="nav-link admin_dashboard_button" href="#">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
@@ -36,7 +38,7 @@
                         <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.umoja_bethel.id')}}">{{config('membership.estate.umoja_bethel.text')}}</a>
                         <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.kariobangi_south.id')}}">{{config('membership.estate.kariobangi_south.text')}}</a>
                         <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.chokaa_berea.id')}}">{{config('membership.estate.chokaa_berea.text')}}</a>
-                        <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.diapora.id')}}">{{config('membership.estate.diapora.text')}}</a>
+                        <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.diaspora.id')}}">{{config('membership.estate.diaspora.text')}}</a>
                         <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.langata.id')}}">{{config('membership.estate.langata.text')}}</a>
                         <a class="nav-link cell_group_members" href="#" data-id="{{config('membership.estate.Jericho.id')}}">{{config('membership.estate.Jericho.text')}}</a>
 
@@ -56,7 +58,7 @@
 
             </div>
         </div>
-        <div class="sb-sidenav-footer" style="background-color: ">
+        <div class="sb-sidenav-footer bg-success">
             <div class="small">Logged in as:</div>
             {{(\auth()->user()->name)}}
         </div>

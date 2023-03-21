@@ -11,10 +11,8 @@
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    {{--    <script src="https://cdn.datatables.net/autofill/2.5.2/js/dataTables.autoFill.min.js"></script>--}}
     <!-- Styles -->
     <link href="{{asset('assets/css/styles.css')}}" rel="stylesheet">
-    {{--    <link href="https://cdn.datatables.net/autofill/2.5.2/css/autoFill.dataTables.min.css" rel="stylesheet">--}}
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 
