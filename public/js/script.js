@@ -158,25 +158,4 @@ $('.church-members, .cell_group_members').click(function (e) {
     //     })
     // }
 
-    $(document).on('click', '.edit-member', function (e) {
-        e.preventDefault();
-        let member_id = $(this).data('id')
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: '/edit-member',
-            method: 'post',
-            data: {
-                member_id:member_id,
-            },
-            success: function (res) {
-                console.log($('#dashboar'))
-                $('#dashboar').html(res)
-            }
-        })
-    })
 })

@@ -102,9 +102,9 @@ public function profile(Request $request){
         if (isset($request->member_id)){
             $user = User::where('id', $request->member_id)->first();
         }else{
-            $user = User::where('id', \auth()->id())->first();
+            $user = null;
         }
-//        dd($user);
+//dd($user);
 //        $user = ['userInfo'=>DB::table('users')->where('id', session('loggedInUser'))->first()];
         return view('profile', ['userInfo'=>$user]);
 }

@@ -13,11 +13,12 @@
                         <div id="profile_alert"></div>
                         <div class="row">
                              <div class="col-lg-4 px-5 text-center" style="border-right: 1px solid #999;">
-                                 @if(isset($userInfo->picture))
-                                     <img src="storage/images/{{$userInfo->picture}}" id="image_preview" class="img-fluid rounded-circle img-thumbnail" width="200">
-                                 @else
-                                     <img src="{{asset('images/vosh_avator.jpg')}}" alt="" id="image_preview" class="img-fluid rounded-circle img-thumbnail" width="200">
-                                 @endif
+                                 @php
+                                     $loggedInUser = auth()->user();
+                                         $picture = (isset($userInfo)) ? $userInfo->picture : ((isset($loggedInUser))  ? $loggedInUser->picture : asset('images/vosh_avator.jpg'));
+                                 @endphp
+
+                                 <img src="storage/images/{{$picture}}" id="image_preview" class="img-fluid rounded-circle img-thumbnail" width="200">
                                  <div>
                                      <label class="fw-bold">Change Profile Picture</label>
                                      <input type="file" for="picture" name="picture" class="form-control rounded-pill" id="picture">
@@ -27,17 +28,10 @@
                                              <input type="button"  class="btn btn-primary rounded-0 float-left" value="Edit Profile" id="edit_profile_button">
                                          </div>
                                      </div>
-                                     @if(auth()->user()->role_as == 1)
-                                         <div class="row">
-                                             <div class="my-2">
-                                                 <input type="button"  class="btn btn-primary rounded-0 float-left admin_dashboard" value="Admin Dashboard" id="admin_dashboard_button">
-                                             </div>
-                                         </div>
-                                     @endif
                              </div>
 
                             <input type="hidden" name="add_user_id" id="add_user_id" value="{{$add??''}}">
-                            <input type="hidden" name="user_id" id="user_id" value="{{isset($userInfo->id)?$userInfo->id:''}}">
+                            <input type="hidden" name="user_id" id="user_id" value="{{(isset($userInfo)) ? $userInfo->id : ((isset($loggedInUser))  ? $loggedInUser->id : '')}}">
                             <div class="col-lg-8 px-5">
                                 <form action="#" method="POST" id="profile_form" class="accordion-flush">
                                     @csrf
@@ -50,13 +44,13 @@
                                     <meta name="csrf-token" content="{{ csrf_token() }}" />
                                     <div class="my-2">
                                         <label  class="fw-bold"  for="name">Full Name</label>
-                                        <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->name)?$userInfo->name:''}}">
-                                        <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{isset($userInfo->name)?$userInfo->name:''}}">
+                                        <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{isset($userInfo)?$userInfo->name : $loggedInUser->name}}">
+                                        <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{isset(auth()->user()->name)?auth()->user()->name:''}}">
                                     </div>
                                     <div class="my-2">
                                         <label  class="fw-bold" for="name">Email</label>
-                                        <input type="email" disabled name="email" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->email)?$userInfo->email:''}}">
-                                        <input type="email" hidden name="email" class="form-control rounded-0 profile_edit" id="email" value="{{isset($userInfo->email)?$userInfo->email:''}}">
+                                        <input type="email" disabled name="email" class="form-control rounded-0 profile" id="" value="{{isset($userInfo)?$userInfo->email:$loggedInUser->email}}">
+                                        <input type="email" hidden name="email" class="form-control rounded-0 profile_edit" id="email" value="{{isset(auth()->user()->email)?auth()->user()->email:''}}">
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
@@ -73,7 +67,7 @@
                                         </div>
                                         <div class="col-lg profile">
                                             <label  class="fw-bold" for="dob" class="profile">Age</label>
-                                            <input type="text" disabled  name="dob" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->dob) ? \Carbon\Carbon::parse($userInfo->dob)->age: ''}}">
+                                            <input type="text" disabled  name="dob" class="form-control rounded-0 profile" id="" value="{{isset($userInfo) ? \Carbon\Carbon::parse($userInfo->dob)->age: \Carbon\Carbon::parse($loggedInUser->dob)->age}}">
                                         </div>
                                         <div class="col-lg profile_edit"  hidden="hidden">
                                             <label  class="fw-bold" for="dob" class="profile_edit">Date of Birth</label>
@@ -83,14 +77,14 @@
                                     <div class="row">
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="phone">Phone</label>
-                                            <input type="tel" disabled  name="phone" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->phone)?$userInfo->phone:''}}">
-                                            <input type="tel" hidden="hidden"  name="phone" class="form-control rounded-0 profile_edit" id="phone" value="{{isset($userInfo->phone)?$userInfo->phone:''}}">
+                                            <input type="tel" disabled  name="phone" class="form-control rounded-0 profile" id="" value="{{isset($userInfo)?$userInfo->phone: $loggedInUser->phone}}">
+                                            <input type="tel" hidden="hidden"  name="phone" class="form-control rounded-0 profile_edit" id="phone" value="{{isset(auth()->user()->phone)?auth()->user()->phone:''}}">
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bold hide-status" for="marital_status">Marital Status</label>
 
 
-                                            <input type="text" disabled name="marital_status_id" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->marital_status_id) ? config('membership.statuses.marital_status')[$userInfo->marital_status_id] : ''}}">
+                                            <input type="text" disabled name="marital_status_id" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->marital_status_id) ? config('membership.statuses.marital_status')[$userInfo->marital_status_id] : config('membership.statuses.marital_status')[$loggedInUser->marital_status_id]}}">
 
 
                                             <select hidden="hidden" name="marital_status" id="marital_status" class="form-select rounded-0 profile_edit hide-status">
@@ -106,7 +100,7 @@
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="estate">Estate</label>
 
-                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->estate_id) ? config('membership.statuses.estate')[$userInfo->estate_id] : ''}}">
+                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->estate_id) ? config('membership.statuses.estate')[$userInfo->estate_id] : config('membership.statuses.estate')[$loggedInUser->estate_id]}}">
 
                                             <select hidden="hidden" name="estate" id="estate" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
@@ -119,7 +113,7 @@
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="cell_group">Cell Group</label>
 
-                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->cell_group_id) ? config('membership.statuses.estate')[$userInfo->cell_group_id] : ''}}">
+                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->cell_group_id) ? config('membership.statuses.estate')[$userInfo->cell_group_id] : config('membership.statuses.estate')[$loggedInUser->cell_group_id]}}">
 
                                             <select hidden="hidden" name="cell_group" id="cell_group" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
@@ -134,7 +128,7 @@
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="employment_status">Employment Status</label>
 
-                                            <input type="text" disabled name="employment_status" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->employment_status_id) ? config('membership.statuses.employment_status')[$userInfo->employment_status_id] : ''}}">
+                                            <input type="text" disabled name="employment_status" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->employment_status_id) ? config('membership.statuses.employment_status')[$userInfo->employment_status_id] : config('membership.statuses.employment_status')[$loggedInUser->employment_status_id]}}">
 
                                             <select hidden="hidden" name="employment_status" id="employment_status" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
@@ -146,7 +140,7 @@
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="born_again">Born Again</label>
-                                            <input type="text" disabled name="born_again" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->born_again_id) ? config('membership.statuses.flag')[$userInfo->born_again_id] : ''}}">
+                                            <input type="text" disabled name="born_again" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->born_again_id) ? config('membership.statuses.flag')[$userInfo->born_again_id] : config('membership.statuses.flag')[$loggedInUser->born_again_id]}}">
 
                                             <select hidden="hidden" name="born_again" id="born_again" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
@@ -161,7 +155,7 @@
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="leadership_status">In Leadership?</label>
 
-                                            <input type="text" disabled name="leadership_status" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->leadership_status_id) ? config('membership.statuses.flag')[$userInfo->leadership_status_id] : ''}}">
+                                            <input type="text" disabled name="leadership_status" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->leadership_status_id) ? config('membership.statuses.flag')[$userInfo->leadership_status_id] : config('membership.statuses.flag')[$loggedInUser->leadership_status_id]}}">
                                             <select hidden="hidden" name="leadership_status" id="leadership_status" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
                                                 @foreach(config('membership.flag') as $flag)
@@ -172,7 +166,7 @@
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="ministry">Current Ministry</label>
-                                            <input type="text" disabled name="ministry" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->ministry_id) ? config('membership.statuses.ministry')[$userInfo->ministry_id] : ''}}">
+                                            <input type="text" disabled name="ministry" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->ministry_id) ? config('membership.statuses.ministry')[$userInfo->ministry_id] : config('membership.statuses.ministry')[$loggedInUser->ministry_id]}}">
 
                                             <select hidden="hidden" name="ministry" id="ministry" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
@@ -195,7 +189,7 @@
                                     <div class="row">
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="occupation">Occupation</label>
-                                            <input type="text" disabled name="employment_status" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->occupation_id) ? config('membership.statuses.occupation')[$userInfo->occupation_id] : ''}}">
+                                            <input type="text" disabled name="employment_status" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->occupation_id) ? config('membership.statuses.occupation')[$userInfo->occupation_id] : config('membership.statuses.occupation')[$loggedInUser->occupation_id]}}">
 
                                             <select hidden="hidden" name="occupation" id="occupation" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
@@ -207,7 +201,7 @@
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="education_level">Level of Education</label>
-                                            <input type="text" disabled name="education_level" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->education_level_id) ? config('membership.statuses.level_of_education')[$userInfo->education_level_id] : ''}}">
+                                            <input type="text" disabled name="education_level" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->education_level_id) ? config('membership.statuses.level_of_education')[$userInfo->education_level_id] : config('membership.statuses.level_of_education')[$loggedInUser->education_level_id]}}">
 
                                             <select hidden="hidden" name="education_level" id="education_level" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
