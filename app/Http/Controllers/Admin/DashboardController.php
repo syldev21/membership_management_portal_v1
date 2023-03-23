@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Services\DataTable;
@@ -15,7 +16,7 @@ class DashboardController extends Controller
 {
     public function index(){
         $all_members = count(User::all());
-        return View("admin.dashboard")
+        return View("admin.dash")
             ->with("all_members", $all_members);
     }
 
@@ -36,5 +37,10 @@ class DashboardController extends Controller
               $members = User::where('cell_group_id', $member_category)->get();
           }
         return view('admin.church-members', ['members' => $members,'category_name'=>$category_name]);
+    }
+    public function editMember($id){
+        $member = User::where('id', $id)->first();
+//        dd($member);
+        return view('profile', ['userInfo'=>$member]);
     }
 }

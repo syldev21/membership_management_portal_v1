@@ -13,7 +13,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <!-- Styles -->
     <link href="{{asset('assets/css/styles.css')}}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+{{--    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>--}}
+{{--    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>--}}
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 
     <script src="{{ asset('js/function.js') }}"></script>
@@ -32,6 +34,7 @@
 </div>
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 {{--<script src="{{ asset('assets/js/scripts.js') }}"></script>--}}
+<script src="{{ asset('assets/js/script.min.js') }}"></script>
 <script src="{{asset('js/script.js')}}"></script>
 {{--<script src="https://cdn.datatables.net/autofill/2.5.2/js/dataTables.autoFill.min.js"></script>--}}
 @yield('script')

@@ -18,7 +18,7 @@
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button"
-               data-mdb-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user mx-1"></i> <img src="{{asset('images/favicon/jubilee_favicon.png')}}" sty> </a>
+               data-mdb-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user mx-1"></i> Profile </a>
             <!-- Dropdown menu -->
             <ul class="dropdown-menu dropdown-menu-end">
                 <li>

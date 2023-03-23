@@ -5,7 +5,7 @@
                 <div class="">
                     <img src="{{asset('images/login.jpeg')}}" style="height: 100px; width: 225px">
                 </div>
-                <a class="nav-link admin_dashboard_button" href="#">
+                <a class="nav-link table-responsive admin_dashboard" href="#">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
@@ -55,6 +55,8 @@
                     </nav>
                 </div>
 
+                        <a class="nav-link add-member" href="#">Add Member</a>
+
 
             </div>
         </div>
@@ -64,3 +66,22 @@
         </div>
     </nav>
 </div>
+<script>
+    $(document).ready(function () {
+        $('.add-member').click(function (e) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/admin-add-member',
+                method: 'POST',
+                success: function (res) {
+                    {{--window.location = '{{ route('profile) }}'--}}
+                }
+            })
+        })
+    })
+</script>

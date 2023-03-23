@@ -13,7 +13,7 @@
                         <div id="profile_alert"></div>
                         <div class="row">
                              <div class="col-lg-4 px-5 text-center" style="border-right: 1px solid #999;">
-                                 @if($userInfo->picture)
+                                 @if(isset($userInfo->picture))
                                      <img src="storage/images/{{$userInfo->picture}}" id="image_preview" class="img-fluid rounded-circle img-thumbnail" width="200">
                                  @else
                                      <img src="{{asset('images/vosh_avator.jpg')}}" alt="" id="image_preview" class="img-fluid rounded-circle img-thumbnail" width="200">
@@ -27,16 +27,17 @@
                                              <input type="button"  class="btn btn-primary rounded-0 float-left" value="Edit Profile" id="edit_profile_button">
                                          </div>
                                      </div>
-                                     @if($userInfo->role_as == 1)
+                                     @if(auth()->user()->role_as == 1)
                                          <div class="row">
                                              <div class="my-2">
-                                                 <input type="button"  class="btn btn-primary rounded-0 float-left admin_dashboard_button" value="Admin Dashboard">
+                                                 <input type="button"  class="btn btn-primary rounded-0 float-left admin_dashboard" value="Admin Dashboard" id="admin_dashboard_button">
                                              </div>
                                          </div>
                                      @endif
                              </div>
 
-                            <input type="hidden" name="user_id" id="user_id" value="{{$userInfo->id}}">
+                            <input type="hidden" name="add_user_id" id="add_user_id" value="{{$add??''}}">
+                            <input type="hidden" name="user_id" id="user_id" value="{{isset($userInfo->id)?$userInfo->id:''}}">
                             <div class="col-lg-8 px-5">
                                 <form action="#" method="POST" id="profile_form" class="accordion-flush">
                                     @csrf
@@ -49,13 +50,13 @@
                                     <meta name="csrf-token" content="{{ csrf_token() }}" />
                                     <div class="my-2">
                                         <label  class="fw-bold"  for="name">Full Name</label>
-                                        <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{$userInfo->name}}">
-                                        <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{$userInfo->name}}">
+                                        <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->name)?$userInfo->name:''}}">
+                                        <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{isset($userInfo->name)?$userInfo->name:''}}">
                                     </div>
                                     <div class="my-2">
                                         <label  class="fw-bold" for="name">Email</label>
-                                        <input type="email" disabled name="email" class="form-control rounded-0 profile" id="" value="{{$userInfo->email}}">
-                                        <input type="email" hidden name="email" class="form-control rounded-0 profile_edit" id="email" value="{{$userInfo->email}}">
+                                        <input type="email" disabled name="email" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->email)?$userInfo->email:''}}">
+                                        <input type="email" hidden name="email" class="form-control rounded-0 profile_edit" id="email" value="{{isset($userInfo->email)?$userInfo->email:''}}">
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
@@ -82,8 +83,8 @@
                                     <div class="row">
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="phone">Phone</label>
-                                            <input type="tel" disabled  name="phone" class="form-control rounded-0 profile" id="" value="{{$userInfo->phone}}">
-                                            <input type="tel" hidden="hidden"  name="phone" class="form-control rounded-0 profile_edit" id="phone" value="{{$userInfo->phone}}">
+                                            <input type="tel" disabled  name="phone" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->phone)?$userInfo->phone:''}}">
+                                            <input type="tel" hidden="hidden"  name="phone" class="form-control rounded-0 profile_edit" id="phone" value="{{isset($userInfo->phone)?$userInfo->phone:''}}">
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bold hide-status" for="marital_status">Marital Status</label>
@@ -234,6 +235,10 @@
 @section('script')
     <script>
         $(function (){
+            if ($('#add_user_id').val() > 0){
+                $('.profile').hide();
+                $('.profile_edit, #profile_btn').removeAttr('hidden');
+            }
             $("#picture").change(function (e){
                 e.preventDefault()
                 // const file = $('input[type=file]')[0].files[0];
@@ -305,7 +310,7 @@
                 $('.profile_edit, #profile_btn').removeAttr('hidden');
             });
 
-            $('.admin_dashboard_button').click(function (e) {
+            $('.admin_dashboard').click(function (e) {
                 e.preventDefault();
                 $.ajaxSetup({
                     headers: {

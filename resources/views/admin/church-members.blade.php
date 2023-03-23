@@ -10,7 +10,6 @@
                 <th>Born Again</th>
                 <th>Gender</th>
                 <th>Marital Status</th>
-{{--                <th>Estate</th>--}}
                 <th>Cell Group</th>
                 <th>Employment Status</th>
                 <th>Leadership Status</th>
@@ -21,8 +20,6 @@
                 <th colspan="2">Actions</th>
             </tr>
       </thead>
-        <tbody>
-        </tbody>
       <tboby>
           @foreach($members as $member)
               <?php
@@ -52,7 +49,6 @@
                   <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
                   <td>{{isset($member->gender)?config('membership.statuses.gender')[$member->gender]:''}}</td>
                   <td>{{isset($member->marital_status_id)?config('membership.statuses.marital_status')[$member->marital_status_id]:''}}</td>
-{{--                  <td>{{isset($member->estate_id)?config('membership.statuses.estate')[$member->estate_id]:''}}</td>--}}
                   <td>{{isset($member->cell_group_id)?config('membership.statuses.estate')[$member->cell_group_id]:''}}</td>
                   <td>{{isset($member->employment_status_id)?config('membership.statuses.employment_status')[$member->employment_status_id]:''}}</td>
                   <td>{{isset($member->leadership_status_id)?config('membership.statuses.flag')[$member->leadership_status_id]:''}}</td>
@@ -61,35 +57,38 @@
                   <td>{{isset($ministries)?$ministries:''}}</td>
                   <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
                   <td>
-                      <button class="edit-modal btn btn-info"
-                              data-info="{{$member->id}},{{$member->first_name}},{{$member->last_name}},{{$member->email}},{{$member->gender}},{{$member->country}},{{$member->salary}}">
-                          <span class="glyphicon glyphicon-edit"></span> Edit
-                      </button>
+                      <a href="" class="btn btn-success edit-member" data-id="{{$member->id}}">Edit</a>
                   </td>
                   <td>
-
-                      <button class="delete-modal btn btn-danger"
-                              data-info="{{$member->id}},{{$member->first_name}},{{$member->last_name}},{{$member->email}},{{$member->gender}},{{$member->country}},{{$member->salary}}">
-                          <span class="glyphicon glyphicon-trash"></span> Delete
-                      </button></td>
+                      <a href="" class="btn btn-danger delete-member" data-id="{{$member->id}}">Delete</a>
+                  </td>
               </tr>
           @endforeach
       </tboby>
-            <th>S/R</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Age</th>
-            <th>Born Again</th>
-            <th>Gender</th>
-            <th>Marital Status</th>
-            {{--                <th>Estate</th>--}}
-            <th>Cell Group</th>
-            <th>Employment Status</th>
-            <th>Leadership Status</th>
-            <th>Occupation</th>
-            <th>Ministry</th>
-            <th>Ministries of Interest</th>
-            <th>Level of Education</th>
-            <th colspan="2">Actions</th>
+            <tfoot>
+                <tr>
+                    <th>S/R</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Age</th>
+                    <th>Born Again</th>
+                    <th>Gender</th>
+                    <th>Marital Status</th>
+                    <th>Cell Group</th>
+                    <th>Employment Status</th>
+                    <th>Leadership Status</th>
+                    <th>Occupation</th>
+                    <th>Ministry</th>
+                    <th>Ministries of Interest</th>
+                    <th>Level of Education</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+            </tfoot>
     </table>
     </div>
+    <script>
+        $(document).ready(function (){
+            // alert('s')
+            // $('#dt_select').DataTable();
+        })
+    </script>
