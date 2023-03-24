@@ -4,66 +4,97 @@
     <div class="row">
         <div class="col-xl-2 col-md-6">
             <div class="card bg-primary text-white mb-4">
-                <div class="card-body">All Members</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
+                <div class="card-header  d-flex align-items-center justify-content-between">
+                    All Members
+                </div>
+                <div class="card-body bg-info">
                     {{$all_members}}
+                </div>
+                <div class="card-footer">
+
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
         </div><div class="col-xl-2 col-md-6">
-            <div class="card text-white mb-4"  style="!important;background-color: red">
-                <div class="card-body">Children</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
+            <div class="card text-white mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: red">
+                    Children
+                </div>
+                <div class="card-body bg-info">
                     @php
                         $children = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Children.id'))->get());
                     @endphp
                     {{$children}}
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between" style="!important;background-color: red">
+
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
         </div><div class="col-xl-2 col-md-6">
-            <div class="card text-white mb-4"  style="!important;background-color: orangered">
-                <div class="card-body">Teenies</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
+            <div class="card text-white mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orangered">
+                    Teenies
+                </div>
+                <div class="card-body bg-info">
                     @php
                         $teenies = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Teenies.id'))->get());
                     @endphp
-                    {{$teenies}}                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    {{$teenies}}
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between" style="!important;background-color: orangered">
+
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-xl-2 col-md-6">
-            <div class="card  text-white mb-4" style="!important;background-color: orange">
-                <div class="card-body">Youths</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
+            <div class="card  text-white mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
+                    Youths
+                </div>
+                <div class="card-body bg-info">
                     @php
                         $youths = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Youths.id'))->get());
                     @endphp
                     {{$youths}}
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between" style="!important;background-color: orange">
+
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-xl-2 col-md-6">
-            <div class="card text-white mb-4"  style="!important;background-color: yellowgreen">
-                <div class="card-body">Middle Age</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
+            <div class="card text-white mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                    Middle Age
+                </div>
+                <div class="card-body bg-info">
                     @php
                         $middle_age = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Middle_Age.id'))->get());
                     @endphp
                     {{$middle_age}}
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
         </div>
         <div class="col-xl-2 col-md-6">
-            <div class="card text-white mb-4"  style="!important;background-color: greenyellow">
-                <div class="card-body">Adults</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
+            <div class="card text-white mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
+                    Adults
+                </div>
+                <div class="card-body bg-info">
                     @php
                         $adults = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Adults.id'))->get());
                     @endphp
                     {{$adults}}
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
+
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>

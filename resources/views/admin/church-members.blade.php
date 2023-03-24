@@ -1,6 +1,6 @@
-    <div class="table table-responsive m-2" id="main">
-        <h2 class="mb-4">{{in_array($category_name, config('membership.statuses.estate'))?$category_name. ' Cell Group Members':$category_name}}</h2>
-        <table id="dt_select" class="table table-responsive table-striped table-bordered thead-dark" cellspacing="0" width="100%" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
+<h2 class="mb-4">{{in_array($category_name, config('membership.statuses.estate'))?$category_name. ' Cell Group Members':$category_name}}</h2>
+<div class="table table-responsive m-2" id="main">
+    <table id="dt_select" class="table table-striped table-bordered thead-dark" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
       <thead>
             <tr>
                 <th>S/R</th>
@@ -14,7 +14,6 @@
                 <th>Employment Status</th>
                 <th>Leadership Status</th>
                 <th>Occupation</th>
-                <th>Ministry</th>
                 <th>Ministries of Interest</th>
                 <th>Level of Education</th>
                 <th colspan="2">Actions</th>
@@ -53,7 +52,6 @@
                   <td>{{isset($member->employment_status_id)?config('membership.statuses.employment_status')[$member->employment_status_id]:''}}</td>
                   <td>{{isset($member->leadership_status_id)?config('membership.statuses.flag')[$member->leadership_status_id]:''}}</td>
                   <td>{{isset($member->occupation_id)?config('membership.statuses.occupation')[$member->occupation_id]:''}}</td>
-                  <td>{{isset($member->ministry_id)?config('membership.statuses.ministry')[$member->ministry_id]:''}}</td>
                   <td>{{isset($ministries)?$ministries:''}}</td>
                   <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
                   <td>
@@ -78,7 +76,6 @@
                     <th>Employment Status</th>
                     <th>Leadership Status</th>
                     <th>Occupation</th>
-                    <th>Ministry</th>
                     <th>Ministries of Interest</th>
                     <th>Level of Education</th>
                     <th colspan="2">Actions</th>

@@ -22,6 +22,9 @@ $('.church-members, .cell_group_members').click(function (e) {
         },
         success: function (data) {
             $('#dashboar').html(data)
+            $('#dt_select').DataTable({
+                responsive: true
+            })
             // $('#dt_select').DataTable({
             //     processing: false,
             //     serverSide: true,

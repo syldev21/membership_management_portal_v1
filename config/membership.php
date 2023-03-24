@@ -84,7 +84,7 @@ return [
             'id' => '2'
         ],
         'business' => [
-            'text' => 'Business',
+            'text' => 'Self-Employed',
             'id' => '3'
         ]
     ],
@@ -109,7 +109,10 @@ return [
     ],
 
     'level_of_education' => [
-        'primary' => [
+        'ecd' => [
+            'text' => 'ECD',
+            'id' => '0'
+        ],'primary' => [
             'text' => 'Primary School',
             'id' => '1'
         ],
@@ -122,7 +125,7 @@ return [
             'id' => '3'
         ],
         'university' => [
-            'text' => 'University',
+            'text' => 'University Degree',
             'id' => '4'
         ]
     ],
@@ -256,7 +259,7 @@ return [
 
             2 =>'Unemployed',
 
-            3 =>'Business'
+            3 =>'Self-Employed'
         ],
 
         'occupation' => [
@@ -270,13 +273,15 @@ return [
         ],
 
         'level_of_education' => [
+            0 =>'ECD',
+
             1 =>'Primary School',
 
             2 =>'High School/ O Level',
 
             3 =>'Diploma Certificate',
 
-            4 =>'University - Bachelor"s Degree/Masters Degree/PhD',
+            4 =>'University Degree',
 
         ],
         'ministry' => [

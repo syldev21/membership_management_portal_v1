@@ -3,7 +3,7 @@
         <div class="sb-sidenav-menu fw-bolder fs-6 text-white">
             <div class="nav">
                 <div class="">
-                    <a href="{{route('profile')}}"><img src="{{asset('images/login.jpeg')}}" data-toggle="tooltip" data-placement="top" style="height: 100px; width: 225px"></a>
+                    <a href="{{route('profile')}}"><img src="{{asset('images/login.jpeg')}}" data-toggle="tooltip" data-placement="top"></a>
                 </div>
                 <a class="nav-link table-responsive admin_dashboard" href="#">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>

@@ -31,6 +31,7 @@
                              </div>
 
                             <input type="hidden" name="add_user_id" id="add_user_id" value="{{$add??''}}">
+                            <input type="hidden" name="edit_user_id" id="edit_user_id" value="{{isset($userInfo)?1:2}}">
                             <input type="hidden" name="user_id" id="user_id" value="{{(isset($userInfo)) ? $userInfo->id : ((isset($loggedInUser))  ? $loggedInUser->id : '')}}">
                             <div class="col-lg-8 px-5">
                                 <form action="#" method="POST" id="profile_form" class="accordion-flush">
@@ -164,7 +165,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-lg">
+                                        <div class="col-lg" hidden="hidden">
                                             <label  class="fw-bold" for="ministry">Current Ministry</label>
                                             <input type="text" disabled name="ministry" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->ministry_id) ? config('membership.statuses.ministry')[$userInfo->ministry_id] : config('membership.statuses.ministry')[$loggedInUser->ministry_id]}}">
 
@@ -178,7 +179,7 @@
                                         </div>
                                     </div>
                                     <div class="row profile_edit" hidden="hidden">
-                                        <label  class="fw-bold" for="leadership_status">Ministry of Interest (Tick all the applicable options)</label>
+                                        <label  class="fw-bold" for="leadership_status">Current Ministry/ Ministry of Interest (Tick all the applicable options)</label>
                                         @foreach(config('membership.ministry') as $ministry)
                                             <div class="form-check col-lg">
                                                 <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="{{$ministry['id']}}">
@@ -229,9 +230,12 @@
 @section('script')
     <script>
         $(function (){
-            if ($('#add_user_id').val() > 0){
+            if ($('#edit_user_id').val() ==1){
+                console.log('tumo sawazi')
                 $('.profile').hide();
                 $('.profile_edit, #profile_btn').removeAttr('hidden');
+            }else{
+                console.log('nomaluluza')
             }
             $("#picture").change(function (e){
                 e.preventDefault()
