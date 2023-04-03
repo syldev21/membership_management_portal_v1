@@ -1,8 +1,8 @@
 @extends('layouts.master')
-@section('title', 'Admin Dashboard')
+@section('title', 'Membership')
 @section('content')
 {{--    <div class="container">--}}
-        <div class="row my-5">
+        <div class="row my-5 table table-responsive">
             <div class="col-lg-12" style="background-color: #0a58ca; margin: auto">
                 <div class="card shadow" id="dashboar">
                     <div class="card-header d-flex justify-content-between align-items-center bg-light">
@@ -77,18 +77,25 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="phone">Phone</label>
+                                            <label  class="fw-bold hide-status" for="phone">Phone</label>
                                             <input type="tel" disabled  name="phone" class="form-control rounded-0 profile" id="" value="{{isset($userInfo)?$userInfo->phone: $loggedInUser->phone}}">
-                                            <input type="tel" hidden="hidden"  name="phone" class="form-control rounded-0 profile_edit" id="phone" value="{{isset(auth()->user()->phone)?auth()->user()->phone:''}}">
+                                            <input type="tel" hidden="hidden"  name="phone" class="form-control rounded-0 profile_edit hide-status hide-field" id="phone" value="{{isset(auth()->user()->phone)?auth()->user()->phone:''}}">
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bold hide-status" for="marital_status">Marital Status</label>
 
+                                            <?php
+                                            if (isset($userInfo)){
+                                                $marital_status_id = is_numeric($userInfo->marital_status_id) ? config('membership.statuses.marital_status')[$userInfo->marital_status_id] : $userInfo->marital_status_id;
+                                            }else{
+                                                $marital_status_id = is_numeric($loggedInUser->marital_status_id) ? config('membership.statuses.marital_status')[$loggedInUser->marital_status_id] : $loggedInUser->marital_status_id;
+                                            }
+                                            ?>
 
-                                            <input type="text" disabled name="marital_status_id" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->marital_status_id) ? config('membership.statuses.marital_status')[$userInfo->marital_status_id] : config('membership.statuses.marital_status')[$loggedInUser->marital_status_id]}}">
+                                            <input type="text" disabled name="marital_status_id" class="form-control rounded-0 profile" id="" value="{{$marital_status_id}}">
 
 
-                                            <select hidden="hidden" name="marital_status" id="marital_status" class="form-select rounded-0 profile_edit hide-status">
+                                            <select hidden="hidden" name="marital_status" id="marital_status" class="form-select rounded-0 profile_edit hide-status hide-field">
                                                 <option selected disabled>--Select</option>
                                                 @foreach(config('membership.marital_status') as $marital_status)
                                                     <option value="{{$marital_status['id']}}" >
@@ -101,7 +108,7 @@
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="estate">Estate</label>
 
-                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->estate_id) ? config('membership.statuses.estate')[$userInfo->estate_id] : config('membership.statuses.estate')[$loggedInUser->estate_id]}}">
+                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->estate_id) ? config('membership.statuses.estate')[$userInfo->estate_id] : ($loggedInUser->estate_id ? config('membership.statuses.estate')[$loggedInUser->estate_id]: '')}}">
 
                                             <select hidden="hidden" name="estate" id="estate" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
@@ -114,7 +121,7 @@
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="cell_group">Cell Group</label>
 
-                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->cell_group_id) ? config('membership.statuses.estate')[$userInfo->cell_group_id] : config('membership.statuses.estate')[$loggedInUser->cell_group_id]}}">
+                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->cell_group_id) ? config('membership.statuses.estate')[$userInfo->cell_group_id] : ($loggedInUser->cell_group_id ? config('membership.statuses.estate')[$loggedInUser->cell_group_id] : '')}}">
 
                                             <select hidden="hidden" name="cell_group" id="cell_group" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
@@ -126,22 +133,24 @@
                                         </div>
                                     </div>
                                     <div class="row">
+
+
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="employment_status">Employment Status</label>
+                                            <label  class="fw-bold" for="education_level">Level of Education</label>
+                                            <input type="text" disabled name="education_level" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->education_level_id) ? config('membership.statuses.level_of_education')[$userInfo->education_level_id] : ($loggedInUser->education_level_id ? config('membership.statuses.level_of_education')[$loggedInUser->education_level_id] : '')}}">
 
-                                            <input type="text" disabled name="employment_status" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->employment_status_id) ? config('membership.statuses.employment_status')[$userInfo->employment_status_id] : config('membership.statuses.employment_status')[$loggedInUser->employment_status_id]}}">
-
-                                            <select hidden="hidden" name="employment_status" id="employment_status" class="form-select rounded-0 profile_edit">
+                                            <select hidden="hidden" name="education_level" id="education_level" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
-                                                @foreach(config('membership.employment_status') as $employment_status)
-                                                    <option value="{{$employment_status['id']}}" >
-                                                    {{$employment_status['text']}}</option>
+                                                @foreach(config('membership.level_of_education') as $level_of_education)
+                                                    <option value="{{$level_of_education['id']}}" >
+                                                        {{$level_of_education['text']}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
+
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="born_again">Born Again</label>
-                                            <input type="text" disabled name="born_again" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->born_again_id) ? config('membership.statuses.flag')[$userInfo->born_again_id] : config('membership.statuses.flag')[$loggedInUser->born_again_id]}}">
+                                            <input type="text" disabled name="born_again" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->born_again_id) ? config('membership.statuses.flag')[$userInfo->born_again_id] : ($loggedInUser->born_again_id ? config('membership.statuses.flag')[$loggedInUser->born_again_id] : '')}}">
 
                                             <select hidden="hidden" name="born_again" id="born_again" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
@@ -156,7 +165,7 @@
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="leadership_status">In Leadership?</label>
 
-                                            <input type="text" disabled name="leadership_status" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->leadership_status_id) ? config('membership.statuses.flag')[$userInfo->leadership_status_id] : config('membership.statuses.flag')[$loggedInUser->leadership_status_id]}}">
+                                            <input type="text" disabled name="leadership_status" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->leadership_status_id) ? config('membership.statuses.flag')[$userInfo->leadership_status_id] : ($loggedInUser->leadership_status_id ? config('membership.statuses.flag')[$loggedInUser->leadership_status_id] : '')}}">
                                             <select hidden="hidden" name="leadership_status" id="leadership_status" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
                                                 @foreach(config('membership.flag') as $flag)
@@ -167,7 +176,7 @@
                                         </div>
                                         <div class="col-lg" hidden="hidden">
                                             <label  class="fw-bold" for="ministry">Current Ministry</label>
-                                            <input type="text" disabled name="ministry" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->ministry_id) ? config('membership.statuses.ministry')[$userInfo->ministry_id] : config('membership.statuses.ministry')[$loggedInUser->ministry_id]}}">
+                                            <input type="text" disabled name="ministry" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->ministry_id) ? config('membership.statuses.ministry')[$userInfo->ministry_id] : ($loggedInUser->ministry_id?config('membership.statuses.ministry')[$loggedInUser->ministry_id]:'')}}">
 
                                             <select hidden="hidden" name="ministry" id="ministry" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
@@ -189,10 +198,17 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="occupation">Occupation</label>
-                                            <input type="text" disabled name="employment_status" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->occupation_id) ? config('membership.statuses.occupation')[$userInfo->occupation_id] : config('membership.statuses.occupation')[$loggedInUser->occupation_id]}}">
+                                            <label  class="fw-bold hide-status" for="occupation">Occupation/ Specialization</label>
+                                            <?php
+                                            if (isset($userInfo)){
+                                                $occupation = is_numeric($userInfo->occupation_id) ? config('membership.statuses.occupation')[$userInfo->occupation_id] : $userInfo->occupation_id;
+                                            }else{
+                                                $occupation = is_numeric($loggedInUser->occupation_id) ? config('membership.statuses.occupation')[$loggedInUser->occupation_id] : $loggedInUser->occupation_id;
+                                            }
+                                            ?>
+                                            <input type="text" disabled name="occupation" class="form-control rounded-0 profile" id="" value="{{$occupation}}">
 
-                                            <select hidden="hidden" name="occupation" id="occupation" class="form-select rounded-0 profile_edit">
+                                            <select hidden="hidden" name="occupation" id="occupation" class="form-select rounded-0 profile_edit hide-status hide-field">
                                                 <option selected disabled>--Select</option>
                                                 @foreach(config('membership.occupation') as $occupation)
                                                     <option value="{{$occupation['id']}}" >
@@ -200,18 +216,30 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-lg">
-                                            <label  class="fw-bold" for="education_level">Level of Education</label>
-                                            <input type="text" disabled name="education_level" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->education_level_id) ? config('membership.statuses.level_of_education')[$userInfo->education_level_id] : config('membership.statuses.level_of_education')[$loggedInUser->education_level_id]}}">
 
-                                            <select hidden="hidden" name="education_level" id="education_level" class="form-select rounded-0 profile_edit">
+                                        <div class="col-lg">
+                                            <label  class="fw-bold hide-status" for="employment_status">Employment Status</label>
+
+
+                                            <?php
+                                            if (isset($userInfo)){
+                                                $employment_status_id = is_numeric($userInfo->employment_status_id) ? config('membership.statuses.employment_status')[$userInfo->employment_status_id] : $userInfo->employment_status_id;
+                                            }else{
+                                                $employment_status_id = is_numeric($loggedInUser->employment_status_id) ? config('membership.statuses.employment_status')[$loggedInUser->employment_status_id] : $loggedInUser->employment_status_id;
+                                            }
+                                            ?>
+
+                                            <input type="text" disabled name="employment_status" class="form-control rounded-0 profile" id="" value="{{$employment_status_id}}">
+
+                                            <select hidden="hidden" name="employment_status" id="employment_status" class="form-select rounded-0 profile_edit hide-status hide-field">
                                                 <option selected disabled>--Select</option>
-                                                @foreach(config('membership.level_of_education') as $level_of_education)
-                                                    <option value="{{$level_of_education['id']}}" >
-                                                    {{$level_of_education['text']}}</option>
+                                                @foreach(config('membership.employment_status') as $employment_status)
+                                                    <option value="{{$employment_status['id']}}" >
+                                                        {{$employment_status['text']}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
+
                                     </div>
 
                                     <div class="my-2">
@@ -231,7 +259,6 @@
     <script>
         $(function (){
             if ($('#edit_user_id').val() ==1){
-                console.log('tumo sawazi')
                 $('.profile').hide();
                 $('.profile_edit, #profile_btn').removeAttr('hidden');
             }else{
@@ -343,9 +370,8 @@
                     $('.hide-status').show()
                 }
             })
-
-
         });
+
     </script>
 
 @endsection

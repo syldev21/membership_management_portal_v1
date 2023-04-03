@@ -6,6 +6,7 @@ use App\Conf\Config;
 use App\Mail\ForgotPassword;
 use App\Models\User;
 use Carbon\Carbon;
+use Faker\Factory;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +54,9 @@ class UserController extends Controller
           'confirm_password.same'=>'Password did not match!',
           'confirm_password.required'=>'Confirm password is required!',
       ]);
+      for ($i=0; $i<0; $i++){
+
+      };
 
       if ($validator->fails()){
           return response()->json([
@@ -64,6 +68,7 @@ class UserController extends Controller
           $user->name = $request->name;
           $user->email = $request->email;
           $user->password = Hash::make($request->password);
+          $user->user_name = substr(explode(' ', $request->name)[0], 0, 4).Factory::create()->randomNumber(4, true);
           $user->save();
           return  response()->json([
               'status'=>200,
@@ -74,11 +79,13 @@ class UserController extends Controller
     //handle login user ajax request
     public function loginUser(Request $request){
        $request->validate([
-           'email' =>'required|email|max:100',
+//           'email' =>'required|email|max:100',
+           'user_name' =>'required|min:3|max:100',
            'password' =>'required|min:6|max:100',
        ]);
        if (Auth::attempt([
-           'email'=>$request->email,
+//           'email'=>$request->email,
+           'user_name'=>$request->user_name,
            'password'=>$request->password
        ])){
 
@@ -149,7 +156,8 @@ public function profile(Request $request){
 
 //    handle profile update ajax request
     public function profileUpdate(Request $request){
-        if ($request->dob > Carbon::now()->format('Y-m-d')){
+
+        if (isset($request->dob) && $request->dob > Carbon::now()->format('Y-m-d')){
             return response()->json([
                 'status'=>400,
                 'messages'=> config('membership.LATER_DATE.message').Carbon::now()->format("Y-m-d"),
@@ -169,30 +177,38 @@ public function profile(Request $request){
                 }elseif($age>=41){
                     $age_cluster = config('membership.age_clusters.Adults.id');
                 }
+
+                    if ($age<18){
+                        $value = 'N/A';
+                    }
             }
+
             $udpate_data_array = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'gender' => $request->gender,
                 'dob' => $request->dob,
-                'phone' => $request->phone,
-                'marital_status_id' => $request->marital_status,
+                'phone' => isset($value) ? $value : $request->phone,
+                'marital_status_id' => isset($value) ? $value : $request->marital_status,
                 'estate_id' => $request->estate,
                 'cell_group_id' => $request->cell_group,
-                'employment_status_id' => $request->employment_status,
+                'employment_status_id' => isset($value) ? $value : $request->employment_status,
                 'born_again_id' => $request->born_again,
                 'leadership_status_id' => $request->leadership_status,
                 'ministry_id' => $request->ministry,
-                'occupation_id' => $request->occupation,
+                'occupation_id' => isset($value) ? $value : $request->occupation,
                 'education_level_id' => $request->education_level,
                 'age_cluster' => isset($age_cluster)?$age_cluster:null,
                 'ministries_of_interest' => isset($request->check_box)?implode (',', $request->check_box):null,
             ];
+
             foreach ($udpate_data_array as  $key=>$value){
                 if (is_null($value)){
                     unset($udpate_data_array[$key]);
                 }
             }
+
+
             $user = User::where('id', $request->id);
 
             $user->update(

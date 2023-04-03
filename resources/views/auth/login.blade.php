@@ -26,10 +26,16 @@
                                     <div id="login_alert"></div>
                                     <form  class="user" action="#" method="POST" id="login_form">
                                         @csrf
+{{--                                        <div class="form-group">--}}
+{{--                                            <input type="email" class="form-control form-control-user"--}}
+{{--                                                   name="email" id="email" aria-describedby="emailHelp"--}}
+{{--                                                   placeholder="Enter Email Address...">--}}
+{{--                                            <div class="invalid-feedback"></div>--}}
+{{--                                        </div>--}}
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                   name="email" id="email" aria-describedby="emailHelp"
-                                                   placeholder="Enter Email Address...">
+                                            <input type="text" class="form-control form-control-user"
+                                                   name="user_name" id="user_name" aria-describedby="emailHelp"
+                                                   placeholder="Enter User Name...">
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="form-group">

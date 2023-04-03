@@ -3,19 +3,6 @@
     <h3 class="mb-4">Number of Members at Church Level</h3>
     <div class="row">
         <div class="col-xl-2 col-md-6">
-            <div class="card bg-primary text-white mb-4">
-                <div class="card-header  d-flex align-items-center justify-content-between">
-                    All Members
-                </div>
-                <div class="card-body bg-info">
-                    {{$all_members}}
-                </div>
-                <div class="card-footer">
-
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                </div>
-            </div>
-        </div><div class="col-xl-2 col-md-6">
             <div class="card text-white mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: red">
                     Children
@@ -99,6 +86,20 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-2 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-header  d-flex align-items-center justify-content-between">
+                    All Members
+                </div>
+                <div class="card-body bg-info">
+                    {{$all_members}}
+                </div>
+                <div class="card-footer">
+
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="table table-responsive m-2" id="main">
         <h3 class="mb-4">Numbers at Cell Group Level</h3>
@@ -113,7 +114,6 @@
                     <th>Middle Age</th>
                     <th>Adults</th>
                     <th>Total</th>
-                    <td hidden="hidden">View</th>
                 </tr>
             </thead>
             <tboby>
@@ -128,23 +128,19 @@
                         <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.Middle_Age')['id']])->get())}}</td>
                         <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.Adults')['id']])->get())}}</td>
                         <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id']])->get())}}</td>
-                        <td hidden="hidden">
-                            <a href="" class="btn btn-success church-members" data-id="{{$cell_group['id']}}">View</a>
-                        </td>
                     </tr>
                 @endforeach
             </tboby>
-            <tfoot class="bg-info">
+            <tfoot class="bg-success">
             <tr>
-                <th>S/R</th>
-                <th>Name</th>
-                <th>Children</th>
-                <th>Teenies</th>
-                <th>Youths</th>
-                <th>Middle Age</th>
-                <th>Adults</th>
+                <th>{{count(config('membership.estate'))+1}}</th>
                 <th>Total</th>
-                <td hidden="hidden">View</th>
+                <th>{{$children}}</th>
+                <th>{{$teenies}}</th>
+                <th>{{$youths}}</th>
+                <th>{{$middle_age}}</th>
+                <th>{{$adults}}</th>
+                <th>{{$all_members}}</th>
             </tr>
             </tfoot>
         </table>
