@@ -106,28 +106,45 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="estate">Estate</label>
+                                            <label  class="fw-bold" for="estate">Sub County</label>
 
-                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->estate_id) ? config('membership.statuses.estate')[$userInfo->estate_id] : ($loggedInUser->estate_id ? config('membership.statuses.estate')[$loggedInUser->estate_id]: '')}}">
+                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->estate_id) ? config('membership.statuses.sub_county')[$userInfo->estate_id]['text'] : ($loggedInUser->estate_id ? config('membership.statuses.sub_county')[$loggedInUser->estate_id]['text']: '')}}">
 
                                             <select hidden="hidden" name="estate" id="estate" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
-                                                @foreach(config('membership.estate') as $estate)
-                                                    <option value="{{$estate['id']}}" >
-                                                    {{$estate['text']}}</option>
+                                                @foreach(config('membership.sub_county') as $sub_county)
+                                                    <option value="{{$sub_county['id']}}" >
+                                                    {{$sub_county['text']}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-lg hide_ward">
+                                            <label  class="fw-bold" for="ward">Ward</label>
+                                            <?php
+                                                $ward = 1;
+                                            ?>
+                                            <input type="text" disabled name="ward" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->estate_id) ? config('membership.statuses.sub_county')[$userInfo->estate_id]['text'] : ($loggedInUser->estate_id ? config('membership.statuses.sub_county')[$loggedInUser->estate_id]['text']: '')}}">
+
+                                            <select hidden="hidden" name="ward" id="estate" class="form-select rounded-0 profile_edit">
+                                                <option selected disabled>--Select</option>
+                                                <?php
+                                                    $wards = [1, 2, 3, 4, 5, 6];
+                                                ?>
+                                                @foreach($wards as $sub_county)
+                                                    <option value="{{$sub_county}}" >
+                                                    {{$sub_county}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="cell_group">Cell Group</label>
 
-                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->cell_group_id) ? config('membership.statuses.estate')[$userInfo->cell_group_id] : ($loggedInUser->cell_group_id ? config('membership.statuses.estate')[$loggedInUser->cell_group_id] : '')}}">
-
+                                            <input type="text" disabled name="cell_group" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->cell_group_id) ? config('membership.statuses.cell_group')[$userInfo->cell_group_id] : ($loggedInUser->cell_group_id ? config('membership.statuses.cell_group')[$loggedInUser->cell_group_id] : '')}}">
                                             <select hidden="hidden" name="cell_group" id="cell_group" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
-                                                @foreach(config('membership.estate') as $estate)
-                                                    <option value="{{$estate['id']}}" >
-                                                    {{$estate['text']}}</option>
+                                                @foreach(config('membership.cell_group') as $cell_group)
+                                                    <option value="{{$cell_group['id']}}" >
+                                                    {{$cell_group['text']}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -258,12 +275,7 @@
 @section('script')
     <script>
         $(function (){
-            if ($('#edit_user_id').val() ==1){
-                $('.profile').hide();
-                $('.profile_edit, #profile_btn').removeAttr('hidden');
-            }else{
-                console.log('nomaluluza')
-            }
+            $('.hide_ward').hide()
             $("#picture").change(function (e){
                 e.preventDefault()
                 // const file = $('input[type=file]')[0].files[0];
@@ -369,6 +381,13 @@
                 }else {
                     $('.hide-status').show()
                 }
+            })
+
+            $('#estate').change(function (e) {
+                $('.hide_ward').show()
+                e.preventDefault()
+                let sub_count = $(this).val();
+                {{--alert({{config('membership.statuses.sub_county')[$ward]['text']}})--}}
             })
         });
 

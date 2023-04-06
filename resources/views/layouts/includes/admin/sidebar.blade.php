@@ -34,13 +34,13 @@
                     <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
 
 
-                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.estate.kiambiu.id')}}">{{config('membership.estate.kiambiu.text')}}</a>
-                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.estate.umoja_bethel.id')}}">{{config('membership.estate.umoja_bethel.text')}}</a>
-                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.estate.kariobangi_south.id')}}">{{config('membership.estate.kariobangi_south.text')}}</a>
-                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.estate.chokaa_berea.id')}}">{{config('membership.estate.chokaa_berea.text')}}</a>
-                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.estate.diaspora.id')}}">{{config('membership.estate.diaspora.text')}}</a>
-                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.estate.langata.id')}}">{{config('membership.estate.langata.text')}}</a>
-                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.estate.Jericho.id')}}">{{config('membership.estate.Jericho.text')}}</a>
+                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.cell_group.kiambiu.id')}}">{{config('membership.cell_group.kiambiu.text')}}</a>
+                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.cell_group.umoja_bethel.id')}}">{{config('membership.cell_group.umoja_bethel.text')}}</a>
+                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.cell_group.kariobangi_south.id')}}">{{config('membership.cell_group.kariobangi_south.text')}}</a>
+                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.cell_group.chokaa_berea.id')}}">{{config('membership.cell_group.chokaa_berea.text')}}</a>
+                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.cell_group.diaspora.id')}}">{{config('membership.cell_group.diaspora.text')}}</a>
+                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.cell_group.langata.id')}}">{{config('membership.cell_group.langata.text')}}</a>
+                        <a class="nav-link cell_group_members text-dark" href="#" data-id="{{config('membership.cell_group.Jericho.id')}}">{{config('membership.cell_group.Jericho.text')}}</a>
 
                     </nav>
                 </div>

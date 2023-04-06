@@ -1,17 +1,18 @@
-<h2 class="mb-4">{{in_array($category_name, config('membership.statuses.estate'))?$category_name. ' Cell Group Members':$category_name}}</h2>
+<h2 class="mb-4">{{in_array($category_name, config('membership.statuses.cell_group'))?$category_name. ' Cell Group Members':$category_name}}</h2>
 <div class="table table-responsive m-2" id="main">
     <table id="dt_select" class="table table-striped table-bordered thead-dark" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
       <thead>
             <tr>
                 <th>S/R</th>
-                <th>User NAame</th>
+                <th>User Name</th>
                 <th>Name</th>
                 <th>Phone</th>
                 <th>Age</th>
                 <th>Born Again</th>
                 <th>Gender</th>
                 <th>Marital Status</th>
-                <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.estate')) ?? false}}">Cell Group</th>
+                <th>Residence</th>
+                <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">Cell Group</th>
                 <th>Employment Status</th>
                 <th>Leadership Status</th>
                 <th>Occupation</th>
@@ -64,7 +65,8 @@
                   <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
                   <td>{{isset($member->gender)?config('membership.statuses.gender')[$member->gender]:''}}</td>
                   <td>{{isset($marital_status_id)?$marital_status_id:''}}</td>
-                  <td class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.estate')) ?? false}}">{{isset($member->cell_group_id)?config('membership.statuses.estate')[$member->cell_group_id]:''}}</td>
+                  <td>{{isset($member->estate_id) ? config('membership.statuses.sub_county')[$member->estate_id]['text'] : ''}}</td>
+                  <td class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">{{isset($member->cell_group_id)?config('membership.statuses.cell_group')[$member->cell_group_id]:''}}</td>
                   <td>{{isset($employment_status_id)?$employment_status_id:''}}</td>
                   <td>{{isset($member->leadership_status_id)?config('membership.statuses.flag')[$member->leadership_status_id]:''}}</td>
                   <td>{{isset($occupation_id)?$occupation_id:''}}</td>
@@ -92,13 +94,15 @@
             <tfoot>
                 <tr>
                     <th>S/R</th>
+                    <th>User Name</th>
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Age</th>
                     <th>Born Again</th>
                     <th>Gender</th>
                     <th>Marital Status</th>
-                    <th>Cell Group</th>
+                    <th>Residence</th>
+                    <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">Cell Group</th>
                     <th>Employment Status</th>
                     <th>Leadership Status</th>
                     <th>Occupation</th>
@@ -180,12 +184,12 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="estate">Estate</label>
-                                            <select  name="estate" id="estate" class="form-select rounded-0 ">
+                                            <label  class="fw-bold" for="cell_group">Estate</label>
+                                            <select  name="cell_group" id="cell_group" class="form-select rounded-0 ">
                                                 <option selected disabled>--Select</option>
-                                                @foreach(config('membership.estate') as $estate)
-                                                    <option value="{{$estate['id']}}" >
-                                                        {{$estate['text']}}</option>
+                                                @foreach(config('membership.cell_group') as $cell_group)
+                                                    <option value="{{$cell_group['id']}}" >
+                                                        {{$cell_group['text']}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -193,9 +197,9 @@
                                             <label  class="fw-bold" for="cell_group">Cell Group</label>
                                             <select  name="cell_group" id="cell_group" class="form-select rounded-0 ">
                                                 <option selected disabled>--Select</option>
-                                                @foreach(config('membership.estate') as $estate)
-                                                    <option value="{{$estate['id']}}" >
-                                                        {{$estate['text']}}</option>
+                                                @foreach(config('membership.cell_group') as $cell_group)
+                                                    <option value="{{$cell_group['id']}}" >
+                                                        {{$cell_group['text']}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
