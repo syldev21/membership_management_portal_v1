@@ -11,7 +11,7 @@
                 <th>Born Again</th>
                 <th>Gender</th>
                 <th>Marital Status</th>
-                <th>Cell Group</th>
+                <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.estate')) ?? false}}">Cell Group</th>
                 <th>Employment Status</th>
                 <th>Leadership Status</th>
                 <th>Occupation</th>
@@ -64,7 +64,7 @@
                   <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
                   <td>{{isset($member->gender)?config('membership.statuses.gender')[$member->gender]:''}}</td>
                   <td>{{isset($marital_status_id)?$marital_status_id:''}}</td>
-                  <td>{{isset($member->cell_group_id)?config('membership.statuses.estate')[$member->cell_group_id]:''}}</td>
+                  <td class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.estate')) ?? false}}">{{isset($member->cell_group_id)?config('membership.statuses.estate')[$member->cell_group_id]:''}}</td>
                   <td>{{isset($employment_status_id)?$employment_status_id:''}}</td>
                   <td>{{isset($member->leadership_status_id)?config('membership.statuses.flag')[$member->leadership_status_id]:''}}</td>
                   <td>{{isset($occupation_id)?$occupation_id:''}}</td>
@@ -340,31 +340,13 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn bg-warning">Activate</button>
             </div>
         </div>
     </div>
 </div>
     <script>
-        $(document).on('click', '.edit-member', function (e) {
-            e.preventDefault();
-            let member_id = $(this).data('id')
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: '/edit-member',
-                method: 'post',
-                data: {
-                    member_id:member_id,
-                },
-                success: function (res) {
-                    $('#main').html(res)
-                    // window.location = '/profile';
-                }
-            })
+        $(document).ready( function () {
+            $('.conditional_show').data('id')==true ? $('.conditional_show').hide() : $('.conditional_show').show()
         })
     </script>

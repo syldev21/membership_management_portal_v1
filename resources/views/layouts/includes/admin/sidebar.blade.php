@@ -26,7 +26,7 @@
                     </nav>
                 </div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Cell Groups
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
@@ -45,6 +45,7 @@
                     </nav>
                 </div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth" style="color: #3a3b45">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Authentication
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
@@ -54,8 +55,11 @@
                         <a class="nav-link text-dark" href="/logout">Logout</a>
                     </nav>
                 </div>
-
+                    <div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         <a class="nav-link add-member" href="#" style="color: #3a3b45">Add Member</a>
+                    </div>
+{{--                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>--}}
 
 
             </div>

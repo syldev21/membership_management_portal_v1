@@ -54,9 +54,6 @@ class UserController extends Controller
           'confirm_password.same'=>'Password did not match!',
           'confirm_password.required'=>'Confirm password is required!',
       ]);
-      for ($i=0; $i<0; $i++){
-
-      };
 
       if ($validator->fails()){
           return response()->json([
