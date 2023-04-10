@@ -29,12 +29,12 @@ class DashboardController extends Controller
 
         if (isset($request->category) && strpos($request->category, 'church-members') == true){
               if ($member_category == config('membership.age_clusters.All_members')['id']){
-                  $members= User::all();
+                  $members= User::where('exists', 1)->where('active', 1)->get();
               }else{
-                  $members = User::where(['age_cluster' => $member_category])->get();
+                  $members = User::where(['age_cluster' => $member_category])->where('exists', 1)->where('active', 1)->get();
               }
           }else{
-              $members = User::where('cell_group_id', $member_category)->get();
+              $members = User::where('cell_group_id', $member_category)->where('exists', 1)->where('active', 1)->get();
           }
         return view('admin.church-members', ['members' => $members,'category_name'=>$category_name]);
     }

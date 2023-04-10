@@ -25,7 +25,7 @@
                                      </div>
                                      <div class="row">
                                          <div class="my-2">
-                                             <input type="button"  class="btn btn-primary rounded-0 float-left" value="Edit Profile" id="edit_profile_button">
+                                             <input type="hidden"  class="btn btn-primary rounded-0 float-left" value="Edit Profile" id="edit_profile_button">
                                          </div>
                                      </div>
                              </div>
@@ -275,6 +275,10 @@
 @section('script')
     <script>
         $(function (){
+            if ($('#add_user_id').val() == 'admin'){
+                $('.profile').hide();
+                $('.profile_edit, #profile_btn').removeAttr('hidden');
+            }
             $('.hide_ward').hide()
             $("#picture").change(function (e){
                 e.preventDefault()

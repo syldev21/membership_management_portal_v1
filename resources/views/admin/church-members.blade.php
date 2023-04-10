@@ -1,4 +1,7 @@
-<h2 class="mb-4">{{in_array($category_name, config('membership.statuses.cell_group'))?$category_name. ' Cell Group Members':$category_name}}</h2>
+<div>
+    <div style="float: left"><h2 class="mb-4">{{in_array($category_name, config('membership.statuses.cell_group'))?$category_name. ' Cell Group Members':$category_name}}</h2></div>
+    <div style="float: right"><button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editModal">Add New Member</button></div>
+</div>
 <div class="table table-responsive m-2" id="main">
     <table id="dt_select" class="table table-striped table-bordered thead-dark" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
       <thead>
@@ -74,11 +77,11 @@
                   <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
                   <td>
                       <select id="" name="" class="browser-default">
-                          <option data-id="{{$member->id}}" id="edit" value="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
                             Edit
                           </option>
-                          <option data-id="{{$member->id}}"  data-user="" id="assignRole" value="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</option>
-                          <option data-id="{{$member->id}}" id="fetchPermissions" value="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#activateModal">
+                          <option data-id="{{$member->id}}"  data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</option>
+                          <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" id="deactivate" value="{{$member->id}}" class="user_status" data-bs-toggle="modal" data-bs-target="#activateModal">
                               @if($member->dob)
                                   Activate
 
@@ -116,38 +119,32 @@
 
 <!-- Edit Modal -->
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade table table-responsive" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Member</h5>
+                <h5 class="edit-modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <input type="" id="edit_user_id" value="" hidden="hidden">
+            <div id="edit_alert"></div>
             <div class="modal-body">
                 <div class="col-lg-12">
                         <div id="profile_alert"></div>
                         <div class="row">
 
-                                <?php
-
-                                $loggedInUser = auth()->user();
-
-
-                                ?>
-
-                            <input type="hidden" name="user_id" id="user_id" value="{{(isset($userInfo)) ? $userInfo->id : ((isset($loggedInUser))  ? $loggedInUser->id : '')}}">
+                            <input type="hidden" name="user_id" id="user_id" value="">
                             <div class="col-lg-12 px-5">
-                                <form action="#" method="POST" id="profile_form" class="accordion-flush">
-                                    @csrf
+                                <form action="" method="" id="" class="accordion-flush">
 
                                     <meta name="csrf-token" content="{{ csrf_token() }}" />
                                     <div class="my-2">
                                         <label  class="fw-bold"  for="name">Full Name</label>
-                                        <input type="text" name="name" class="form-control rounded-0 " id="name" value="{{isset(auth()->user()->name)?auth()->user()->name:''}}">
+                                        <input type="text" name="name" class="form-control rounded-0 " id="name" value="">
                                     </div>
                                     <div class="my-2">
                                         <label  class="fw-bold" for="name">Email</label>
-                                        <input type="email" name="email" class="form-control rounded-0 " id="email" value="{{isset(auth()->user()->email)?auth()->user()->email:''}}">
+                                        <input type="email" name="email" class="form-control rounded-0 " id="email" value="">
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
@@ -184,12 +181,31 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="cell_group">Estate</label>
-                                            <select  name="cell_group" id="cell_group" class="form-select rounded-0 ">
+                                            <label  class="fw-bold" for="estate">Sub County</label>
+
+
+                                            <select hidden="hidden" name="estate" id="estate" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
-                                                @foreach(config('membership.cell_group') as $cell_group)
-                                                    <option value="{{$cell_group['id']}}" >
-                                                        {{$cell_group['text']}}</option>
+                                                @foreach(config('membership.sub_county') as $sub_county)
+                                                    <option value="{{$sub_county['id']}}" >
+                                                        {{$sub_county['text']}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-lg hide_ward">
+                                            <label  class="fw-bold" for="ward">Ward</label>
+                                            <?php
+                                            $ward = 1;
+                                            ?>
+
+                                            <select hidden="hidden" name="ward" id="estate" class="form-select rounded-0 profile_edit">
+                                                <option selected disabled>--Select</option>
+                                                <?php
+                                                $wards = [1, 2, 3, 4, 5, 6];
+                                                ?>
+                                                @foreach($wards as $sub_county)
+                                                    <option value="{{$sub_county}}" >
+                                                        {{$sub_county}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -288,7 +304,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" id="profile_edit_btn" value="" class="btn btn-primary">Update</button>
             </div>
         </div>
     </div>
@@ -300,18 +316,21 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Lyddia Gathoni</h5>
+
+                <h5 class="delete-modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <input type="" id="delete_user_id" value="" hidden="hidden">
+            <div id="delete_alert"></div>
             <div class="modal-body">
-                <form>
+                <form method="" id="">
                     <div class="my-2">
-                        <label  class="fw-bold hide-status" for="occupation">Reason for Deletion</label>
-                        <select  name="occupation" id="occupation" class="form-select rounded-0  hide-status hide-field">
+                        <label  class="fw-bold hide-status" for="delelete_data">Reason for Deletion</label>
+                        <select  name="delelete_data" id="delelete_data" class="form-select rounded-0  hide-status hide-field">
                             <option selected disabled>--Select</option>
-                            @foreach(config('membership.occupation') as $occupation)
-                                <option value="{{$occupation['id']}}" >
-                                    {{$occupation['text']}}</option>
+                            @foreach(config('membership.delete_reason') as $delete_reason)
+                                <option value="{{$delete_reason['id']}}" >
+                                    {{$delete_reason['text']}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -319,7 +338,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <input type="button" class="btn btn-danger rounded-0 float-end" value="Delete" id="delete_btn">
+{{--                <button type="submit" class="btn btn-danger">Delete</button>--}}
             </div>
         </div>
     </div>
@@ -331,26 +351,209 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Activate Lyddia Gathoni</h5>
+                <h5 class="deactivate-modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <input type="" id="deactivate_user_id" value="" hidden="hidden">
+            <div id="deactivate_alert"></div>
             <div class="modal-body">
-                <form>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="switch1">
-                            <label class="custom-control-label" for="switch1">Toggle me</label>
-                        </div>
+                <form method="" id="">
+
+                    <div class="my-2">
+                        <label  class="fw-bold hide-status" for="deactivate_data">Reason for Deactivating</label>
+                        <select  name="deactivate_data" id="deactivate_data" class="form-select rounded-0  hide-status hide-field">
+                            <option selected disabled>--Select</option>
+                             @foreach(config('membership.deactivate_reason') as $deactivate_reason)
+                                <option value="{{$deactivate_reason['id']}}" >
+                                    {{$deactivate_reason['text']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn bg-warning">Activate</button>
+                <button type="button" id = 'deactivate_btn' class="btn bg-warning">Deactivate</button>
             </div>
         </div>
     </div>
 </div>
     <script>
         $(document).ready( function () {
+            if ($('#user_id').val()){
+                $('#profile_edit_btn').html('Update')
+            }else{
+                $('#profile_edit_btn').html('Submit')
+                $('#profile_edit_btn').addClass('register_new')
+                $('#profile_edit_btn').val('add_new_member')
+                $('.edit-modal-title').html('Register New Member')
+                // alert($('#profile_edit_btn').val())
+            }
+
             $('.conditional_show').data('id')==true ? $('.conditional_show').hide() : $('.conditional_show').show()
+            $("body").on('click', '#delete', function (e) {
+                e.preventDefault()
+                $('.delete-modal-title').html('Delete '+$(this).data('user_name'))
+                $('#delete_user_id').val($(this).data('id'))
+            })
+            $("body").on('click', '#deactivate', function (e) {
+                e.preventDefault()
+                $('.deactivate-modal-title').html('Deactivate '+$(this).data('user_name'))
+                $('#deactivate_user_id').val($(this).data('id'))
+            })
+            $("body").on('click', '#edit', function (e) {
+                e.preventDefault()
+                $('.edit-modal-title').html('Edit '+$(this).data('user_name'))
+                $('#edit_user_id').val($(this).data('id'))
+                $('#name').val($(this).data('user_name'))
+                $('#email').val($(this).data('user_email'))
+                $('#phone').val($(this).data('user_phone'))
+            })
+            $('#delete_btn').click(function (e){
+                e.preventDefault();
+                let id = $('#delete_user_id').val();
+
+                let delete_reason = $('#delelete_data').val()
+                $(this).val('Deleting...');
+
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: '{{route('destroy')}}',
+                    method: 'post',
+                    // data: $(this).serialize()+ "&id="+id,
+                    data: {
+                        id: id,
+                        delete_reason: delete_reason
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status == 200){
+                            console.log(response);
+                            $('#delete_alert').html(showMessage('success', response.messages));
+                            $('#delete_btn').val('Delete');
+
+                            setTimeout(function() {
+                                window.location.href = "{{route('profile')}}"
+                            }, 1000);
+                        }
+                    }
+                });
+            });
+            $('#deactivate_btn').click(function (e){
+                e.preventDefault();
+                let id = $('#deactivate_user_id').val();
+
+                let deactivate_reason = $('#deactivate_data').val()
+
+                alert(id)
+                alert(deactivate_reason)
+                $(this).val('Deactivating...');
+
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: '{{route('deactivate')}}',
+                    method: 'post',
+                    // data: $(this).serialize()+ "&id="+id,
+                    data: {
+                        id: id,
+                        deactivate_reason: deactivate_reason
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status == 200){
+                            console.log(response);
+                            $('#deactivate_alert').html(showMessage('success', response.messages));
+                            $('#deactivate_btn').val('Deactivate');
+
+                            setTimeout(function() {
+                                window.location.href = "{{route('profile')}}"
+                            }, 1000);
+                        }
+                    }
+                });
+            });
+
+            $('#profile_edit_btn, .add_new_member').click(function (e){
+                e.preventDefault();
+                // alert('add member test')
+                let id = $('#edit_user_id').val();
+                let name = $('#name').val();
+                let email = $('#email').val();
+                let gender = $('#gender').val();
+                let dob = $('#dob').val();
+                let phone = $('#phone').val();
+                let marital_status = $('#marital_status').val();
+                let estate = $('#estate').val();
+                let cell_group = $('#cell_group').val();
+                let education_level = $('#education_level').val();
+                let born_again = $('#born_again').val();
+                let leadership_status = $('#leadership_status').val();
+                let ministry = $('#ministry').val();
+                let check_box = $('#check_box').val();
+                let occupation = $('#occupation').val();
+                let employment_status = $('#employment_status').val();
+
+
+                if ($(this).html() == 'Update'){
+                    $(this).html('Updating...');
+                }else {
+                    $(this).html('Submitting...')
+                }
+
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: '{{route('profile.admin_update')}}',
+                    method: 'post',
+                    // data: $(this).serialize()+ "&id="+id,
+                    data: {
+                        id: id,
+                        name: name,
+                        email: email,
+                        gender: gender,
+                        dob: dob,
+                        phone: phone,
+                        marital_status: marital_status,
+                        estate: estate,
+                        cell_group: cell_group,
+                        education_level: education_level,
+                        born_again: born_again,
+                        leadership_status: leadership_status,
+                        ministry: ministry,
+                        check_box: check_box,
+                        occupation: occupation,
+                        employment_status: employment_status,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status == 200){
+                            console.log(response);
+                            $('#profile_alert').html(showMessage('success', response.messages));
+                            $('#profile_edit_btn').val('Update');
+
+                            setTimeout(function() {
+                                window.location.href = "{{route('profile')}}"
+                            }, 3000);
+                        }
+                    }
+                });
+            });
         })
     </script>

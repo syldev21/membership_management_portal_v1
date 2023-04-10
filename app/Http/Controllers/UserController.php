@@ -61,15 +61,16 @@ class UserController extends Controller
               'messages'=>$validator->getMessageBag()
           ]);
       }else{
+          $user_name = substr(explode(' ', $request->name)[0], 0, 4).Factory::create()->randomNumber(4, true);
           $user = new User();
           $user->name = $request->name;
           $user->email = $request->email;
           $user->password = Hash::make($request->password);
-          $user->user_name = substr(explode(' ', $request->name)[0], 0, 4).Factory::create()->randomNumber(4, true);
+          $user->user_name = $user_name;
           $user->save();
           return  response()->json([
               'status'=>200,
-              'messages'=>'Registered Successfully',
+              'messages'=>'Registered Successfully;&nbsp; Your username is '.$user_name.' <a href="/">Login Now</a>',
           ]);
       }
     }
@@ -179,7 +180,6 @@ public function profile(Request $request){
                         $value = 'N/A';
                     }
             }
-
             $udpate_data_array = [
                 'name' => $request->name,
                 'email' => $request->email,
@@ -196,7 +196,8 @@ public function profile(Request $request){
                 'occupation_id' => isset($value) ? $value : $request->occupation,
                 'education_level_id' => $request->education_level,
                 'age_cluster' => isset($age_cluster)?$age_cluster:null,
-                'ministries_of_interest' => isset($request->check_box)?implode (',', $request->check_box):null,
+                'ministries_of_interest' => is_array($request->check_box) ? implode (',', $request->check_box):null,
+//                'ministries_of_interest' => isset($request->check_box)?implode (',', $request->check_box):null,
             ];
 
             foreach ($udpate_data_array as  $key=>$value){
@@ -215,6 +216,42 @@ public function profile(Request $request){
             return response()->json([
                 'status'=>200,
                 'messages'=>'Profile updated successfully!',
+            ]);
+        }
+    }
+
+    //handle member delete
+
+    public function destroy(Request $request){
+        $member_id = $request->id;
+        if (isset($member_id)){
+            User::where('id', $member_id)->update(['exists' => 0, 'active'=>0]);
+            return response()->json([
+                'status'=>200,
+                'messages'=>'Member deleted successfully'
+            ]);
+        }else{
+            return response()->json([
+                'status'=>401,
+                'messages'=>'A problem occurred while trying to delete the user'
+            ]);
+        }
+    }
+
+    //handle deactivate user
+
+    public function deactivate(Request $request){
+        $member_id = $request->id;
+        if (isset($member_id)){
+            User::where('id', $member_id)->update(['active'=>0]);
+            return response()->json([
+                'status'=>200,
+                'messages'=>'Member deactivated successfully'
+            ]);
+        }else{
+            return response()->json([
+                'status'=>401,
+                'messages'=>'A problem occurred while trying to deactivate the user'
             ]);
         }
     }
@@ -303,8 +340,4 @@ public function profile(Request $request){
 
         }
     }
-    public function adminRegisterMember(){
-        return view('profile', ['add'=>'add']);
-    }
-
 }

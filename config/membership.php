@@ -1,6 +1,30 @@
 <?php
 
 return [
+    'delete_reason'=>[
+        'death'=> [
+            'text'=>'Death',
+            'id'=>1
+        ],
+        'transfer'=> [
+            'text'=>'Transfer',
+            'id'=>2
+        ],
+        'stopped'=> [
+            'text'=>'No longer Coming',
+            'id'=>3
+        ],
+    ],
+    'deactivate_reason'=>[
+        'transfer'=> [
+            'text'=>'Transfer',
+            'id'=>1
+        ],
+        'stopped'=> [
+            'text'=>'No longer Coming',
+            'id'=>2
+        ],
+    ],
     'cell_group' => [
         'kiambiu' => [
             'text' => 'Kiambiu',
