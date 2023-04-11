@@ -1,12 +1,12 @@
 <div>
     <div style="float: left">
         <h1 class="mt-4">Dashboard</h1>
-        <h3 class="mb-4">Number of Members at Church Level</h3>
+        <h3 class="mb-4"><span class="spanned_status bg-success bg-warning bg-danger"></span> Members at Church Level</h3>
     </div>
     <div style="float: right">
         <label  class="fw-bold" for="estate">Member Status Category</label>
 
-        <select name="member_status_category" id="member_status_category" class="form-select rounded bg-primary">
+        <select name="member_status_category" id="member_status_category" class="form-select rounded  bg-success bg-warning bg-danger">
             <option value="active">Active Members</option>
             <option value="inactive">Inactive Members</option>
             <option value="deleted">Deleted Members</option>
@@ -180,7 +180,7 @@
         </div>
     </div>
     <div class="table table-responsive m-2" id="main">
-        <h3 class="mb-4">Numbers at Cell Group Level</h3>
+        <h3 class="mb-4"><span class="spanned_status bg-success bg-warning bg-danger"></span> Members at Cell Group Level</h3>
         <table id="dt_select" class="table table-responsive table-striped table-bordered thead-light table-hover" cellspacing="0" width="100%" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
             <thead class="bg-info">
                 <tr>
@@ -228,7 +228,7 @@
                     </tr>
                 @endforeach
             </tboby>
-            <tfoot class="bg-success">
+            <tfoot class="bg-success bg-warning bg-danger">
             <tr class="active_category">
                 <th>{{count(config('membership.cell_group'))+1}}</th>
                 <th>Total</th>
@@ -269,20 +269,59 @@
         $('#member_status_category').val('active')
         $('.inactive_category').hide()
         $('.deleted_category').hide()
+        $('.spanned_status').html('Active')
+        $('.spanned_status').removeClass('bg-danger')
+        $('.spanned_status').removeClass('bg-warning')
+        $('tfoot').addClass('bg-success')
+        $('tfoot').removeClass('bg-warning')
+        $('tfoot').removeClass('bg-danger')
+        $('#member_status_category').addClass('bg-success')
+        $('#member_status_category').removeClass('bg-warning')
+        $('#member_status_category').removeClass('bg-danger')
         $('#member_status_category').change(function (e) {
             e.preventDefault()
             if ($('#member_status_category').val() == 'inactive'){
                 $('.active_category').hide()
                 $('.inactive_category').show()
                 $('.deleted_category').hide()
+                $('.spanned_status').html('Inactive')
+                $('.spanned_status').removeClass('bg-danger')
+                $('.spanned_status').removeClass('bg-success')
+                $('.spanned_status').addClass('bg-warning')
+                $('tfoot').removeClass('bg-success')
+                $('tfoot').addClass('bg-warning')
+                $('tfoot').removeClass('bg-danger')
+                $('#member_status_category').removeClass('bg-success')
+                $('#member_status_category').addClass('bg-warning')
+                $('#member_status_category').removeClass('bg-danger')
             }else if ($('#member_status_category').val() == 'deleted'){
                 $('.active_category').hide()
                 $('.inactive_category').hide()
                 $('.deleted_category').show()
+                $('.spanned_status').html('Deleted')
+                $('.spanned_status').removeClass('bg-success')
+                $('.spanned_status').removeClass('bg-warning')
+                $('.spanned_status').addClass('bg-danger')
+                $('tfoot').removeClass('bg-success')
+                $('tfoot').removeClass('bg-warning')
+                $('tfoot').addClass('bg-danger')
+                $('#member_status_category').removeClass('bg-success')
+                $('#member_status_category').removeClass('bg-warning')
+                $('#member_status_category').addClass('bg-danger')
             }else {
                 $('.active_category').show()
                 $('.inactive_category').hide()
                 $('.deleted_category').hide()
+                $('.spanned_status').html('Active')
+                $('.spanned_status').removeClass('bg-danger')
+                $('.spanned_status').removeClass('bg-warning')
+                $('.spanned_status').addClass('bg-success')
+                $('tfoot').addClass('bg-success')
+                $('tfoot').removeClass('bg-warning')
+                $('tfoot').removeClass('bg-danger')
+                $('#member_status_category').addClass('bg-success')
+                $('#member_status_category').removeClass('bg-warning')
+                $('#member_status_category').removeClass('bg-danger')
             }
         })
     })
