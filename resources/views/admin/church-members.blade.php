@@ -77,7 +77,7 @@
                   <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
                   <td>
                       <select id="" name="" class="browser-default">
-                          <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                          <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#">
                             Edit
                           </option>
                           <option data-id="{{$member->id}}"  data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</option>
@@ -166,7 +166,7 @@
                                     <div class="row">
                                         <div class="col-lg">
                                             <label  class="fw-bold hide-status" for="phone">Phone</label>
-                                            <input type="tel"   name="phone" class="form-control rounded-0  hide-status hide-field" id="phone" value="{{isset(auth()->user()->phone)?auth()->user()->phone:''}}">
+                                            <input type="tel"   name="phone" class="form-control rounded-0  hide-status hide-field" id="phone" value="">
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bold hide-status" for="marital_status">Marital Status</label>
@@ -184,7 +184,7 @@
                                             <label  class="fw-bold" for="estate">Sub County</label>
 
 
-                                            <select hidden="hidden" name="estate" id="estate" class="form-select rounded-0 profile_edit">
+                                            <select name="estate" id="estate" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
                                                 @foreach(config('membership.sub_county') as $sub_county)
                                                     <option value="{{$sub_county['id']}}" >
@@ -194,11 +194,7 @@
                                         </div>
                                         <div class="col-lg hide_ward">
                                             <label  class="fw-bold" for="ward">Ward</label>
-                                            <?php
-                                            $ward = 1;
-                                            ?>
-
-                                            <select hidden="hidden" name="ward" id="estate" class="form-select rounded-0 profile_edit">
+                                            <select name="ward" id="estate" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
                                                 <?php
                                                 $wards = [1, 2, 3, 4, 5, 6];
@@ -297,7 +293,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <input type="submit" id="admin_profile_edit_btn" value="Update" class="btn bg-primary">
+                                    <input type="submit" id="admin_profile_edit_btn" value="Submit" class="btn bg-primary">
                                 </form>
                             </div>
                         </div>
@@ -382,6 +378,7 @@
 </div>
     <script>
         $(document).ready( function () {
+            $('.hide_ward').hide()
             if ($('#user_id').val()){
                 $('#profile_edit_btn').html('Update')
             }else{
@@ -492,75 +489,35 @@
                 });
             });
 
-            {{--$('#profile_edit_btn, .add_new_member').click(function (e){--}}
-            {{--    e.preventDefault();--}}
-            {{--    // alert('add member test')--}}
-            {{--    let id = $('#edit_user_id').val();--}}
-            {{--    let name = $('#name').val();--}}
-            {{--    let email = $('#email').val();--}}
-            {{--    let gender = $('#gender').val();--}}
-            {{--    let dob = $('#dob').val();--}}
-            {{--    let phone = $('#phone').val();--}}
-            {{--    let marital_status = $('#marital_status').val();--}}
-            {{--    let estate = $('#estate').val();--}}
-            {{--    let cell_group = $('#cell_group').val();--}}
-            {{--    let education_level = $('#education_level').val();--}}
-            {{--    let born_again = $('#born_again').val();--}}
-            {{--    let leadership_status = $('#leadership_status').val();--}}
-            {{--    let ministry = $('#ministry').val();--}}
-            {{--    let check_box = $('#check_box').val();--}}
-            {{--    let occupation = $('#occupation').val();--}}
-            {{--    let employment_status = $('#employment_status').val();--}}
+            $('body').on('submit', '#profile_edit_form', function (e){
+                e.preventDefault();
 
 
-            {{--    if ($(this).html() == 'Update'){--}}
-            {{--        $(this).html('Updating...');--}}
-            {{--    }else {--}}
-            {{--        $(this).html('Submitting...')--}}
-            {{--    }--}}
+                $('#admin_profile_edit_btn').val('Submitting...');
 
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
 
-            {{--    $.ajaxSetup({--}}
-            {{--        headers: {--}}
-            {{--            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
-            {{--        }--}}
-            {{--    });--}}
+                $.ajax({
+                    url: '{{route('members.create')}}',
+                    method: 'post',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status == 200){
+                            console.log(response);
+                            $('#profile_alert').html(showMessage('success', response.messages));
+                            $('#admin_profile_edit_btn').val('Submit');
 
-            {{--    $.ajax({--}}
-            {{--        url: '{{route('profile.admin_update')}}',--}}
-            {{--        method: 'post',--}}
-            {{--        // data: $(this).serialize()+ "&id="+id,--}}
-            {{--        data: {--}}
-            {{--            id: id,--}}
-            {{--            name: name,--}}
-            {{--            email: email,--}}
-            {{--            gender: gender,--}}
-            {{--            dob: dob,--}}
-            {{--            phone: phone,--}}
-            {{--            marital_status: marital_status,--}}
-            {{--            estate: estate,--}}
-            {{--            cell_group: cell_group,--}}
-            {{--            education_level: education_level,--}}
-            {{--            born_again: born_again,--}}
-            {{--            leadership_status: leadership_status,--}}
-            {{--            ministry: ministry,--}}
-            {{--            check_box: check_box,--}}
-            {{--            occupation: occupation,--}}
-            {{--            employment_status: employment_status,--}}
-            {{--        },--}}
-            {{--        dataType: 'json',--}}
-            {{--        success: function (response) {--}}
-            {{--            if (response.status == 200){--}}
-            {{--                console.log(response);--}}
-            {{--                $('#profile_alert').html(showMessage('success', response.messages));--}}
-            {{--                $('#profile_edit_btn').val('Update');--}}
-
-            {{--                setTimeout(function() {--}}
-            {{--                    window.location.href = "{{route('profile')}}"--}}
-            {{--                }, 3000);--}}
-            {{--            }--}}
-            {{--        }--}}
-            {{--    });--}}
-            {{--});--}}
+                            setTimeout(function() {
+                                window.location.href = "{{route('profile')}}"
+                            }, 5000);
+                        }
+                    }
+                });
+            });
         })
     </script>

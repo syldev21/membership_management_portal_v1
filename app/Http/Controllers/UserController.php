@@ -104,13 +104,10 @@ class UserController extends Controller
 //    profile page
 
 public function profile(Request $request){
-        if (isset($request->member_id)){
-            $user = User::where('id', $request->member_id)->first();
-        }else{
-            $user = null;
-        }
-//dd($user);
+
 //        $user = ['userInfo'=>DB::table('users')->where('id', session('loggedInUser'))->first()];
+        $user = auth()->user();
+
         return view('profile', ['userInfo'=>$user]);
 }
 
@@ -199,7 +196,6 @@ public function profile(Request $request){
                 'education_level_id' => $request->education_level,
                 'age_cluster' => isset($age_cluster)?$age_cluster:null,
                 'ministries_of_interest' => isset($request->check_box)?implode (',', $request->check_box):null,
-                'user_name' => isset($request->name)?substr(explode(' ', $request->name)[0], 0, 4).Factory::create()->randomNumber(4, true):null
             ];
 
 
@@ -209,16 +205,7 @@ public function profile(Request $request){
                 }
             }
 
-            $user = User::where('id', $request->id)->first();
-
-
-            if (isset($user)){
-                if(isset($user->user_name))
-                {
-                    if (isset($udpate_data_array['user_name'])){
-                        unset($udpate_data_array['user_name']);
-                    }
-                }
+            $user = User::where('id', $request->id);
                 $user->update(
                     $udpate_data_array
                 );
@@ -227,18 +214,6 @@ public function profile(Request $request){
                     'status'=>200,
                     'messages'=>'Profile updated successfully!',
                 ]);
-
-            }else{
-                User::create(
-                    $udpate_data_array
-                );
-
-                return response()->json([
-                    'status'=>200,
-                    'messages'=>'Member registered successfully!',
-                ]);
-
-            }
         }
     }
 
