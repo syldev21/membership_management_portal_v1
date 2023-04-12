@@ -1,6 +1,6 @@
 <div>
     <div style="float: left"><h2 class="mb-4">{{in_array($category_name, config('membership.statuses.cell_group'))?$category_name. ' Cell Group Members':$category_name}}</h2></div>
-    <div style="float: right"><button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editModal">Add New Member</button></div>
+    <div style="float: right"><button class="btn btn-primary"  data-bs-toggle="modal" id="add_new_one" data-bs-target="#editModal">Add New Member</button></div>
 </div>
 <div class="table table-responsive m-2" id="main">
     <table id="dt_select" class="table table-striped table-bordered thead-dark" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
@@ -135,7 +135,7 @@
 
                             <input type="hidden" name="user_id" id="user_id" value="">
                             <div class="col-lg-12 px-5">
-                                <form action="" method="" id="" class="accordion-flush">
+                                <form action="#" method="POST" id="profile_edit_form" class="accordion-flush admin_edit">
 
                                     <meta name="csrf-token" content="{{ csrf_token() }}" />
                                     <div class="my-2">
@@ -297,6 +297,7 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <input type="submit" id="admin_profile_edit_btn" value="Update" class="btn bg-primary">
                                 </form>
                             </div>
                         </div>
@@ -304,7 +305,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="profile_edit_btn" value="" class="btn btn-primary">Update</button>
+{{--                <button type="button" id="profile_edit_btn" value="" class="btn btn-primary">Update</button>--}}
+{{--                <input type="submit" id="admin_profile_edit_btn" value="Update" class="btn bg-primary">--}}
             </div>
         </div>
     </div>
@@ -387,6 +389,7 @@
                 $('#profile_edit_btn').addClass('register_new')
                 $('#profile_edit_btn').val('add_new_member')
                 $('.edit-modal-title').html('Register New Member')
+                $('#profile_edit_form').addClass('add_new_member')
                 // alert($('#profile_edit_btn').val())
             }
 
@@ -408,6 +411,10 @@
                 $('#name').val($(this).data('user_name'))
                 $('#email').val($(this).data('user_email'))
                 $('#phone').val($(this).data('user_phone'))
+            })
+            $("body").on('click', '#add_new_one', function (e) {
+                e.preventDefault()
+                $('#edit_user_id').val('')
             })
             $('#delete_btn').click(function (e){
                 e.preventDefault();
@@ -485,75 +492,75 @@
                 });
             });
 
-            $('#profile_edit_btn, .add_new_member').click(function (e){
-                e.preventDefault();
-                // alert('add member test')
-                let id = $('#edit_user_id').val();
-                let name = $('#name').val();
-                let email = $('#email').val();
-                let gender = $('#gender').val();
-                let dob = $('#dob').val();
-                let phone = $('#phone').val();
-                let marital_status = $('#marital_status').val();
-                let estate = $('#estate').val();
-                let cell_group = $('#cell_group').val();
-                let education_level = $('#education_level').val();
-                let born_again = $('#born_again').val();
-                let leadership_status = $('#leadership_status').val();
-                let ministry = $('#ministry').val();
-                let check_box = $('#check_box').val();
-                let occupation = $('#occupation').val();
-                let employment_status = $('#employment_status').val();
+            {{--$('#profile_edit_btn, .add_new_member').click(function (e){--}}
+            {{--    e.preventDefault();--}}
+            {{--    // alert('add member test')--}}
+            {{--    let id = $('#edit_user_id').val();--}}
+            {{--    let name = $('#name').val();--}}
+            {{--    let email = $('#email').val();--}}
+            {{--    let gender = $('#gender').val();--}}
+            {{--    let dob = $('#dob').val();--}}
+            {{--    let phone = $('#phone').val();--}}
+            {{--    let marital_status = $('#marital_status').val();--}}
+            {{--    let estate = $('#estate').val();--}}
+            {{--    let cell_group = $('#cell_group').val();--}}
+            {{--    let education_level = $('#education_level').val();--}}
+            {{--    let born_again = $('#born_again').val();--}}
+            {{--    let leadership_status = $('#leadership_status').val();--}}
+            {{--    let ministry = $('#ministry').val();--}}
+            {{--    let check_box = $('#check_box').val();--}}
+            {{--    let occupation = $('#occupation').val();--}}
+            {{--    let employment_status = $('#employment_status').val();--}}
 
 
-                if ($(this).html() == 'Update'){
-                    $(this).html('Updating...');
-                }else {
-                    $(this).html('Submitting...')
-                }
+            {{--    if ($(this).html() == 'Update'){--}}
+            {{--        $(this).html('Updating...');--}}
+            {{--    }else {--}}
+            {{--        $(this).html('Submitting...')--}}
+            {{--    }--}}
 
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+            {{--    $.ajaxSetup({--}}
+            {{--        headers: {--}}
+            {{--            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+            {{--        }--}}
+            {{--    });--}}
 
-                $.ajax({
-                    url: '{{route('profile.admin_update')}}',
-                    method: 'post',
-                    // data: $(this).serialize()+ "&id="+id,
-                    data: {
-                        id: id,
-                        name: name,
-                        email: email,
-                        gender: gender,
-                        dob: dob,
-                        phone: phone,
-                        marital_status: marital_status,
-                        estate: estate,
-                        cell_group: cell_group,
-                        education_level: education_level,
-                        born_again: born_again,
-                        leadership_status: leadership_status,
-                        ministry: ministry,
-                        check_box: check_box,
-                        occupation: occupation,
-                        employment_status: employment_status,
-                    },
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.status == 200){
-                            console.log(response);
-                            $('#profile_alert').html(showMessage('success', response.messages));
-                            $('#profile_edit_btn').val('Update');
+            {{--    $.ajax({--}}
+            {{--        url: '{{route('profile.admin_update')}}',--}}
+            {{--        method: 'post',--}}
+            {{--        // data: $(this).serialize()+ "&id="+id,--}}
+            {{--        data: {--}}
+            {{--            id: id,--}}
+            {{--            name: name,--}}
+            {{--            email: email,--}}
+            {{--            gender: gender,--}}
+            {{--            dob: dob,--}}
+            {{--            phone: phone,--}}
+            {{--            marital_status: marital_status,--}}
+            {{--            estate: estate,--}}
+            {{--            cell_group: cell_group,--}}
+            {{--            education_level: education_level,--}}
+            {{--            born_again: born_again,--}}
+            {{--            leadership_status: leadership_status,--}}
+            {{--            ministry: ministry,--}}
+            {{--            check_box: check_box,--}}
+            {{--            occupation: occupation,--}}
+            {{--            employment_status: employment_status,--}}
+            {{--        },--}}
+            {{--        dataType: 'json',--}}
+            {{--        success: function (response) {--}}
+            {{--            if (response.status == 200){--}}
+            {{--                console.log(response);--}}
+            {{--                $('#profile_alert').html(showMessage('success', response.messages));--}}
+            {{--                $('#profile_edit_btn').val('Update');--}}
 
-                            setTimeout(function() {
-                                window.location.href = "{{route('profile')}}"
-                            }, 3000);
-                        }
-                    }
-                });
-            });
+            {{--                setTimeout(function() {--}}
+            {{--                    window.location.href = "{{route('profile')}}"--}}
+            {{--                }, 3000);--}}
+            {{--            }--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--});--}}
         })
     </script>

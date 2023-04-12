@@ -34,7 +34,7 @@
                             <input type="hidden" name="edit_user_id" id="edit_user_id" value="{{isset($userInfo)?1:2}}">
                             <input type="hidden" name="user_id" id="user_id" value="{{(isset($userInfo)) ? $userInfo->id : ((isset($loggedInUser))  ? $loggedInUser->id : '')}}">
                             <div class="col-lg-8 px-5">
-                                <form action="#" method="POST" id="profile_form" class="accordion-flush">
+                                <form action="#" method="POST" id="profile_form" class="accordion-flush self_edit">
                                     @csrf
                                     <div class="row">
                                         <div class="my-2">
@@ -312,11 +312,16 @@
                     }
                 });
             });
-            $('#profile_form').submit(function (e){
+            $('body').on('submit', '#profile_form, #profile_edit_form, .add_new_member', function (e){
                 e.preventDefault();
-                let id = $('#user_id').val();
-                $('#profile_btn').val('Updating...');
+                if ($(this).hasClass('self_edit')){
+                    var id = $('#user_id').val();
+                    $('#profile_btn').val('Updating...');
+                }else {
+                    var id =  $('#edit_user_id').val()
+                    $('#admin_profile_edit_btn').val('Submitting...');
 
+                }
 
                 $.ajaxSetup({
                     headers: {
