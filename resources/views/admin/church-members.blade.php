@@ -77,12 +77,12 @@
                   <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
                   <td>
                       <select id="" name="" class="browser-default">
-                          <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#">
+                          <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
                             Edit
                           </option>
                           <option data-id="{{$member->id}}"  data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</option>
                           <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" id="deactivate" value="{{$member->id}}" class="user_status" data-bs-toggle="modal" data-bs-target="#activateModal">
-                              @if($member->dob)
+                              @if($member->active == null)
                                   Activate
 
                               @else
@@ -379,16 +379,6 @@
     <script>
         $(document).ready( function () {
             $('.hide_ward').hide()
-            if ($('#user_id').val()){
-                $('#profile_edit_btn').html('Update')
-            }else{
-                $('#profile_edit_btn').html('Submit')
-                $('#profile_edit_btn').addClass('register_new')
-                $('#profile_edit_btn').val('add_new_member')
-                $('.edit-modal-title').html('Register New Member')
-                $('#profile_edit_form').addClass('add_new_member')
-                // alert($('#profile_edit_btn').val())
-            }
 
             $('.conditional_show').data('id')==true ? $('.conditional_show').hide() : $('.conditional_show').show()
             $("body").on('click', '#delete', function (e) {
@@ -408,6 +398,13 @@
                 $('#name').val($(this).data('user_name'))
                 $('#email').val($(this).data('user_email'))
                 $('#phone').val($(this).data('user_phone'))
+            })
+            $("body").on('click', '#add_new_one', function (e) {
+                e.preventDefault()
+                $('.edit-modal-title').html('Edit '+$(this).data('user_name'))
+                $('#name').val('')
+                $('#email').val('')
+                $('#phone').val('')
             })
             $("body").on('click', '#add_new_one', function (e) {
                 e.preventDefault()
@@ -492,7 +489,7 @@
             $('body').on('submit', '#profile_edit_form', function (e){
                 e.preventDefault();
 
-
+                let id = $('#edit_user_id').val()
                 $('#admin_profile_edit_btn').val('Submitting...');
 
                 $.ajaxSetup({
@@ -504,7 +501,7 @@
                 $.ajax({
                     url: '{{route('members.create')}}',
                     method: 'post',
-                    data: $(this).serialize(),
+                    data: $(this).serialize()+ `&id=+${id}`,
                     dataType: 'json',
                     success: function (response) {
                         if (response.status == 200){
