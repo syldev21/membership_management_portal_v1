@@ -1,10 +1,30 @@
 <div>
-    <div style="float: left"><h2 class="mb-4">{{in_array($category_name, config('membership.statuses.cell_group'))?$category_name. ' Cell Group Members':$category_name}}</h2></div>
+    <div style="float: left; width: 75%; height: 38px" class="bg-primary"><h2 class="mb-4">{{in_array($category_name, config('membership.statuses.cell_group'))?$category_name. ' Cell Group Members':$category_name}}</h2></div>
+    <div style="float: left">
+            <select name="" id="report_status_category" class="form-select rounded  bg-success bg-warning bg-danger"  style="color: white">
+                <option value="active">--Choose Report Category--</option>
+                <option value="active" class="bg-danger">Active Members</option>
+                <option value="inactive">Inactive Members</option>
+                <option value="deleted">Deleted Members</option>
+
+            </select>
+    </div>
     <div style="float: right"><button class="btn btn-primary"  data-bs-toggle="modal" id="add_new_one" data-bs-target="#editModal">Add New Member</button></div>
+
+
 </div>
-<div class="table table-responsive m-2" id="main">
-    <table id="dt_select" class="table table-striped table-bordered thead-dark" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
-      <thead>
+<form method="" hidden="">
+    <input type="hidden" name="conditional_report_status" id="conditional_report_status" value="{{$members}}" data-active="{{$members}}" data-inactive="{{$inactive_members}}" data-deleted="{{$deleted_members}}">
+{{--    <input type="hidden" name="conditional_report_status" id="conditional_report_status" value="0" data-active="1" data-inactive="2" data-deleted="3">--}}
+</form>
+{{\Request::input('conditional_report_status')}}
+@php
+    $test = request()->input('conditional_report_status');
+@endphp
+<diV id="tbldv">
+    <div class="table table-responsive m-2" id="main">
+        <table id="dt_select" class="table table-striped table-bordered thead-dark" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
+            <thead>
             <tr>
                 <th>S/R</th>
                 <th>User Name</th>
@@ -23,99 +43,101 @@
                 <th>Level of Education</th>
                 <th>Actions</th>
             </tr>
-      </thead>
-      <tboby>
-          @foreach($members as $member)
-              <?php
-                  if($member->ministries_of_interest == null){
-                      $ministries = 'none';
-                  }else{
-                      if (strpos($member->ministries_of_interest, ',') == true){
+            </thead>
+            <tboby>
+                @foreach($members as $member)
+                        <?php
+                        if($member->ministries_of_interest == null){
+                            $ministries = 'none';
+                        }else{
+                            if (strpos($member->ministries_of_interest, ',') == true){
 
-                          $ministry_string_array = explode(' ', str_replace(',', ' ', $member->ministries_of_interest));
-                          $ministry_name_array = [];
-                          foreach ($ministry_string_array as $ministry_id){
-                              $ministry_name = config('membership.statuses.ministry')[$ministry_id];
-                              array_push($ministry_name_array, $ministry_name);
-                          }
+                                $ministry_string_array = explode(' ', str_replace(',', ' ', $member->ministries_of_interest));
+                                $ministry_name_array = [];
+                                foreach ($ministry_string_array as $ministry_id){
+                                    $ministry_name = config('membership.statuses.ministry')[$ministry_id];
+                                    array_push($ministry_name_array, $ministry_name);
+                                }
 
-                          $ministries = implode(',', $ministry_name_array);
-                      }else{
-                          $ministries = config('membership.statuses.ministry')[$member->ministries_of_interest];
-                      }
-                  }
-
-
-
-                  if (isset($member->marital_status_id)){
-                      $marital_status_id = is_numeric($member->marital_status_id)?config('membership.statuses.marital_status')[$member->marital_status_id] : $member->marital_status_id;
-                  }
-                  if (isset($member->employment_status_id)){
-                      $employment_status_id = is_numeric($member->employment_status_id)?config('membership.statuses.employment_status')[$member->employment_status_id] : $member->marital_status_id;
-                  }
-                  if (isset($member->occupation_id)){
-                      $occupation_id = is_numeric($member->occupation_id)?config('membership.statuses.occupation')[$member->occupation_id] : $member->marital_status_id;
-                  }
+                                $ministries = implode(',', $ministry_name_array);
+                            }else{
+                                $ministries = config('membership.statuses.ministry')[$member->ministries_of_interest];
+                            }
+                        }
 
 
-                  ?>
-              <tr class="item{{$member->id}}">
-                  <td>{{$loop->iteration}}</td>
-                  <td>{{isset($member->user_name)?$member->user_name:''}}</td>
-                  <td>{{isset($member->name)?$member->name:''}}</td>
-                  <td>{{isset($member->phone)?$member->phone:''}}</td>
-                  <td>{{isset($member->dob)?\Illuminate\Support\Carbon::parse($member->dob)->age:''}}</td>
-                  <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
-                  <td>{{isset($member->gender)?config('membership.statuses.gender')[$member->gender]:''}}</td>
-                  <td>{{isset($marital_status_id)?$marital_status_id:''}}</td>
-                  <td>{{isset($member->estate_id) ? config('membership.statuses.sub_county')[$member->estate_id]['text'] : ''}}</td>
-                  <td class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">{{isset($member->cell_group_id)?config('membership.statuses.cell_group')[$member->cell_group_id]:''}}</td>
-                  <td>{{isset($employment_status_id)?$employment_status_id:''}}</td>
-                  <td>{{isset($member->leadership_status_id)?config('membership.statuses.flag')[$member->leadership_status_id]:''}}</td>
-                  <td>{{isset($occupation_id)?$occupation_id:''}}</td>
-                  <td>{{isset($ministries)?$ministries:''}}</td>
-                  <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
-                  <td>
-                      <select id="" name="" class="browser-default">
-                          <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-                            Edit
-                          </option>
-                          <option data-id="{{$member->id}}"  data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</option>
-                          <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" id="deactivate" value="{{$member->id}}" class="user_status" data-bs-toggle="modal" data-bs-target="#activateModal">
-                              @if($member->active == null)
-                                  Activate
 
-                              @else
-                                  Deactivate
-                              @endif
-                          </option>
-                      </select>
-                  </td>
-              </tr>
-          @endforeach
-      </tboby>
+                        if (isset($member->marital_status_id)){
+                            $marital_status_id = is_numeric($member->marital_status_id)?config('membership.statuses.marital_status')[$member->marital_status_id] : $member->marital_status_id;
+                        }
+                        if (isset($member->employment_status_id)){
+                            $employment_status_id = is_numeric($member->employment_status_id)?config('membership.statuses.employment_status')[$member->employment_status_id] : $member->marital_status_id;
+                        }
+                        if (isset($member->occupation_id)){
+                            $occupation_id = is_numeric($member->occupation_id)?config('membership.statuses.occupation')[$member->occupation_id] : $member->marital_status_id;
+                        }
+
+
+                        ?>
+                    <tr class="item{{$member->id}}">
+                        <td>{{$loop->iteration}}</td>
+                        <td>{{isset($member->user_name)?$member->user_name:''}}</td>
+                        <td>{{isset($member->name)?$member->name:''}}</td>
+                        <td>{{isset($member->phone)?$member->phone:''}}</td>
+                        <td>{{isset($member->dob)?\Illuminate\Support\Carbon::parse($member->dob)->age:''}}</td>
+                        <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
+                        <td>{{isset($member->gender)?config('membership.statuses.gender')[$member->gender]:''}}</td>
+                        <td>{{isset($marital_status_id)?$marital_status_id:''}}</td>
+                        <td>{{isset($member->estate_id) ? config('membership.statuses.sub_county')[$member->estate_id]['text'] : ''}}</td>
+                        <td class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">{{isset($member->cell_group_id)?config('membership.statuses.cell_group')[$member->cell_group_id]:''}}</td>
+                        <td>{{isset($employment_status_id)?$employment_status_id:''}}</td>
+                        <td>{{isset($member->leadership_status_id)?config('membership.statuses.flag')[$member->leadership_status_id]:''}}</td>
+                        <td>{{isset($occupation_id)?$occupation_id:''}}</td>
+                        <td>{{isset($ministries)?$ministries:''}}</td>
+                        <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
+                        <td>
+                            <select id="" name="" class="browser-default">
+                                <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                                    Edit
+                                </option>
+                                <option data-id="{{$member->id}}"  data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</option>
+                                <option data-id="{{$member->id}}" data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" id="deactivate" value="{{$member->id}}" class="user_status" data-bs-toggle="modal" data-bs-target="#activateModal">
+                                    @if($member->active == null)
+                                        Activate
+
+                                    @else
+                                        Deactivate
+                                    @endif
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                @endforeach
+            </tboby>
             <tfoot>
-                <tr>
-                    <th>S/R</th>
-                    <th>User Name</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Age</th>
-                    <th>Born Again</th>
-                    <th>Gender</th>
-                    <th>Marital Status</th>
-                    <th>Residence</th>
-                    <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">Cell Group</th>
-                    <th>Employment Status</th>
-                    <th>Leadership Status</th>
-                    <th>Occupation</th>
-                    <th>Ministries of Interest</th>
-                    <th>Level of Education</th>
-                    <th>Actions</th>
-                </tr>
+            <tr>
+                <th>S/R</th>
+                <th>User Name</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Age</th>
+                <th>Born Again</th>
+                <th>Gender</th>
+                <th>Marital Status</th>
+                <th>Residence</th>
+                <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">Cell Group</th>
+                <th>Employment Status</th>
+                <th>Leadership Status</th>
+                <th>Occupation</th>
+                <th>Ministries of Interest</th>
+                <th>Level of Education</th>
+                <th>Actions</th>
+            </tr>
             </tfoot>
-    </table>
+        </table>
     </div>
+
+</diV>
 
 <!-- Edit Modal -->
 
@@ -378,6 +400,46 @@
 </div>
     <script>
         $(document).ready( function () {
+            $('#report_status_category').val('active')
+            $('#report_status_category').removeClass('bg-warning')
+            $('#report_status_category').removeClass('bg-danger')
+            $('#conditional_report_status').val($('#conditional_report_status').data('active'))
+            $('#report_status_category').change(function (e){
+                e.preventDefault()
+                var active = $(this).val()
+                 if($(this).val() == 'inactive'){
+                     $('#report_status_category').removeClass('bg-success')
+                    $('#report_status_category').addClass('bg-warning')
+                    $('#report_status_category').removeClass('bg-danger')
+                    $('#conditional_report_status').val($('#conditional_report_status').data('inactive'))
+                }else if($(this).val() == 'deleted'){
+                     $('#report_status_category').removeClass('bg-success')
+                    $('#report_status_category').removeClass('bg-warning')
+                    $('#report_status_category').addClass('bg-danger')
+                    $('#conditional_report_status').val($('#conditional_report_status').data('deleted'))
+                }else {
+                    $('#report_status_category').addClass('bg-success')
+                    $('#report_status_category').removeClass('bg-warning')
+                    $('#report_status_category').removeClass('bg-danger')
+                    $('#conditional_report_status').val($('#conditional_report_status').data('active'))
+                }
+
+                $.ajax({
+                    url: '/members',
+                    method: 'get',
+                    // data: $(this).serialize()+ "&id="+id,
+                    data: {
+                         active: active
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#tbldv').html(response)
+                    }
+                });
+
+
+            })
+
             $('.hide_ward').hide()
 
             $('.conditional_show').data('id')==true ? $('.conditional_show').hide() : $('.conditional_show').show()

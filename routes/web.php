@@ -38,6 +38,7 @@ Route::group(['middleware'=>['LoginCheck']], function (){
     Route::post('/profile-update', [\App\Http\Controllers\UserController::class, 'profileUpdate'])->name('profile.update');
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/main-church-members', [\App\Http\Controllers\Admin\DashboardController::class, 'churchMembers'])->name('members.index');
+    Route::get('/members', [\App\Http\Controllers\Admin\DashboardController::class, 'members']);
     Route::post('delete-member', [\App\Http\Controllers\UserController::class, 'destroy'])->name('destroy');
     Route::post('deactivate-member', [\App\Http\Controllers\UserController::class, 'deactivate'])->name('deactivate');
     Route::post('/edit-member', [\App\Http\Controllers\UserController::class, 'profileUpdate'])->name('profile.admin_update');

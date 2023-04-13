@@ -56,19 +56,19 @@
                             <a class="nav-link text-dark" href="/logout">Logout</a>
                         </nav>
                     </div>
-                    <a class="nav-link collapsed" href="" id="add-member" data-bs-toggle="" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                    <a class="nav-link collapsed" hidden="" href="" id="add-member" data-bs-toggle="" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Add New Member
                     </a>
 
 
                 @endif
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                <a class="nav-link collapsed" hidden="" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Authentication
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                <div class="collapse" hidden="" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link text-dark" href="/forgot">Reset Password</a>
                         <a class="nav-link text-dark" href="/logout">Logout</a>
