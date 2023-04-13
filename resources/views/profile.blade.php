@@ -340,7 +340,7 @@
                     }
                 });
             });
-            $('#edit_profile_button').click(function (e) {
+            $('body').on('click', '#edit_profile_button', function (e) {
                 e.preventDefault();
                 $('.profile').hide();
                 $('.profile_edit, #profile_btn').removeAttr('hidden');

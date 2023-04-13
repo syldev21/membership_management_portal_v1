@@ -1,26 +1,20 @@
 <div>
-    <div style="float: left; width: 75%; height: 38px" class="bg-primary"><h2 class="mb-4">{{in_array($category_name, config('membership.statuses.cell_group'))?$category_name. ' Cell Group Members':$category_name}}</h2></div>
+
+    <div style="float: left; width: 75%; height: 38px" class="bg-primary"><h2 class="mb-4">{{in_array($category_name, config('membership.statuses.cell_group'))?$category_name. ' Cell Group Members':$category_name}}<span class="spanned_status_category"></span> </h2></div>
     <div style="float: left">
             <select name="" id="report_status_category" class="form-select rounded  bg-success bg-warning bg-danger"  style="color: white">
                 <option value="active">--Choose Report Category--</option>
-                <option value="active" class="bg-danger">Active Members</option>
+                <option value="active">Active Members</option>
                 <option value="inactive">Inactive Members</option>
                 <option value="deleted">Deleted Members</option>
 
             </select>
+        <input type="hidden" id="member_category_name" data-category="{{$category}}" data-category_name="{{$category_name??null}}" data-member_category="{{$member_category ?? null}}">
     </div>
     <div style="float: right"><button class="btn btn-primary"  data-bs-toggle="modal" id="add_new_one" data-bs-target="#editModal">Add New Member</button></div>
 
 
 </div>
-<form method="" hidden="">
-    <input type="hidden" name="conditional_report_status" id="conditional_report_status" value="{{$members}}" data-active="{{$members}}" data-inactive="{{$inactive_members}}" data-deleted="{{$deleted_members}}">
-{{--    <input type="hidden" name="conditional_report_status" id="conditional_report_status" value="0" data-active="1" data-inactive="2" data-deleted="3">--}}
-</form>
-{{\Request::input('conditional_report_status')}}
-@php
-    $test = request()->input('conditional_report_status');
-@endphp
 <diV id="tbldv">
     <div class="table table-responsive m-2" id="main">
         <table id="dt_select" class="table table-striped table-bordered thead-dark" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
@@ -102,7 +96,7 @@
                                 </option>
                                 <option data-id="{{$member->id}}"  data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</option>
                                 <option data-id="{{$member->id}}" data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" id="deactivate" value="{{$member->id}}" class="user_status" data-bs-toggle="modal" data-bs-target="#activateModal">
-                                    @if($member->active == null)
+                                    @if($member->active !== 1)
                                         Activate
 
                                     @else
@@ -110,6 +104,7 @@
                                     @endif
                                 </option>
                             </select>
+
                         </td>
                     </tr>
                 @endforeach
@@ -404,24 +399,35 @@
             $('#report_status_category').removeClass('bg-warning')
             $('#report_status_category').removeClass('bg-danger')
             $('#conditional_report_status').val($('#conditional_report_status').data('active'))
+            $('.spanned_status_category').html(' (Active)')
             $('#report_status_category').change(function (e){
                 e.preventDefault()
                 var active = $(this).val()
+                var category_name =$('#member_category_name').data('category_name')
+                var member_category =$('#member_category_name').data('member_category')
+                var category =$('#member_category_name').data('category')
+
+
                  if($(this).val() == 'inactive'){
                      $('#report_status_category').removeClass('bg-success')
                     $('#report_status_category').addClass('bg-warning')
                     $('#report_status_category').removeClass('bg-danger')
                     $('#conditional_report_status').val($('#conditional_report_status').data('inactive'))
+                     $('.spanned_status_category').html(' (Inactive)')
                 }else if($(this).val() == 'deleted'){
                      $('#report_status_category').removeClass('bg-success')
                     $('#report_status_category').removeClass('bg-warning')
                     $('#report_status_category').addClass('bg-danger')
                     $('#conditional_report_status').val($('#conditional_report_status').data('deleted'))
+                     $('.spanned_status_category').html(' (Deleted)')
+                     $('.hide_for_deleted').hide()
+                     $('.show_for_deleted').show()
                 }else {
                     $('#report_status_category').addClass('bg-success')
                     $('#report_status_category').removeClass('bg-warning')
                     $('#report_status_category').removeClass('bg-danger')
                     $('#conditional_report_status').val($('#conditional_report_status').data('active'))
+                     $('.spanned_status_category').html(' (Active)')
                 }
 
                 $.ajax({
@@ -429,9 +435,12 @@
                     method: 'get',
                     // data: $(this).serialize()+ "&id="+id,
                     data: {
-                         active: active
+                         active: active,
+                        category_name:category_name,
+                        member_category:member_category,
+                        category:category
                     },
-                    dataType: 'json',
+                    // dataType: 'json',
                     success: function (response) {
                         $('#tbldv').html(response)
                     }
@@ -514,8 +523,6 @@
 
                 let deactivate_reason = $('#deactivate_data').val()
 
-                alert(id)
-                alert(deactivate_reason)
                 $(this).val('Deactivating...');
 
 

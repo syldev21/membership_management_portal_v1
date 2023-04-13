@@ -27,16 +27,36 @@ class DashboardController extends Controller
 
         $member_category = $request->member_category;
         $category_name = $request->category_name;
+        $category = $request->category;
 
-        if ($request->active == 'active') {
-            $members = User::where('exists', 1)->where('active', 1)->get();
-        }elseif ($request->active == 'inactive'){
-            $members= User::where('exists', 1)->where('active', 0)->get();
+        if (isset($category) && strpos($category, 'church-members') == true){
+            if ($member_category == config('membership.age_clusters.All_members')['id']){
+                if ($request->active == 'active') {
+                    $members = User::where('exists', 1)->where('active', 1)->get();
+                }elseif ($request->active == 'inactive'){
+                    $members= User::where('exists', 1)->where('active', 0)->get();
+                }else{
+                    $members= User::where('exists', 0)->get();
+                }
+            }else{
+                if ($request->active == 'active') {
+                    $members = User::where(['age_cluster' => $member_category])->where('exists', 1)->where('active', 1)->get();
+                }elseif ($request->active == 'inactive'){
+                    $members = User::where(['age_cluster' => $member_category])->where('exists', 1)->where('active', 0)->get();
+                }else{
+                    $members = User::where(['age_cluster' => $member_category])->where('exists', 0)->get();
+                }
+            }
         }else{
-            $members= User::where('exists', 0)->get();
+            if ($request->active == 'active') {
+                $members = User::where('cell_group_id', $member_category)->where('exists', 1)->where('active', 1)->get();
+            }elseif ($request->active == 'inactive'){
+                $members = User::where('cell_group_id', $member_category)->where('exists', 1)->where('active', 0)->get();
+            }else{
+                $members = User::where('cell_group_id', $member_category)->where('exists', 0)->get();
+            }
+
         }
-
-
 
         return view('admin.members', ['members' => $members, 'category_name'=>$category_name]);
     }
@@ -46,24 +66,20 @@ class DashboardController extends Controller
 
         $member_category = $request->member_category;
         $category_name = $request->category_name;
+        $category = $request->category;
 
-
-        if (isset($request->category) && strpos($request->category, 'church-members') == true){
+        if (isset($category) && strpos($category, 'church-members') == true){
               if ($member_category == config('membership.age_clusters.All_members')['id']){
-                  $members= User::where('exists', 1)->where('active', 1)->get();
-                  $inactive_members= User::where('exists', 1)->where('active', 0)->get();
-                  $deleted_members= User::where('exists', 0)->get();
+                  $members= User::where('active', 1)->get();
               }else{
-                  $members = User::where(['age_cluster' => $member_category])->where('exists', 1)->where('active', 1)->get();
-                  $inactive_members = User::where(['age_cluster' => $member_category])->where('exists', 1)->where('active', 0)->get();
-                  $deleted_members = User::where(['age_cluster' => $member_category])->where('exists', 0)->get();
+                  $members = User::where(['age_cluster' => $member_category])->where('active', 1)->get();
               }
           }else{
-              $members = User::where('cell_group_id', $member_category)->where('exists', 1)->where('active', 1)->get();
-            $inactive_members = User::where('cell_group_id', $member_category)->where('exists', 1)->where('active', 0)->get();
-            $deleted_members = User::where('cell_group_id', $member_category)->where('exists', 0)->get();
+              $members = User::where('cell_group_id', $member_category)->where('active', 1)->get();
+
           }
-        return view('admin.church-members', ['members' => $members,'inactive_members' => $inactive_members,'deleted_members' => $deleted_members,'category_name'=>$category_name]);
+        return view('admin.church-members', ['members' => $members,'category_name'=>$category_name, 'member_category'=>$member_category, 'category'=>$category]);
+//        return view('admin.church-members', ['members' => $members,'inactive_members' => $inactive_members,'deleted_members' => $deleted_members,'category_name'=>$category_name, 'member_category'=>$member_category]);
     }
     public function editMember($id){
         $member = User::where('id', $id)->first();
