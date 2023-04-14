@@ -103,6 +103,9 @@
                                         Deactivate
                                     @endif
                                 </option>
+                                <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
+                                    Assign Role
+                                </option>
                             </select>
 
                         </td>
@@ -134,6 +137,69 @@
 
 </diV>
 
+<!-- Role Modal -->
+
+<div class="modal fade table table-responsive" id="roleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="role-modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <input type="" id="role_user_id" data-user_name='' value="" hidden="hidden">
+            <div id="edit_alert"></div>
+            <div class="table table-responsive m-2 w-auto" id="main">
+                <div class="modal-body">
+                    <table class="table table-responsive table-bordered table-striped thread-dark">
+                        <thead>
+                        <tr>
+                                <th>
+                                    Admin
+                                </th>
+                                <th>
+                                    Church Secretary
+                                </th>
+                                <th>
+                                    Assistant Secretary
+                                </th>
+                                <th>
+                                    Cell Group Pastor
+                                </th>
+                                <th>
+                                    Cell Group Secretary
+                                </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="">
+                            </td>
+                            <td>
+                                <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="">
+                            </td>
+                            <td>
+                                <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="">
+                            </td>
+                            <td>
+                                <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="">
+                            </td>
+                            <td>
+                                <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-popper="">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Edit Modal -->
 
 <div class="modal fade table table-responsive" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -555,6 +621,11 @@
                 });
             });
 
+            $('body').on('click', '#role', function (e) {
+                e.preventDefault()
+                $('.role-modal-title').html('Assign Role to '+$(this).data('user_name'))
+            })
+
             $('body').on('submit', '#profile_edit_form', function (e){
                 e.preventDefault();
 
@@ -580,7 +651,7 @@
 
                             setTimeout(function() {
                                 window.location.href = "{{route('profile')}}"
-                            }, 5000);
+                            }, 2000);
                         }
                     }
                 });

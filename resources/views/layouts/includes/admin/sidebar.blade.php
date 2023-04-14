@@ -45,42 +45,40 @@
 
                         </nav>
                     </div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                        Authentication
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link text-dark" href="/forgot">Reset Password</a>
-                            <a class="nav-link text-dark" href="/logout">Logout</a>
-                        </nav>
-                    </div>
+
                     <a class="nav-link collapsed" hidden="" href="" id="add-member" data-bs-toggle="" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Add New Member
                     </a>
 
-
                 @endif
-                <a class="nav-link collapsed" hidden="" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                    Authentication
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" hidden="" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link text-dark" href="/forgot">Reset Password</a>
-                        <a class="nav-link text-dark" href="/logout">Logout</a>
-                    </nav>
-                </div>
 
                 <a class="nav-link collapsed" href="" id="edit_profile_button" data-bs-toggle="" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Edit Profile
                 </a>
-
-{{--                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>--}}
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseSettings" aria-expanded="false" aria-controls="pagesCollapseSettings">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    Settings
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="pagesCollapseSettings" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link text-dark" href="/forgot">Reset Password</a>
+                        <a class="nav-link text-dark" href="/logout">Logout</a>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Authentication
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link text-dark" href="/forgot">Reset Password</a>
+                                <a class="nav-link text-dark" href="/logout">Logout</a>
+                            </nav>
+                        </div>
+                    </nav>
+                </div>
 
 
             </div>
