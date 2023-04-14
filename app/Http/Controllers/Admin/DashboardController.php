@@ -19,7 +19,7 @@ class DashboardController extends Controller
 {
     public function index(){
         $all_members = count(User::all());
-        return View("admin.dash")
+        return View("admin.dashboard")
             ->with("all_members", $all_members);
     }
 
@@ -58,7 +58,7 @@ class DashboardController extends Controller
 
         }
 
-        return view('admin.members', ['members' => $members, 'category_name'=>$category_name]);
+        return view('admin.status_based_members', ['members' => $members, 'category_name'=>$category_name]);
     }
 
     public function churchMembers(Request $request){
