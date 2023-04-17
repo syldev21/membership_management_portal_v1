@@ -25,7 +25,7 @@
             @foreach($members as $member)
                     <?php
                     if($member->ministries_of_interest == null){
-                        $ministries = 'none';
+                        $ministries = '';
                     }else{
                         if (strpos($member->ministries_of_interest, ',') == true){
 
@@ -46,14 +46,24 @@
 
                     if (isset($member->marital_status_id)){
                         $marital_status_id = is_numeric($member->marital_status_id)?config('membership.statuses.marital_status')[$member->marital_status_id] : $member->marital_status_id;
+                    }else{
+                        $marital_status_id ='';
                     }
                     if (isset($member->employment_status_id)){
                         $employment_status_id = is_numeric($member->employment_status_id)?config('membership.statuses.employment_status')[$member->employment_status_id] : $member->marital_status_id;
+                    }else{
+                        $employment_status_id = '';
                     }
                     if (isset($member->occupation_id)){
                         $occupation_id = is_numeric($member->occupation_id)?config('membership.statuses.occupation')[$member->occupation_id] : $member->marital_status_id;
+                    }else{
+                        $occupation_id ='';
                     }
-
+                    if (isset($member->estate_id)){
+                        $sub_county = count(explode(' ', config('membership.statuses.sub_county')[$member->estate_id]['text'])) > 2 ? explode(' ', config('membership.statuses.sub_county')[$member->estate_id]['text'])[0].' '.explode(' ', config('membership.statuses.sub_county')[$member->estate_id]['text'])[1] : explode(' ', config('membership.statuses.sub_county')[$member->estate_id]['text'])[0];
+                    }else{
+                        $sub_county = '';
+                    }
 
 
                     ?>
@@ -68,7 +78,7 @@
                     <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
                     <td>{{isset($member->gender)?config('membership.statuses.gender')[$member->gender]:''}}</td>
                     <td>{{isset($marital_status_id)?$marital_status_id:''}}</td>
-                    <td>{{isset($member->estate_id) ? explode(' ', config('membership.statuses.sub_county')[$member->estate_id]['text'])[0] : ''}}</td>
+                    <td>{{$sub_county}}</td>
                     <td>{{config('membership.statuses.sub_county')[$member->estate_id]['wards'][$member->ward]['text'] ?? ''}}</td>
                     <td class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">{{isset($member->cell_group_id)?config('membership.statuses.cell_group')[$member->cell_group_id]:''}}</td>
                     <td>{{isset($employment_status_id)?$employment_status_id:''}}</td>

@@ -1,4 +1,5 @@
-<div>
+<div class="side-profile-here">
+    <input type="hidden" value="1" id="testa">
     <div style="float: left">
         <h1 class="mt-4">Dashboard</h1>
         <h3 class="mb-4"><span class="spanned_status bg-success bg-warning bg-danger"></span> Members at Church Level</h3>
@@ -23,9 +24,9 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_children = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Children.id'))->where('active', 1)->get());
-                        $inactive_children = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Children.id'))->where('active', 0)->where('exists', 1)->get());
-                        $deleted_children = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Children.id'))->where('active', 0)->where('exists', 0)->get());
+                        $active_children = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Children.id'))->where('active', 1)->get());
+                        $inactive_children = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Children.id'))->where('active', 0)->where('exists', 1)->get());
+                        $deleted_children = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Children.id'))->where('active', 0)->where('exists', 0)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_children}}
@@ -50,9 +51,9 @@
                 <div class="card-body bg-info">
 
                     @php
-                        $active_teenies = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Teenies.id'))->where('active', 1)->get());
-                        $inactive_teenies = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Teenies.id'))->where('active', 0)->where('exists', 1)->get());
-                        $deleted_teenies = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Teenies.id'))->where('exists', 0)->where('exists', 0)->get());
+                        $active_teenies = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Teenies.id'))->where('active', 1)->get());
+                        $inactive_teenies = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Teenies.id'))->where('active', 0)->where('exists', 1)->get());
+                        $deleted_teenies = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Teenies.id'))->where('exists', 0)->where('exists', 0)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_teenies}}
@@ -77,9 +78,9 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_youths = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Youths.id'))->where('active', 1)->get());
-                        $inactive_youths = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Youths.id'))->where('active', 0)->where('exists', 1)->get());
-                        $deleted_youths = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Youths.id'))->where('exists', 0)->where('active', 0)->get());
+                        $active_youths = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Youths.id'))->where('active', 1)->get());
+                        $inactive_youths = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Youths.id'))->where('active', 0)->where('exists', 1)->get());
+                        $deleted_youths = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Youths.id'))->where('exists', 0)->where('active', 0)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_youths }}
@@ -104,9 +105,9 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_middle_age = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Middle_Age.id'))->where('active', 1)->get());
-                        $inactive_middle_age = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Middle_Age.id'))->where('active', 0)->where('exists', 1)->get());
-                        $deleted_middle_age = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Middle_Age.id'))->where('exists', 0)->where('active', 0)->get());
+                        $active_middle_age = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Middle_Age.id'))->where('active', 1)->get());
+                        $inactive_middle_age = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Middle_Age.id'))->where('active', 0)->where('exists', 1)->get());
+                        $deleted_middle_age = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Middle_Age.id'))->where('exists', 0)->where('active', 0)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_middle_age }}
@@ -131,9 +132,9 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_adults = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Adults.id'))->where('active', 1)->get());
-                        $inactive_adults = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Adults.id'))->where('active', 0)->where('exists', 1)->get());
-                        $deleted_adults = count(\App\Models\User::where('age_cluster', config('membership.age_clusters.Adults.id'))->where('exists', 0)->where('active', 0)->get());
+                        $active_adults = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Adults.id'))->where('active', 1)->get());
+                        $inactive_adults = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Adults.id'))->where('active', 0)->where('exists', 1)->get());
+                        $deleted_adults = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.Adults.id'))->where('exists', 0)->where('active', 0)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_adults }}
@@ -158,9 +159,9 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active = count(\App\Models\User::where('active', 1)->get());
-                        $inactive = count(\App\Models\User::where('active', 0)->where('exists', 1)->get());
-                        $deleted = count(\App\Models\User::where('exists', 0)->where('active', 0)->get());
+                        $active = count(\App\Models\User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('active', 1)->get());
+                        $inactive = count(\App\Models\User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('active', 0)->where('exists', 1)->get());
+                        $deleted = count(\App\Models\User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('exists', 0)->where('active', 0)->get());
                     @endphp
                     <div class="active_category">
                         {{$active }}
@@ -204,7 +205,7 @@
                         <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.Youths')['id']])->where('active', 1)->get())}}</td>
                         <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.Middle_Age')['id']])->where('active', 1)->get())}}</td>
                         <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.Adults')['id']])->where('active', 1)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id']])->where('active', 1)->get())}}</td>
+                        <td>{{count(\App\Models\User::where('age_cluster', '!=', null)->where(['cell_group_id'=>$cell_group['id']])->where('active', 1)->get())}}</td>
                     </tr>
                <tr class="inactive_category">
                         <td>{{$loop->iteration}}</td>
@@ -214,7 +215,7 @@
                         <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.Youths')['id']])->where('active', 0)->where('exists', 1)->get())}}</td>
                         <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.Middle_Age')['id']])->where('active', 0)->where('exists', 1)->get())}}</td>
                         <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.Adults')['id']])->where('active', 0)->where('exists', 1)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id']])->where('active', 0)->get())}}</td>
+                        <td>{{count(\App\Models\User::where('age_cluster', '!=', null)->where(['cell_group_id'=>$cell_group['id']])->where('active', 0)->get())}}</td>
                     </tr>
                <tr class="deleted_category">
                         <td>{{$loop->iteration}}</td>
@@ -224,7 +225,7 @@
                         <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.Youths')['id']])->where('exists', 0)->where('active', 0)->get())}}</td>
                         <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.Middle_Age')['id']])->where('exists', 0)->where('active', 0)->get())}}</td>
                         <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.Adults')['id']])->where('exists', 0)->where('active', 0)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id']])->where('exists', 0)->where('active', 0)->get())}}</td>
+                        <td>{{count(\App\Models\User::where('age_cluster', '!=', null)->where(['cell_group_id'=>$cell_group['id']])->where('exists', 0)->where('active', 0)->get())}}</td>
                     </tr>
                 @endforeach
             </tboby>

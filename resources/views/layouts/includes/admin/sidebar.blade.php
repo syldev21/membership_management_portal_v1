@@ -60,7 +60,7 @@
                 </a>
                 <div class="collapse" id="pagesCollapseSettings" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link collapsed" href="" id="edit_profile_button" data-bs-toggle="" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                        <a class="nav-link collapsed" href="" id="edit_profile_button" data-side-edit="{{auth()->user()->id}}" data-bs-toggle="" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Edit Profile
                         </a>

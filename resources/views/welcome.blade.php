@@ -61,7 +61,7 @@
             }) ;
             $('#registration_page').click(function (e){
                 e.preventDefault();
-                $('#registration_page').val('Redirecting to Registation page...');
+                $('#registration_page').val('Redirecting to Registration page...');
                 $.ajaxSetup({
 
                     headers: {

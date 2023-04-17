@@ -40,6 +40,7 @@ Route::group(['middleware'=>['LoginCheck']], function (){
     Route::post('/profile-update', [\App\Http\Controllers\UserController::class, 'profileUpdate'])->name('profile.update');
     Route::post('/profile-pass-subcounty', [\App\Http\Controllers\UserController::class, 'profilePasSubcounty'])->name('profile.pass-subcounty');
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/side-profile-edit', [\App\Http\Controllers\Admin\DashboardController::class, 'sideProfileEdit'])->name('side-profile-edit');
     Route::get('/main-church-members', [\App\Http\Controllers\Admin\DashboardController::class, 'churchMembers'])->name('members.index');
     Route::get('/members', [\App\Http\Controllers\Admin\DashboardController::class, 'members']);
     Route::post('delete-member', [\App\Http\Controllers\UserController::class, 'destroy'])->name('destroy');
@@ -50,4 +51,13 @@ Route::group(['middleware'=>['LoginCheck']], function (){
     Route::post('/admin-assign-id', [\App\Http\Controllers\Admin\DashboardController::class, 'adminAssignId'])->name('members.assign_id');
 });
 
+
+Route::get('tester', function (){
+    $kisumu = 'Kisumu county';
+    $rift = 'rift valley county';
+    $kisumu_array_count = count(explode(' ', $kisumu));
+    $rift_array_count = count(explode(' ', $rift));
+    dump($kisumu_array_count);
+    dd($rift_array_count);
+});
 

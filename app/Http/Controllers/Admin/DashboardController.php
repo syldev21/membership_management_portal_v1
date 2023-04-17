@@ -23,6 +23,11 @@ class DashboardController extends Controller
         return View("admin.dashboard")
             ->with("all_members", $all_members);
     }
+    public function sideProfileEdit(){
+        $user = auth()->user();
+
+        return view('profile', ['userInfo'=>$user]);
+    }
 
     public function members(Request $request){
 
@@ -149,54 +154,45 @@ class DashboardController extends Controller
             $validator = Validator::make($request->all(),[
                 'name'=>'required|max:50',
                 'email'=>'required|email|unique:users|max:100',
-                'gender'=>'required',
-                'dob'=>'required',
-//            'phone'=>'required',
-//            'marital_status'=>'required',
-                'estate'=>'required',
-                'ward'=>'required',
-                'cell_group'=>'required',
-                'education_level'=>'required',
-                'born_again'=>'required',
-                'leadership_status'=>'required',
-                'ministry'=>'required',
-                'check_box'=>'required',
-//            'occupation'=>'required',
-//            'employment_status'=>'required',
+            ],[
+                'name.required'=>'The name field is required!',
+                'email.required'=>'The email field is required!',
             ]);
+            if ($validator->fails()){
+                return response()->json([
+                    'status'=>400,
+                    'messages'=>$validator->getMessageBag()
+                ]);
+            }
+            else{
+                $user_name = substr(explode(' ', $request->name)[0], 0, 4).Factory::create()->randomNumber(4, true);
+                $user = new User();
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->gender=$request->gender??null;
+                $user->dob=$request->dob??null;
+                $user->phone=$value ?? $request->phone??null;
+                $user->marital_status_id=$value ?? ($request->marital_status??null);
+                $user->estate_id=$request->estate ?? null;
+                $user->ward=$request->ward ?? null;
+                $user->cell_group_id=$request->cell_group ?? null;
+                $user->education_level_id=$request->education_level ?? null;
+                $user->born_again_id=$request->born_again ?? null;
+                $user->leadership_status_id=$request->leadership_status ?? null;
+                $user->ministry_id=$request->ministry ?? null;
+                $user->ministries_of_interest=isset($request->check_box)?implode (',', $request->check_box):null;
+                $user->occupation_id=$value ?? ($request->occupation ?? null);
+                $user->employment_status_id=$value ?? ($request->employment_status ?? null);
+                $user->age_cluster = $age_cluster??null;
+                $user->user_name = $user_name;
+                $user->save();
+                return  response()->json([
+                    'status'=>200,
+                    'messages'=>'Member Registered Successfully;&nbsp; with username; '.$user_name,
+                ]);
+            }
         }
-                if ($validator->fails()){
-            return response()->json([
-                'status'=>400,
-                'messages'=>$validator->getMessageBag()
-            ]);
-        }else{
-                    $user_name = substr(explode(' ', $request->name)[0], 0, 4).Factory::create()->randomNumber(4, true);
-                    $user = new User();
-                    $user->name = $request->name;
-                    $user->email = $request->email;
-                    $user->gender=$request->gender;
-                    $user->dob=$request->dob;
-                    $user->phone=$value ?? $request->phone;
-                    $user->marital_status_id=$value ?? $request->marital_status;
-                    $user->estate_id=$request->estate;
-                    $user->ward=$request->ward;
-                    $user->cell_group_id=$request->cell_group;
-                    $user->education_level_id=$request->education_level;
-                    $user->born_again_id=$request->born_again;
-                    $user->leadership_status_id=$request->leadership_status;
-                    $user->ministry_id=$request->ministry;
-                    $user->ministries_of_interest=isset($request->check_box)?implode (',', $request->check_box):null;
-                    $user->occupation_id=$value ?? $request->occupation;
-                    $user->employment_status_id=$value ?? $request->employment_status;
-                    $user->age_cluster = isset($age_cluster)?$age_cluster:null;
-                    $user->user_name = $user_name;
-                    $user->save();
-                    return  response()->json([
-                        'status'=>200,
-                        'messages'=>'Member Registered Successfully;&nbsp; with username; '.$user_name,
-                    ]);
-                }
+
     }
     public function adminAssignRole(Request $request){
         $id = $request->id;

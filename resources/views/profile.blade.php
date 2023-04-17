@@ -18,6 +18,7 @@
                                  @endphp
 
                                  <img src="{{public_path(asset('/images/vosh_avator.jpg'))}}" id="image_preview" class="img-fluid rounded-circle img-thumbnail" width="200">
+                                 <input type="hidden" id="distinguish_page" value="{{$userInfo}}">
                                  <div>
                                      <label class="fw-bold">Change Profile Picture</label>
                                      <input type="file" for="picture" name="picture" class="form-control rounded-pill" id="picture">
@@ -29,7 +30,7 @@
                                      </div>
                              </div>
 
-                            <input type="hidden" name="user_id" id="user_id" value="{{isset($userInfo) ?? ''}}">
+                            <input type="hidden" name="user_id" id="user_id" value="{{$userInfo->id ?? ''}}">
                             <div class="col-lg-8 px-5">
                                 <form action="#" method="POST" id="profile_form" class="accordion-flush self_edit">
                                     @csrf
@@ -128,7 +129,7 @@
                                                 <option selected disabled>--Select</option>
                                                 @foreach(config('membership.sub_county') as $sub_county)
                                                     <option value="{{$sub_county['id']}}" >
-                                                    {{explode(' ', $sub_county['text'])[0]}}</option>
+                                                        {{count(explode(' ', $sub_county['text'])) > 2 ? explode(' ', $sub_county['text'])[0].' '.explode(' ', $sub_county['text'])[1] : explode(' ', $sub_county['text'])[0]}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -322,6 +323,7 @@
             $('body').on('submit', '#profile_form', function (e){
                 e.preventDefault();
                 let id = $('#user_id').val();
+                alert($(this).attr('id'))
                 $('#profile_btn').val('Updating...');
 
                 $.ajaxSetup({
@@ -330,6 +332,7 @@
                     }
                 });
 
+
                 $.ajax({
                     url: '{{route('profile.update')}}',
                     method: 'post',
@@ -337,7 +340,6 @@
                     dataType: 'json',
                     success: function (response) {
                         if (response.status == 200){
-                            console.log(response);
                             $('#profile_alert').html(showMessage('success', response.messages));
                             $('#profile_btn').val('Update');
                             $('.profile').show();
@@ -350,10 +352,34 @@
                     }
                 });
             });
+            // if($('#distinguish_page').val(undefined)) {
+            //     $('#edit_profile_button').html('yeza Profile')
+            // }
             $('body').on('click', '#edit_profile_button', function (e) {
                 e.preventDefault();
-                $('.profile').hide();
                 $('.profile_edit, #profile_btn').removeAttr('hidden');
+                $('.profile').hide();
+                if($('#distinguish_page').val() == undefined){
+                    let id = $(this).data('side-edit')
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: '{{route('side-profile-edit')}}',
+                        data: {
+                            id: id
+                        },
+                        success: function (data) {
+                            $('.side-profile-here').html(data)
+                            window.location = '{{ route('profile') }}';
+                            $('.profile_edit, #profile_btn').removeAttr('hidden');
+                            $('.profile').hide();
+                        }
+                    })
+                }
+
             });
 
             $('.admin_dashboard').click(function (e) {
