@@ -15,6 +15,28 @@ return [
             'id'=>3
         ],
     ],
+    'roles'=>[
+        'admin'=>[
+            'id'=>1,
+            'text'=>'Admin'
+        ],
+        'church_secretary'=>[
+            'id'=>2,
+            'text'=>'Church Secretary'
+        ],
+        'ass_church_secretary'=>[
+            'id'=>3,
+            'text'=>'Assistant Church Secretary'
+        ],
+        'cell_group_pastor'=>[
+            'id'=>4,
+            'text'=>'Cell Group Pastor'
+        ],
+        'cell_group_secretary'=>[
+            'id'=>5,
+            'text'=>'Cell Group Secretary'
+        ]
+    ],
     'deactivate_reason'=>[
         'transfer'=> [
             'text'=>'Transfer',
@@ -86,7 +108,7 @@ return [
             'id'=>2,
             'wards'=>[
                 'Kawaha'=>[
-                    'text'=>'Kaha',
+                    'text'=>'Kawaha',
                     'id'=>1,
                 ],
                 'Roysambu'=>[
@@ -224,8 +246,8 @@ return [
                     'text'=>'Gatina',
                     'id'=>3,
                 ],
-                'KIleleshw'=>[
-                    'text'=>'KIleleshw',
+                'KIleleshwa'=>[
+                    'text'=>'KIleleshwa',
                     'id'=>4,
                 ],
                 'Kabiro'=>[
@@ -473,7 +495,7 @@ return [
                 ],
                 'Mbatini'=>[
                     'text'=>'Mbatini',
-                    'id'=>4,
+                    'id'=>5,
                 ],
 
             ]
@@ -500,7 +522,7 @@ return [
                 ],
                 'Mihango'=>[
                     'text'=>"Mihang'o",
-                    'id'=>4,
+                    'id'=>5,
                 ],
 
             ]
@@ -528,7 +550,7 @@ return [
                 ],
                 'diaspora'=>[
                     'text'=>'Diaspora',
-                    'id'=>4,
+                    'id'=>6,
                 ],
 
             ]
@@ -726,6 +748,391 @@ return [
 
 
     'statuses'=>[
+
+       'sub_county'=>[
+            1=>[
+                'text'=>'Ruaka sub-county',
+                'wards'=>[
+                    1=>
+                        ['id'=>1,
+                        'text'=>'Utali'
+                        ],
+                    2=>
+                        ['id'=>2,
+                        'text'=>'Korogocho'
+                        ],
+                    3=>
+                        ['id'=>3,
+                        'text'=>'Lucky Summer'
+                        ],
+                    4=>
+                        ['id'=>4,
+                        'text'=>"Mathare North"
+                        ],
+                    5=>
+                        ['id'=>5,
+                        'text'=>"Baba Dogo"
+                        ]
+                ]
+            ],
+            2=>[
+                'text'=>'Roysambu sub-county',
+                'wards'=>[
+                    1=>
+                       [
+                           'id'=>1,
+                           'text'=>'Kawaha',
+                       ] ,
+                    2=>
+                       [
+                           'id'=>2,
+                           'text'=>'Roysambu',
+                       ] ,
+                    3=>
+                       [
+                           'id'=>3,
+                           'text'=>'Githurai',
+                       ],
+                    4=>
+                       [
+                           'id'=>4,
+                           'text'=>"Zimmerman",
+                       ],
+                    5=>
+                       [
+                           'id'=>5,
+                           'text'=>"Kahawa West"
+                       ]
+                ]
+            ],
+            3=>[
+                'text'=>'Kasarani sub-county',
+                'wards'=>[
+                    1=>[
+                        'id'=>1,
+                        'text'=>'Kamulu'],
+                    2=>[
+                        'id'=>2,
+                        'text'=>'Njiru'],
+                    3=>[
+                        'id'=>3,
+                        'text'=>'Clay City'],
+                    4=>[
+                        'id'=>4,
+                        'text'=>"Ruai"],
+                    5=>[
+                        'id'=>5,
+                        'text'=>"Ruai"]
+                ]
+            ],
+            4=>[
+                'text'=>"Lang'ata sub-county",
+                'wards'=>[
+                    1=>['id'=>1,
+                        'text'=>'Nyayo Rise'],
+                    2=>['id'=>2,
+                        'text'=>'Nairobi West'],
+                    3=>['id'=>3,
+                        'text'=>'Chokaa'],
+                    4=>['id'=>4,
+                        'text'=>"Karen"]
+                ]
+            ],
+            5=>[
+                'text'=>'Embakasi Central sub-county',
+                'wards'=>[
+                    1=>[
+                        'id'=>1,
+                        'text'=> 'Kayole North'],
+                    2=>[
+                        'id'=>2,
+                        'text'=> 'Kayole Central'],
+                    3=>[
+                        'id'=>3,
+                        'text'=> 'South C'],
+                    4=>[
+                        'id'=>4,
+                        'text'=> 'Komarocks']
+                ]
+            ],
+            6=>[
+                'text'=>'Dagoreti South sub-county',
+                'wards'=>[
+                    1=>[
+                        'id'=>1,
+                        'text'=>'Uthiru'],
+                    2=>[
+                        'id'=>2,
+                        'text'=>'Waithaka'],
+                    3=>[
+                        'id'=>3,
+                        'text'=>'Riruta'],
+                    4=>[
+                        'id'=>4,
+                        'text'=>"Ngando"],
+                    5=>[
+                        'id'=>5,
+                        'text'=>"Muti-ini"],
+                ]
+            ],
+            7=>[
+                'text'=>'Dagoreti North sub-county',
+                'wards'=>[
+                    1=>[
+                        'id'=>1,
+                        'text'=>'Kawangware'
+                        ],
+                    2=>[
+                        'id'=>2,
+                        'text'=>'Kilimani'
+                        ],
+                    3=>[
+                        'id'=>3,
+                        'text'=>'Gatina'
+                        ],
+                    4=>[
+                        'id'=>4,
+                        'text'=>"Kileleshwa"
+                        ],
+                    5=>[
+                        'id'=>5,
+                        'text'=>"Kabiro"
+                        ],
+                ]
+            ],
+           8=>[
+               'id'=>8,
+               'text'=>'Westlands sub-county',
+                'wards'=>[
+                    1=>[
+                        'id'=>1,
+                        'text'=>'Karura'],
+                    2=>[
+                        'id'=>2,
+                        'text'=>'Parklands'],
+                    3=>[
+                        'id'=>3,
+                        'text'=>'Kitisuru'],
+                    4=>[
+                        'id'=>4,
+                        'text'=>"Kangemi"],
+                    5=>[
+                        'id'=>5,
+                        'text'=>"Mountain View"],
+                ]
+            ],
+            9=>[
+                'text'=>'Embakasi South sub-county',
+                'wards'=>[
+                    1=>[
+                        'id'=>1,
+                        'text'=>'Kwa Njenga'],
+                    2=>[
+                        'id'=>2,
+                        'text'=>'Imara Daima'],
+                    3=>[
+                        'id'=>3,
+                        'text'=>'Kware'],
+                    4=>[
+                        'id'=>4,
+                        'text'=>"Kwa Reuben"],
+                    5=>[
+                        'id'=>5,
+                        'text'=>"Pipeline"],
+                ]
+            ],
+            10=>[
+                'text'=>'Embakasi North sub-county',
+                'wards'=>[
+                    1=>[
+                        'id'=>1,
+                        'text'=>'Dandora Area 1'],
+                    2=>[
+                        'id'=>2,
+                        'text'=>'Dandora Area 2'],
+                    3=>[
+                        'id'=>3,
+                        'text'=>'Dandora Area 3'],
+                    4=>[
+                        'id'=>4,
+                        'text'=>"Dandora Area 4"],
+                    5=>[
+                        'id'=>5,
+                        'text'=>"Kariobangi North"]
+                ]
+            ],
+            11=>[
+                'text'=>'Kibra sub-county',
+                'wards'=>[
+                        1=>[
+                            'id'=>1,
+                            'text'=>'Woodley'],
+                        2=>[
+                            'id'=>2,
+                            'text'=>"Sarang'ombe"],
+                        3=>[
+                            'id'=>3,
+                            'text'=>'Makina'],
+                        4=>[
+                            'id'=>4,
+                            'text'=>"Lindi"],
+                        5=>[
+                            'id'=>5,
+                            'text'=>"Laini Saba"]
+                    ]
+                ],
+            12=>[
+                'text'=>'Embakasi West sub-county',
+                'wards'=>[
+                        1=>[
+                            'id'=>1,
+                            'text'=>'Umoja 1'],
+                        2=>[
+                            'id'=>2,
+                            'text'=>'Umoja 2'],
+                        3=>[
+                            'id'=>3,
+                            'text'=>'Mowlem'],
+                        4=>[
+                            'id'=>4,
+                            'text'=>"Kariobangi South"],
+                    ],
+                ],
+            13=>[
+                'text'=>'Makadara sub-county',
+                'wards'=>[
+                        1=>[
+                            'id'=>1,
+                            'text'=>'Maringo'
+                            ],
+                        2=>[
+                            'id'=>2,
+                            'text'=>'Viwandani'
+                            ],
+                        3=>[
+                            'id'=>3,
+                            'text'=>'Harambee'
+                            ],
+                        4=>[
+                            'id'=>4,
+                            'text'=>"Hamza"
+                            ],
+                        5=>[
+                            'id'=>5,
+                            'text'=>"Makongeni"
+                            ]
+                    ],
+                ],
+            14=>[
+                'text'=>'Kamkunji sub-county',
+                'wards'=>[
+                        1=>[
+                            'id'=>1,
+                            'text'=>'Eastleigh South'],
+                        2=>[
+                            'id'=>2,
+                            'text'=>'Eastleigh South'],
+                        3=>[
+                            'id'=>3,
+                            'text'=>'Pumwani'],
+                        4=>[
+                            'id'=>4,
+                            'text'=>"Airbase"],
+                        5=>[
+                            'id'=>5,
+                            'text'=>"California"]
+                    ],
+                ],
+            15=>[
+                'text'=>'Starehe sub-county',
+                'wards'=>[
+                        1=>[
+                            'id'=>1,
+                            'text'=>'Nairobi South'],
+                        2=>[
+                            'id'=>2,
+                            'text'=>'Nairobi North'],
+                        3=>[
+                            'id'=>3,
+                            'text'=>'Ngara'],
+                        4=>[
+                            'id'=>4,
+                            'text'=>'Pangani'],
+                        5=>[
+                            'id'=>5,
+                            'text'=>"Landimawe"],
+                        6=>[
+                            'id'=>6,
+                            'text'=>"Ziwani"]
+                    ],
+                ],
+           16=>[
+               'id'=>16,
+               'text'=>'Mathare sub-county',
+                'wards'=>[
+                        1=>[
+                            'id'=>1,
+                            'text'=>'Malango Kubwa'
+                        ],
+                        2=>[
+                            'id'=>2,
+                            'text'=>'Kiamaiko'
+                        ],
+                        3=>[
+                            'id'=>3,
+                            'text'=>'Ngei'
+                        ],
+                        4=>[
+                            'id'=>4,
+                            'text'=>'Huruma'
+                        ],
+                        5=>[
+                            'id'=>5,
+                            'text'=>"Mbatini"
+                        ]
+                    ],
+                ],
+           17=>[
+               'text'=>'Embakasi East sub-county',
+                'wards'=>[
+                        1=>[
+                            'id'=>1,
+                            'text'=>'Utawala'],
+                        2=>[
+                            'id'=>2,
+                            'text'=>'Upper Savanna'],
+                        3=>[
+                            'id'=>3,
+                            'text'=>'Lower Savanna'],
+                        4=>[
+                            'id'=>4,
+                            'text'=>'Embakasi'],
+                        5=>[
+                            'id'=>5,
+                            'text'=>"Mihang'o"],
+                    ],
+                ],
+           18=>[
+               'text'=>'Other Areas',
+                'wards'=>[
+                        1=>[
+                            'id'=>1,
+                            'text'=>'Katani'],
+                        2=>[
+                            'id'=>2,
+                            'text'=>'Syokimau'],
+                        3=>[
+                            'id'=>3,
+                            'text'=>'Athi River'],
+                        4=>[
+                            'id'=>4,
+                            'text'=>'Kitengela'],
+                        5=>[
+                            'id'=>5,
+                            'text'=>'Diaspora'],
+                    ],
+                ],
+            ],
         'cell_group' => [
             1 =>'Kiambiu',
             2 =>'Umoja-Bethel',
@@ -734,7 +1141,7 @@ return [
             5 =>'Diaspora',
             6 =>"Lang'ata",
             7 =>"Jericho",
-            ],
+        ],
         'gender' => [
             1 =>'Male',
             2 =>'Female',
@@ -823,224 +1230,6 @@ return [
             3=>'Youths',
             4=>'Middle Age',
             5=>'Adults',
-    ],
-        'sub_county'=>[
-            1=>[
-                'text'=>'Ruaka sub-county',
-                'wards'=>[
-                    1=>'Utali',
-                    2=>'Korogocho',
-                    3=>'Lucky Summer',
-                    4=>'Mathare North',
-                    5=>'Baba Dogo'
-                    ]
-            ],
-            2=>[
-                'text'=>'Roysambu sub-county',
-                'wards'=>[
-                    1=>'Kahawa',
-
-                    2=>'Roysambu',
-
-                    3=>'Githurai',
-
-                    4=>'Zimmerman',
-
-                    5=>'Kahawa West'
-                ]
-            ],
-            3=>[
-                'text'=>'Kasarani sub-county',
-                'wards'=>[
-                    1=>'Kamulu',
-
-                    2=>'Njiru',
-
-                    3=>'Clay City',
-
-                    4=>'Mwiki',
-
-                    5=>'Ruai'
-                ]
-            ],
-            4=>[
-                'text'=>"Lang'ata sub-county",
-                'wards'=>[
-                    1=>'Nyayo Rise',
-
-                    2=>'Nairobi West',
-
-                    3=>'South C',
-
-                    4=>'Karen'
-                ]
-            ],
-            5=>[
-                'text'=>'Embakasi Central sub-county',
-                'wards'=>[
-                    1=>'Kayole North',
-
-                    2=>'Kayole Central',
-
-                    3=>'Chokaa',
-
-                    4=>'Komarocks'
-                ]
-            ],
-            6=>[
-                'text'=>'Dagoreti South sub-county',
-                'wards'=>[
-                    1=>'Uthiru',
-                    2=>'Waithaka',
-                    3=>'Riruta',
-                    4=>'Ngando',
-                    5=>'Muti-ini'
-                ]
-            ],
-            7=>[
-                'text'=>'Dagoreti North sub-county',
-                'wards'=>[
-                    1=>'Kwangware',
-                    2=>'Kilimani',
-                    3=>'Gatina',
-                    4=>'Kileleshwa',
-                    5=>'Kabiro'
-                ]
-            ],
-            8=>[
-                'text'=>'Westlands sub-county',
-                'wards'=>[
-                    1=>'Karura',
-                    2=>'Parklands',
-                    3=>'Kitisuru',
-                    4=>'Kangemi',
-                    5=>'Mountain View'
-                ]
-            ],
-            9=>[
-                'text'=>'Embakasi South sub-county',
-                'wards'=>[
-                    1=>'Kwa Njenga',
-                    2=>'Imara Daima',
-                    3=>'Kware',
-                    4=>'Kwa_Reuben',
-                    5=>'Pipeline'
-                ]
-            ],
-            10=>[
-                'text'=>'Embakasi North sub-county',
-                'wards'=>[
-                    1=>'Dandora Area 1',
-                    2=>'Dandora Area 2',
-                    3=>'Dandora Area 3',
-                    4=>'Dandora Area 4',
-                    5=>'Kariobangi North',
-                ]
-            ],
-            11=>[
-                'text'=>'Kibra sub-county',
-                'wards'=>[
-                    1=>'Woodley',
-                    2=>"Sarang'ombe",
-                    3=>'Makina',
-                    4=>'Lindi',
-                    5=>'Laini Saba'
-                ]
-            ],
-            12=>[
-                'text'=>'Embakasi West sub-county',
-                'wards'=>[
-                    1=>'Umoja 1',
-
-                    2=>'Umoja 2',
-
-                    3=>'Mowlem',
-
-                    4=>'Kariobangi South'
-                ]
-            ],
-            13=>[
-                'text'=>'Makadara sub-county',
-                'wards'=>[
-                    1=>'maringo',
-                    2=>'viwandani',
-                    3=>'harambee',
-                    4=>'hamza',
-                    5=>'makongeni'
-                ]
-            ],
-            14=>[
-                'text'=>'Kamkunji sub-county',
-                'wards'=>[
-                    1=>'Eastleigh North',
-                    2=>'Eastleigh South',
-                    3=>'PUmwani',
-                    4=>'Airbase',
-                    5=>'California'
-                ]
-            ],
-            15=>[
-                'text'=>'Starehe sub-county',
-                'wards'=>[
-                    1=>'Nairobi South',
-
-                    2=>'Nairobi North',
-
-                    3=>'Ngara',
-
-                    4=>'Pangani',
-
-                    5=>'Landimawe',
-
-                    6=>'Ziwani'
-
-                ]
-            ],
-            16=>[
-                'text'=>'Mathare sub-county',
-                'wards'=>[
-                    1=>'Malango Kubwa',
-
-                    2=>'Kiamaiko',
-
-                    3=>'Ngei',
-
-                    4=>'Huruma',
-
-                    5=>'Mbatini'
-
-                ]
-            ],
-            17=>[
-                'text'=>'Embakasi East sub-county',
-                'wards'=>[
-                    1=>'Utawala',
-
-                    2=>'Upper Savanna',
-
-                    3=>'Lower Savanna',
-
-                    4=>'Embakasi',
-
-                    5=>"Mihang'o"
-                ]
-            ],
-
-            18=>[
-                'text'=>'Other Areas',
-                'wards'=>[
-                    1=>'Katani',
-
-                    2=>'Syokimau',
-
-                    3=>'Athi River',
-
-                    4=>'Kitengela',
-
-                    5=>'Diaspora'
-                ]
-            ],
-
         ],
-    ]
+        ],
 ];

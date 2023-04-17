@@ -20,8 +20,15 @@ use PhpOffice\PhpSpreadsheet\Calculation\DateTime;
 
 class UserController extends Controller
 {
-    public function index(){
+    public function loginPage(){
         return view('auth.login');
+    }
+    public function registrationPage(){
+        return view('auth.register');
+    }
+    public function index(){
+//        return view('auth.login');
+        return view('welcome');
     }
     public function register(){
         if (session()->has('loggedInUser')){
@@ -187,6 +194,7 @@ public function profile(Request $request){
                 'phone' => isset($value) ? $value : $request->phone,
                 'marital_status_id' => isset($value) ? $value : $request->marital_status,
                 'estate_id' => $request->estate,
+                'ward' => $request->ward,
                 'cell_group_id' => $request->cell_group,
                 'employment_status_id' => isset($value) ? $value : $request->employment_status,
                 'born_again_id' => $request->born_again,
@@ -336,5 +344,8 @@ public function profile(Request $request){
             }
 
         }
+    }
+    public function profilePasSubcounty(Request $request){
+        return view('admin.with-subcounty-id', ['sub_county'=>$request->sub_county]);
     }
 }

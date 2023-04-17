@@ -28,7 +28,8 @@
                 <th>Born Again</th>
                 <th>Gender</th>
                 <th>Marital Status</th>
-                <th>Residence</th>
+                <th>Sub-County</th>
+                <th>Ward</th>
                 <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">Cell Group</th>
                 <th>Employment Status</th>
                 <th>Leadership Status</th>
@@ -72,8 +73,11 @@
                         }
 
 
+
                         ?>
-                    <tr class="item{{$member->id}}">
+
+
+                    <tr class="item{--><!--{$member->id}}">
                         <td>{{$loop->iteration}}</td>
                         <td>{{isset($member->user_name)?$member->user_name:''}}</td>
                         <td>{{isset($member->name)?$member->name:''}}</td>
@@ -82,7 +86,8 @@
                         <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
                         <td>{{isset($member->gender)?config('membership.statuses.gender')[$member->gender]:''}}</td>
                         <td>{{isset($marital_status_id)?$marital_status_id:''}}</td>
-                        <td>{{isset($member->estate_id) ? config('membership.statuses.sub_county')[$member->estate_id]['text'] : ''}}</td>
+                        <td>{{isset($member->estate_id) ? explode(' ', config('membership.statuses.sub_county')[$member->estate_id]['text'])[0] : ''}}</td>
+                        <td>{{config('membership.statuses.sub_county')[$member->estate_id]['wards'][$member->ward]['text'] ?? ''}}</td>
                         <td class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">{{isset($member->cell_group_id)?config('membership.statuses.cell_group')[$member->cell_group_id]:''}}</td>
                         <td>{{isset($employment_status_id)?$employment_status_id:''}}</td>
                         <td>{{isset($member->leadership_status_id)?config('membership.statuses.flag')[$member->leadership_status_id]:''}}</td>
@@ -91,11 +96,11 @@
                         <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
                         <td>
                             <select id="" name="" class="browser-default">
-                                <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                                <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
                                     Edit
                                 </option>
-                                <option data-id="{{$member->id}}"  data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</option>
-                                <option data-id="{{$member->id}}" data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" id="deactivate" value="{{$member->id}}" class="user_status" data-bs-toggle="modal" data-bs-target="#activateModal">
+                                <option data-id="{{$member->id}}"  data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary hide-this" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</option>
+                                <option data-id="{{$member->id}}" data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" id="deactivate" value="{{$member->id}}" class="user_status  hide-this" data-bs-toggle="modal" data-bs-target="#activateModal">
                                     @if($member->active !== 1)
                                         Activate
 
@@ -112,26 +117,6 @@
                     </tr>
                 @endforeach
             </tboby>
-            <tfoot>
-            <tr>
-                <th>S/R</th>
-                <th>User Name</th>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Age</th>
-                <th>Born Again</th>
-                <th>Gender</th>
-                <th>Marital Status</th>
-                <th>Residence</th>
-                <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">Cell Group</th>
-                <th>Employment Status</th>
-                <th>Leadership Status</th>
-                <th>Occupation</th>
-                <th>Ministries of Interest</th>
-                <th>Level of Education</th>
-                <th>Actions</th>
-            </tr>
-            </tfoot>
         </table>
     </div>
 
@@ -140,61 +125,45 @@
 <!-- Role Modal -->
 
 <div class="modal fade table table-responsive" id="roleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="role-modal-title" id="exampleModalLabel"></h5>
+                <h5 class="role-modal-title" id="exampleModalLabel" style="color: white"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <input type="" id="role_user_id" data-user_name='' value="" hidden="hidden">
-            <div id="edit_alert"></div>
+            <div id="assign_alert"></div>
             <div class="table table-responsive m-2 w-auto" id="main">
                 <div class="modal-body">
-                    <table class="table table-responsive table-bordered table-striped thread-dark">
-                        <thead>
-                        <tr>
-                                <th>
-                                    Admin
-                                </th>
-                                <th>
-                                    Church Secretary
-                                </th>
-                                <th>
-                                    Assistant Secretary
-                                </th>
-                                <th>
-                                    Cell Group Pastor
-                                </th>
-                                <th>
-                                    Cell Group Secretary
-                                </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="">
-                            </td>
-                            <td>
-                                <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="">
-                            </td>
-                            <td>
-                                <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="">
-                            </td>
-                            <td>
-                                <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="">
-                            </td>
-                            <td>
-                                <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="">
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <form action="#" method="POST" id="assign_role_form">
+                        <table class="table table-responsive table-bordered table-striped thread-dark">
+                            <thead>
+                            <tr>
+                                @foreach(config('membership.roles') as $role)
+                                    <th>{{$role['text']}}</th>
+                                @endforeach
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <div id="with_id">
+                                <tr>
+                                    @foreach(config('membership.roles') as $role)
+
+                                        <td>
+                                            <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="{{$role['id']}}" data-role="" @php $model_has_role=\App\Models\ModelHasRole::where('mode_id', $member->id)->where('role_id', $role['id'])->first();@endphp @if(isset($model_has_role)) checked @endif>
+                                        </td>
+                                    @endforeach
+
+                                </tr>
+                            </div>
+                            </tbody>
+                        </table>
+                    </form>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-popper="">Save changes</button>
+                <input type="button" class="btn btn-primary" id="assign_role_button" data-bs-popper="" value="Assign">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
@@ -203,10 +172,10 @@
 <!-- Edit Modal -->
 
 <div class="modal fade table table-responsive" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="edit-modal-title" id="exampleModalLabel"></h5>
+            <div class="modal-header bg-success">
+                <h5 class="edit-modal-title" id="exampleModalLabel">Register New Member </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <input type="" id="edit_user_id" value="" hidden="hidden">
@@ -221,13 +190,27 @@
                                 <form action="#" method="POST" id="profile_edit_form" class="accordion-flush admin_edit">
 
                                     <meta name="csrf-token" content="{{ csrf_token() }}" />
-                                    <div class="my-2">
-                                        <label  class="fw-bold"  for="name">Full Name</label>
-                                        <input type="text" name="name" class="form-control rounded-0 " id="name" value="">
-                                    </div>
-                                    <div class="my-2">
-                                        <label  class="fw-bold" for="name">Email</label>
-                                        <input type="email" name="email" class="form-control rounded-0 " id="email" value="">
+{{--                                    <div class="my-2">--}}
+{{--                                        <label  class="fw-bold"  for="name">Full Name</label>--}}
+{{--                                        <input type="text" name="name" class="form-control rounded-0 " id="name" value="">--}}
+{{--                                    </div>--}}
+{{--                                    <div class="my-2">--}}
+{{--                                        <label  class="fw-bold" for="name">Email</label>--}}
+{{--                                        <input type="email" name="email" class="form-control rounded-0 " id="email" value="">--}}
+{{--                                    </div>--}}
+                                    <div class="row">
+                                        <div class="col-lg">
+                                            <label  class="fw-bold"  for="name">Full Name</label>
+                                            <input type="text" name="name" class="form-control rounded-0 " id="name" value="">
+                                        </div>
+                                        <div class="col-lg">
+                                            <label  class="fw-bold" for="name">Email</label>
+                                            <input type="email" name="email" class="form-control rounded-0 " id="email" value="">
+                                        </div>
+                                        <div class="col-lg user_name_hide" hidden="hidden">
+                                            <label  class="fw-bold" for="name">User Name</label>
+                                            <input type="user_name" disabled name="user_name" class="form-control rounded-0 profile_edit" id="user_name" value="">
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
@@ -271,23 +254,14 @@
                                                 <option selected disabled>--Select</option>
                                                 @foreach(config('membership.sub_county') as $sub_county)
                                                     <option value="{{$sub_county['id']}}" >
-                                                        {{$sub_county['text']}}</option>
+                                                        {{explode(' ', $sub_county['text'])[0]}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-lg hide_ward">
-                                            <label  class="fw-bold" for="ward">Ward</label>
-                                            <select name="ward" id="estate" class="form-select rounded-0 profile_edit">
-                                                <option selected disabled>--Select</option>
-                                                <?php
-                                                $wards = [1, 2, 3, 4, 5, 6];
-                                                ?>
-                                                @foreach($wards as $sub_county)
-                                                    <option value="{{$sub_county}}" >
-                                                        {{$sub_county}}</option>
-                                                @endforeach
-                                            </select>
+                                        <div class="col-lg hide_ward_get_sub_county">
+
                                         </div>
+
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="cell_group">Cell Group</label>
                                             <select  name="cell_group" id="cell_group" class="form-select rounded-0 ">
@@ -344,7 +318,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row " >
+                                    <div class="row">
                                         <label  class="fw-bold" for="leadership_status">Current Ministry/ Ministry of Interest (Tick all the applicable options)</label>
                                         @foreach(config('membership.ministry') as $ministry)
                                             <div class="form-check col-lg">
@@ -376,7 +350,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <input type="submit" id="admin_profile_edit_btn" value="Submit" class="btn bg-primary">
+{{--                                    <input type="submit" id="admin_profile_edit_btn" value="Submit" class="btn bg-primary">--}}
                                 </form>
                             </div>
                         </div>
@@ -384,8 +358,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-{{--                <button type="button" id="profile_edit_btn" value="" class="btn btn-primary">Update</button>--}}
-{{--                <input type="submit" id="admin_profile_edit_btn" value="Update" class="btn bg-primary">--}}
+                <input type="submit" id="admin_profile_edit_btn" value="Submit" class="btn bg-success">
             </div>
         </div>
     </div>
@@ -394,9 +367,9 @@
 {{--Delete Modal--}}
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-danger">
 
                 <h5 class="delete-modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -429,9 +402,9 @@
 {{--Activate Modal--}}
 
 <div class="modal fade" id="activateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-warning">
                 <h5 class="deactivate-modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -461,6 +434,10 @@
 </div>
     <script>
         $(document).ready( function () {
+            // if($('.hide-this').data('hide')){
+            //     $('.hide-this').hide()
+            // }
+            $('.hide_ward_get_sub_county').hide()
             $('#report_status_category').val('active')
             $('#report_status_category').removeClass('bg-warning')
             $('#report_status_category').removeClass('bg-danger')
@@ -535,17 +512,17 @@
                 $('#name').val($(this).data('user_name'))
                 $('#email').val($(this).data('user_email'))
                 $('#phone').val($(this).data('user_phone'))
-            })
-            $("body").on('click', '#add_new_one', function (e) {
-                e.preventDefault()
-                $('.edit-modal-title').html('Edit '+$(this).data('user_name'))
-                $('#name').val('')
-                $('#email').val('')
-                $('#phone').val('')
+                $('#user_name').val($(this).data('u_name'))
+                $('.user_name_hide').removeAttr('hidden')
             })
             $("body").on('click', '#add_new_one', function (e) {
                 e.preventDefault()
                 $('#edit_user_id').val('')
+                $('#name').val('')
+                $('#email').val('')
+                $('#phone').val('')
+                $('.edit-modal-title').html('Register New Member')
+                $('.user_name_hide').addAttribute('hidden')
             })
             $('#delete_btn').click(function (e){
                 e.preventDefault();
@@ -624,9 +601,32 @@
             $('body').on('click', '#role', function (e) {
                 e.preventDefault()
                 $('.role-modal-title').html('Assign Role to '+$(this).data('user_name'))
+                $('#role_user_id').val($(this).data('id'))
+
+                let id = $(this).data('id')
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: '{{route('members.assign_id')}}',
+                    method: 'post',
+                    data: {
+                        id:id
+                    },
+                    // dataType: 'json',
+                    success: function (response) {
+                        $('#with_id').html(response)
+
+                    }
+                });
+
             })
 
-            $('body').on('submit', '#profile_edit_form', function (e){
+            $('body').on('click', '#admin_profile_edit_btn', function (e){
                 e.preventDefault();
 
                 let id = $('#edit_user_id').val()
@@ -641,13 +641,45 @@
                 $.ajax({
                     url: '{{route('members.create')}}',
                     method: 'post',
-                    data: $(this).serialize()+ `&id=+${id}`,
+                    data: $('#profile_edit_form').serialize()+ `&id=+${id}`,
                     dataType: 'json',
                     success: function (response) {
                         if (response.status == 200){
                             console.log(response);
                             $('#profile_alert').html(showMessage('success', response.messages));
                             $('#admin_profile_edit_btn').val('Submit');
+
+                            setTimeout(function() {
+                                window.location.href = "{{route('profile')}}"
+                            }, 2000);
+                        }
+                    }
+                });
+            });
+            $('body').on('click', '#assign_role_button', function (e){
+                e.preventDefault();
+
+
+
+                let id = $('#role_user_id').val()
+                $(this).val('Assigning...');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: '{{route('members.assign')}}',
+                    method: 'post',
+                    data: $('#assign_role_form').serialize()+ `&id=+${id}`,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status == 200){
+                            console.log(response);
+                            $('#assign_alert').html(showMessage('success', response.messages));
+                            $(this).val('Assign');
 
                             setTimeout(function() {
                                 window.location.href = "{{route('profile')}}"

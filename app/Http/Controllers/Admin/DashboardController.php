@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ModelHasRole;
 use App\Models\User;
 use Carbon\Carbon;
 use Faker\Factory;
@@ -115,6 +116,7 @@ class DashboardController extends Controller
                 'phone' => isset($value) ? $value : $request->phone,
                 'marital_status_id' => isset($value) ? $value : $request->marital_status,
                 'estate_id' => $request->estate,
+                'ward' => $request->ward,
                 'cell_group_id' => $request->cell_group,
                 'employment_status_id' => isset($value) ? $value : $request->employment_status,
                 'born_again_id' => $request->born_again,
@@ -152,6 +154,7 @@ class DashboardController extends Controller
 //            'phone'=>'required',
 //            'marital_status'=>'required',
                 'estate'=>'required',
+                'ward'=>'required',
                 'cell_group'=>'required',
                 'education_level'=>'required',
                 'born_again'=>'required',
@@ -177,6 +180,7 @@ class DashboardController extends Controller
                     $user->phone=$value ?? $request->phone;
                     $user->marital_status_id=$value ?? $request->marital_status;
                     $user->estate_id=$request->estate;
+                    $user->ward=$request->ward;
                     $user->cell_group_id=$request->cell_group;
                     $user->education_level_id=$request->education_level;
                     $user->born_again_id=$request->born_again;
@@ -190,9 +194,53 @@ class DashboardController extends Controller
                     $user->save();
                     return  response()->json([
                         'status'=>200,
-                        'messages'=>'Member Registered Successfully;&nbsp; ,with username; '.$user_name.' <a href="/">Login Now</a>',
+                        'messages'=>'Member Registered Successfully;&nbsp; with username; '.$user_name,
                     ]);
                 }
-//
+    }
+    public function adminAssignRole(Request $request){
+        $id = $request->id;
+
+        $role_array=$request->check_box;
+
+        if (is_array($role_array)){
+            foreach ($role_array as $key=>$value){
+                $model_has_role = ModelHasRole::where('mode_id', $id)->where('role_id', $value)->first();
+
+                if (!is_null($model_has_role)){
+                    unset($role_array[$key]);
+                }
+            }
+
+            if (count($role_array)>1){
+                foreach ($role_array as $role){
+                    ModelHasRole::create([
+                        'mode_id'=>$id,
+                        'role_id'=>$role
+                    ]);
+                }
+            }else if (count($role_array) == 1){
+                list($key, $value) = each($role_array);
+
+                ModelHasRole::create([
+                    'mode_id'=>$id,
+                    'role_id'=>$value
+                ]);
+            }
+        }else{
+            $model_has_role = ModelHasRole::where('mode_id', $id);
+            if (isset($model_has_role)){
+                $model_has_role->delete();
+            }
+        }
+
+        return response()->json([
+            'status'=>200,
+            'messages'=>'Role assigned successfully'
+        ]);
+
+    }
+    public function adminAssignId(Request $request){
+        return view('admin.with-id', ['id'=>$request->id]);
     }
 }

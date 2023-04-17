@@ -10,7 +10,8 @@
             <th>Born Again</th>
             <th>Gender</th>
             <th>Marital Status</th>
-            <th>Residence</th>
+            <th>Sub-County</th>
+            <th>Ward</th>
             <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">Cell Group</th>
             <th>Employment Status</th>
             <th>Leadership Status</th>
@@ -54,8 +55,11 @@
                     }
 
 
+
                     ?>
-                <tr class="item{{$member->id}}">
+
+
+                <tr class="item{--><!--{$member->id}}">
                     <td>{{$loop->iteration}}</td>
                     <td>{{isset($member->user_name)?$member->user_name:''}}</td>
                     <td>{{isset($member->name)?$member->name:''}}</td>
@@ -64,7 +68,8 @@
                     <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
                     <td>{{isset($member->gender)?config('membership.statuses.gender')[$member->gender]:''}}</td>
                     <td>{{isset($marital_status_id)?$marital_status_id:''}}</td>
-                    <td>{{isset($member->estate_id) ? config('membership.statuses.sub_county')[$member->estate_id]['text'] : ''}}</td>
+                    <td>{{isset($member->estate_id) ? explode(' ', config('membership.statuses.sub_county')[$member->estate_id]['text'])[0] : ''}}</td>
+                    <td>{{config('membership.statuses.sub_county')[$member->estate_id]['wards'][$member->ward]['text'] ?? ''}}</td>
                     <td class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">{{isset($member->cell_group_id)?config('membership.statuses.cell_group')[$member->cell_group_id]:''}}</td>
                     <td>{{isset($employment_status_id)?$employment_status_id:''}}</td>
                     <td>{{isset($member->leadership_status_id)?config('membership.statuses.flag')[$member->leadership_status_id]:''}}</td>
@@ -73,42 +78,26 @@
                     <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
                     <td>
                         <select id="" name="" class="browser-default">
-                            <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                            <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
                                 Edit
                             </option>
-                            <option data-id="{{$member->id}}"  data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</option>
-                            <option data-id="{{$member->id}}" data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" id="deactivate" value="{{$member->id}}" class="user_status" data-bs-toggle="modal" data-bs-target="#activateModal">
-                                @if($member->active == null)
+                            <option data-id="{{$member->id}}"  data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary hide-this" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</option>
+                            <option data-id="{{$member->id}}" data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" id="deactivate" value="{{$member->id}}" class="user_status  hide-this" data-bs-toggle="modal" data-bs-target="#activateModal">
+                                @if($member->active !== 1)
                                     Activate
 
                                 @else
                                     Deactivate
                                 @endif
                             </option>
+                            <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
+                                Assign Role
+                            </option>
                         </select>
+
                     </td>
                 </tr>
             @endforeach
         </tboby>
-        <tfoot>
-        <tr>
-            <th>S/R</th>
-            <th>User Name</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Age</th>
-            <th>Born Again</th>
-            <th>Gender</th>
-            <th>Marital Status</th>
-            <th>Residence</th>
-            <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">Cell Group</th>
-            <th>Employment Status</th>
-            <th>Leadership Status</th>
-            <th>Occupation</th>
-            <th>Ministries of Interest</th>
-            <th>Level of Education</th>
-            <th>Actions</th>
-        </tr>
-        </tfoot>
     </table>
 </div>

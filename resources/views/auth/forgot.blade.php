@@ -40,7 +40,7 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="/">Remember password?</a>
+                                        <a class="small" href="/login-page">Remember password?</a>
                                     </div>
                                 </div>
                             </div>

@@ -17,7 +17,7 @@
                                          $picture = isset($userInfo->picture) ?? asset('images/vosh_avator.jpg');
                                  @endphp
 
-                                 <img src="storage/images/{{$picture}}" id="image_preview" class="img-fluid rounded-circle img-thumbnail" width="200">
+                                 <img src="{{public_path(asset('/images/vosh_avator.jpg'))}}" id="image_preview" class="img-fluid rounded-circle img-thumbnail" width="200">
                                  <div>
                                      <label class="fw-bold">Change Profile Picture</label>
                                      <input type="file" for="picture" name="picture" class="form-control rounded-pill" id="picture">
@@ -40,36 +40,31 @@
                                     </div>
 
                                     <meta name="csrf-token" content="{{ csrf_token() }}" />
-                                    <div class="my-2">
-                                        <label  class="fw-bold"  for="name">Full Name</label>
-                                        <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{$userInfo->name??''}}">
-                                        <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{$userInfo->name??''}}">
-                                    </div>
-                                    <div class="my-2">
-                                        <label  class="fw-bold" for="name">Email</label>
-                                        <input type="email" disabled name="email" class="form-control rounded-0 profile" id="" value="{{$userInfo->email??''}}">
-                                        <input type="email" hidden name="email" class="form-control rounded-0 profile_edit" id="email" value="{{$userInfo->email??''}}">
-                                    </div>
+{{--                                    <div class="my-2">--}}
+{{--                                        <label  class="fw-bold"  for="name">Full Name</label>--}}
+{{--                                        <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{$userInfo->name??''}}">--}}
+{{--                                        <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{$userInfo->name??''}}">--}}
+{{--                                    </div>--}}
+{{--                                    <div class="my-2">--}}
+{{--                                        <label  class="fw-bold" for="name">Email</label>--}}
+{{--                                        <input type="email" disabled name="email" class="form-control rounded-0 profile" id="" value="{{$userInfo->email??''}}">--}}
+{{--                                        <input type="email" hidden name="email" class="form-control rounded-0 profile_edit" id="email" value="{{$userInfo->email??''}}">--}}
+{{--                                    </div>--}}
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="gender">Gender</label>
-                                            <input type="text" disabled name="gender" class="form-control rounded-0 profile" id="" value={{config('membership.statuses.gender.1')}}>
-                                            <select name="gender" hidden="hidden" id="gender" class="form-select rounded-0 profile_edit">
-                                                <option selected disabled>--Select</option>
-                                                @foreach(config('membership.gender') as $gender)
-                                                    <option value="{{$gender['id']}}" >
-                                                    {{$gender['text']}}</option>
-                                                @endforeach
-
-                                            </select>
+                                            <label  class="fw-bold"  for="name">Full Name</label>
+                                            <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{$userInfo->name??''}}">
+                                            <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{$userInfo->name??''}}">
                                         </div>
-                                        <div class="col-lg profile">
-                                            <label  class="fw-bold" for="dob" class="profile">Age</label>
-                                            <input type="text" disabled  name="dob" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->dob) ? \Carbon\Carbon::parse($userInfo->dob)->age: ''}}">
+                                        <div class="col-lg">
+                                            <label  class="fw-bold" for="name">Email</label>
+                                            <input type="email" disabled name="email" class="form-control rounded-0 profile" id="" value="{{$userInfo->email??''}}">
+                                            <input type="email" hidden name="email" class="form-control rounded-0 profile_edit" id="email" value="{{$userInfo->email??''}}">
                                         </div>
-                                        <div class="col-lg profile_edit"  hidden="hidden">
-                                            <label  class="fw-bold" for="dob" class="profile_edit">Date of Birth</label>
-                                            <input type="date"  name="dob" class="form-control rounded-0 profile_edit" id="dob" value="">
+                                        <div class="col-lg">
+                                            <label  class="fw-bold" for="name">User Name</label>
+                                            <input type="user_name" disabled name="user_name" class="form-control rounded-0 profile" id="" value="{{$userInfo->user_name??''}}">
+                                            <input type="user_name" disabled hidden name="user_name" class="form-control rounded-0 profile_edit" id="user_name" value="{{$userInfo->user_name??''}}">
                                         </div>
                                     </div>
                                     <div class="row">
@@ -103,36 +98,51 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
+                                            <label  class="fw-bold" for="gender">Gender</label>
+                                            <input type="text" disabled name="gender" class="form-control rounded-0 profile" id="" value={{config('membership.statuses.gender.1')}}>
+                                            <select name="gender" hidden="hidden" id="gender" class="form-select rounded-0 profile_edit">
+                                                <option selected disabled>--Select</option>
+                                                @foreach(config('membership.gender') as $gender)
+                                                    <option value="{{$gender['id']}}" >
+                                                    {{$gender['text']}}</option>
+                                                @endforeach
+
+                                            </select>
+                                        </div>
+                                        <div class="col-lg profile">
+                                            <label  class="fw-bold" for="dob" class="profile">Age</label>
+                                            <input type="text" disabled  name="dob" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->dob) ? \Carbon\Carbon::parse($userInfo->dob)->age: ''}}">
+                                        </div>
+                                        <div class="col-lg profile_edit"  hidden="hidden">
+                                            <label  class="fw-bold" for="dob" class="profile_edit">Date of Birth</label>
+                                            <input type="date"  name="dob" class="form-control rounded-0 profile_edit" id="dob" value="">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg">
                                             <label  class="fw-bold" for="estate">Sub County</label>
 
-                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->estate_id) ? config('membership.statuses.sub_county')[$userInfo->estate_id]['text'] : ''}}">
+                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->estate_id) ? explode(' ', config('membership.statuses.sub_county')[$userInfo->estate_id]['text'])[0] : ''}}">
 
                                             <select hidden="hidden" name="estate" id="estate" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
                                                 @foreach(config('membership.sub_county') as $sub_county)
                                                     <option value="{{$sub_county['id']}}" >
-                                                    {{$sub_county['text']}}</option>
+                                                    {{explode(' ', $sub_county['text'])[0]}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-lg hide_ward">
-                                            <label  class="fw-bold" for="ward">Ward</label>
-                                            <?php
-                                                $ward = 1;
-                                            ?>
-                                            <input type="text" disabled name="ward" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->estate_id) ? config('membership.statuses.sub_county')[$userInfo->estate_id]['text'] : ''}}">
+                                        <div class="col-lg profile">
+                                            <label  class="fw-bold" for="estate">Ward</label>
 
-                                            <select hidden="hidden" name="ward" id="estate" class="form-select rounded-0 profile_edit">
-                                                <option selected disabled>--Select</option>
-                                                <?php
-                                                    $wards = [1, 2, 3, 4, 5, 6];
-                                                ?>
-                                                @foreach($wards as $sub_county)
-                                                    <option value="{{$sub_county}}" >
-                                                    {{$sub_county}}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{config('membership.statuses.sub_county')[$userInfo->estate_id]['wards'][$userInfo->ward]['text'] ??''}}">
+
                                         </div>
+
+                                        <div class="col-lg hide_ward_get_sub_county">
+
+                                        </div>
+
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="cell_group">Cell Group</label>
 
@@ -276,7 +286,7 @@
                 $('.profile').hide();
                 $('.profile_edit, #profile_btn').removeAttr('hidden');
             }
-            $('.hide_ward').hide()
+            $('.hide_ward_get_sub_county').hide()
             $("#picture").change(function (e){
                 e.preventDefault()
                 // const file = $('input[type=file]')[0].files[0];
@@ -383,10 +393,26 @@
             })
 
             $('body').on('change', '#estate', function (e) {
-                $('.hide_ward').show()
+                $('.hide_ward_get_sub_county').show()
                 e.preventDefault()
-                let sub_count = $(this).val();
-                {{--alert({{config('membership.statuses.sub_county')[$ward]['text']}})--}}
+                let sub_county = $(this).val();
+                let sub_county_name = $(this).html()
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '{{route('profile.pass-subcounty')}}',
+                    method: 'post',
+                    data: {
+                        sub_county:sub_county
+                    },
+                    // dataType: 'json',
+                    success: function (response) {
+                        $('.hide_ward_get_sub_county').html(response)
+                    }
+                });
             })
         });
 

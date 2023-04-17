@@ -185,7 +185,7 @@
             <thead class="bg-info">
                 <tr>
                     <th>S/R</th>
-                    <th>Name</th>
+                    <th>Cell Group</th>
                     <th>Children</th>
                     <th>Teenies</th>
                     <th>Youths</th>

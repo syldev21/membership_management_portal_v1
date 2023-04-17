@@ -65,6 +65,9 @@
                                     <div class="text-center">
                                         <a class="small" href="/register">Create an Account!</a>
                                     </div>
+                                    <div class="text-center">
+                                        <a class="small" href="/">Back to Welcome Page</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +94,7 @@
                 });
                 $.ajax({
                     url: '/login',
-                    method: 'POST',
+                    method: 'post',
                     data: $(this).serialize(),
                     dataType: 'json',
                     success: function (res){
@@ -107,10 +110,6 @@
                                 window.location = '{{ route('profile') }}';
                             }
                         }
-                    },
-                    error: function (errors){
-                        console.log(errors)
-                        alert('errors')
                     }
                 })
             }) ;

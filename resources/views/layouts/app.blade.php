@@ -15,7 +15,7 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
 </head>
-<body class="bg-info" style="background-image: url({{ asset('images/vosh.jpeg') }});background-size: cover;
+<body class="bg-info" style="background-image: url({{ asset('images/slide2.jpeg') }});background-size: cover;
  background-repeat: no-repeat; " id="image_head">
     <main>
         @yield('content')
@@ -29,9 +29,15 @@
 <script>
     $(document).ready(function () {
         var images = [
-            "{{asset('images/login.jpeg')}}",
-            "{{asset('images/vosh22.jpg')}}",
-            "{{asset('images/vosh.jpeg')}}",
+            "{{asset('images/slide-view/slide3.jpeg')}}",
+            "{{asset('images/slide-view/slide4.jpeg')}}",
+            "{{asset('images/slide-view/slide5.jpeg')}}",
+            "{{asset('images/slide-view/slide6.jpeg')}}",
+            "{{asset('images/slide-view/slide7.jpeg')}}",
+            "{{asset('images/slide-view/slide8.jpeg')}}",
+            "{{asset('images/slide-view/slide9.jpeg')}}",
+            "{{asset('images/slide-view/slide10.jpeg')}}",
+            "{{asset('images/slide-view/slide11.jpeg')}}",
         ]
         var image_head = document.getElementById("image_head");
         image_head.style.backgroundRepeat = "no-repeat";

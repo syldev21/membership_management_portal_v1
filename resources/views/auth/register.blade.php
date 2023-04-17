@@ -56,7 +56,10 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="/">Already have an account?</a>
+                                        <a class="small" href="/login-page">Already have an account?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="/">Back to Welcome Page</a>
                                     </div>
                                 </div>
                             </div>
@@ -84,8 +87,9 @@
                     }
                 });
                 $.ajax({
-                    url: '{{route('auth.register')}}',
-                    method: 'POST',
+                    {{--url: '{{route('auth.register')}}',--}}
+                    url: '/register',
+                    method: 'post',
                     data: $(this).serialize(),
                     dataType: 'json',
                     success: function (res){
