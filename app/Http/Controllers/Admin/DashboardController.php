@@ -23,11 +23,6 @@ class DashboardController extends Controller
         return View("admin.dashboard")
             ->with("all_members", $all_members);
     }
-    public function sideProfileEdit(){
-        $user = auth()->user();
-
-        return view('profile', ['userInfo'=>$user]);
-    }
 
     public function members(Request $request){
 
@@ -210,12 +205,14 @@ class DashboardController extends Controller
 
             if (count($role_array)>1){
                 foreach ($role_array as $role){
+                    ModelHasRole::find($id)->delete();
                     ModelHasRole::create([
                         'mode_id'=>$id,
                         'role_id'=>$role
                     ]);
                 }
             }else if (count($role_array) == 1){
+                ModelHasRole::find($id)->delete();
                 list($key, $value) = each($role_array);
 
                 ModelHasRole::create([

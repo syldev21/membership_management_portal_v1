@@ -450,9 +450,6 @@
     </div>
     <script>
         $(document).ready( function () {
-            // if($('.hide-this').data('hide')){
-            //     $('.hide-this').hide()
-            // }
             $('.hide_ward_get_sub_county').hide()
             $('#report_status_category').val('active')
             $('#report_status_category').removeClass('bg-warning')
@@ -520,6 +517,11 @@
                 e.preventDefault()
                 $('.deactivate-modal-title').html('Deactivate '+$(this).data('user_name'))
                 $('#deactivate_user_id').val($(this).data('id'))
+                if($('#deactivate_user_id').val() ==1){
+                    $('#deactivate_btn').html('Deactivate')
+                }else{
+                    $('#deactivate_btn').html('Activate')
+                }
             })
             $("body").on('click', '#edit', function (e) {
                 e.preventDefault()
@@ -582,7 +584,11 @@
 
                 let deactivate_reason = $('#deactivate_data').val()
 
-                $(this).val('Deactivating...');
+                if ($(this).html() == 'Activate'){
+                    $(this).val('Deactivating...');
+                }else {
+                    $(this).val('Activating...');``
+                }
 
 
                 $.ajaxSetup({
@@ -635,7 +641,7 @@
                     },
                     // dataType: 'json',
                     success: function (response) {
-                        $('#with_id').html(response)
+                        // $('#with_id').html(response)
 
                     }
                 });

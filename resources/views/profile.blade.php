@@ -41,16 +41,6 @@
                                     </div>
 
                                     <meta name="csrf-token" content="{{ csrf_token() }}" />
-{{--                                    <div class="my-2">--}}
-{{--                                        <label  class="fw-bold"  for="name">Full Name</label>--}}
-{{--                                        <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{$userInfo->name??''}}">--}}
-{{--                                        <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{$userInfo->name??''}}">--}}
-{{--                                    </div>--}}
-{{--                                    <div class="my-2">--}}
-{{--                                        <label  class="fw-bold" for="name">Email</label>--}}
-{{--                                        <input type="email" disabled name="email" class="form-control rounded-0 profile" id="" value="{{$userInfo->email??''}}">--}}
-{{--                                        <input type="email" hidden name="email" class="form-control rounded-0 profile_edit" id="email" value="{{$userInfo->email??''}}">--}}
-{{--                                    </div>--}}
                                     <div class="row">
                                         <div class="col-lg">
                                             <label  class="fw-bold"  for="name">Full Name</label>

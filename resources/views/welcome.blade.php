@@ -16,7 +16,6 @@
                             <div class="align-content-center"><h3 style="text-align: center; color: white">Welcome to VOSH Church Buru Buru Membership Portal</h3>
                                 <div class="card-body p-0">
                                     <div class="card-body p-0">
-                                        <!-- Nested Row within Card Body -->
                                         <div class="bg-body">
                                             <div style="float: left; margin-left: 55px; height: 50px">
                                                 <input class="bg-primary rounded-5" id="login_page" type="button" style="height: 50px; width: 250px; color: white" value="Login Page">
@@ -52,10 +51,11 @@
                     }
                 });
                 $.ajax({
-                    url: '/login-page',
+                    url: '/login',
                     method: 'get',
                     success: function (res){
                                 $('.page-here').html(res)
+                        window.location.href='/login'
                     }
                 })
             }) ;
@@ -73,6 +73,7 @@
                     method: 'get',
                     success: function (res){
                                 $('.page-here').html(res)
+                        window.location.href='/register'
                     }
                 })
             }) ;

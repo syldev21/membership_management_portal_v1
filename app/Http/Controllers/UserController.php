@@ -77,7 +77,7 @@ class UserController extends Controller
           $user->save();
           return  response()->json([
               'status'=>200,
-              'messages'=>'Registered Successfully;&nbsp; Your username is '.$user_name.' <a href="/">Login Now</a>',
+              'messages'=>'Registered Successfully;&nbsp; Your username is '.$user_name.' <a href="/login">Login Now</a>',
           ]);
       }
     }
@@ -248,11 +248,21 @@ public function profile(Request $request){
     public function deactivate(Request $request){
         $member_id = $request->id;
         if (isset($member_id)){
-            User::where('id', $member_id)->update(['active'=>0]);
-            return response()->json([
-                'status'=>200,
-                'messages'=>'Member deactivated successfully'
-            ]);
+            $user = User::where('id', $member_id)->limit(1)->get()->first();
+            if ($user->active == 1){
+                $user->update(['active'=>0]);
+                return response()->json([
+                    'status'=>200,
+                    'messages'=>'Member deactivated successfully'
+                ]);
+            }else{
+                $user->update(['active'=>1]);
+                return response()->json([
+                    'status'=>200,
+                    'messages'=>'Member activated successfully'
+                ]);
+            }
+
         }else{
             return response()->json([
                 'status'=>401,
