@@ -7,20 +7,32 @@
                 <div class="card shadow" id="dashboar">
                     <div class="card-header d-flex justify-content-between align-items-center bg-light">
                         <h2 class="text-secondary fw-bold">User Profile</h2>
-                        <a href="{{route('auth.logout')}}" class="btn btn-dark">Logout</a>
+                        <div class="row">
+                            <div class="my-2">
+                                <button type="button" class="btn btn-primary rounded-5" id="edit_profile_button">
+                                    <i class="fa fa-edit"></i>
+                                    Edit Profile
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body p-1">
                         <div id="profile_alert"></div>
                         <div class="row">
                              <div class="col-lg-4 px-5 text-center" style="border-right: 1px solid #999;">
                                  @php
-                                         $picture = isset($userInfo->picture) ?? asset('images/vosh_avator.jpg');
+                                         $picture = isset($userInfo->picture) ? 'stotage/images/{{}}' : asset('images/vosh_avator.jpg');
                                  @endphp
 
-                                 <img src="{{public_path(asset('/images/vosh_avator.jpg'))}}" id="image_preview" class="img-fluid rounded-circle img-thumbnail" width="200">
+
+                                 @if($userInfo->picture)
+                                     <img src="storage/images/{{ $userInfo->picture }}" id="image_preview" class="img-fluid rounded-circle img-thumbnail" width="200">
+                                 @else
+                                     <img src="{{asset('/images/vosh_avator.jpg')}}" id="image_preview" class="img-fluid rounded-circle img-thumbnail" width="200">
+                                 @endif
                                  <input type="hidden" id="distinguish_page" value="{{$userInfo}}">
                                  <div>
-                                     <label class="fw-bold">Change Profile Picture</label>
+                                     <label class="fw-bolder">Change Profile Picture</label>
                                      <input type="file" for="picture" name="picture" class="form-control rounded-pill" id="picture">
                                      </div>
                                      <div class="row">
@@ -43,29 +55,35 @@
                                     <meta name="csrf-token" content="{{ csrf_token() }}" />
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold"  for="name">Full Name</label>
-                                            <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{$userInfo->name??''}}">
-                                            <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{$userInfo->name??''}}">
+                                            <label  class="fw-bolder"  for="name">Surname</label>
+                                            <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{explode(' ', $userInfo->name)[2]??explode(' ', $userInfo->name)[1]}}">
+                                            <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{explode(' ', $userInfo->name)[2]??explode(' ', $userInfo->name)[1]}}">
                                         </div>
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="name">Email</label>
+                                            <label  class="fw-bolder"  for="name">Other Names</label>
+                                            <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{isset(explode(' ', $userInfo->name)[2])?explode(' ', $userInfo->name)[0].' '.explode(' ', $userInfo->name)[1]:explode(' ', $userInfo->name)[0]}}">
+                                            <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{isset(explode(' ', $userInfo->name)[2])?explode(' ', $userInfo->name)[0].' '.explode(' ', $userInfo->name)[1]:explode(' ', $userInfo->name)[0]}}">
+                                        </div>
+                                        <div class="col-lg">
+                                            <label  class="fw-bolder" for="name">Email</label>
                                             <input type="email" disabled name="email" class="form-control rounded-0 profile" id="" value="{{$userInfo->email??''}}">
                                             <input type="email" hidden name="email" class="form-control rounded-0 profile_edit" id="email" value="{{$userInfo->email??''}}">
                                         </div>
-                                        <div class="col-lg">
-                                            <label  class="fw-bold" for="name">User Name</label>
+                                        <div class="col-lg profile">
+                                            <label  class="fw-bolder" for="name">User Name</label>
                                             <input type="user_name" disabled name="user_name" class="form-control rounded-0 profile" id="" value="{{$userInfo->user_name??''}}">
                                             <input type="user_name" disabled hidden name="user_name" class="form-control rounded-0 profile_edit" id="user_name" value="{{$userInfo->user_name??''}}">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold hide-status" for="phone">Phone</label>
+                                            <label  class="fw-bolder hide-status" for="phone">Phone</label>
                                             <input type="tel" disabled  name="phone" class="form-control rounded-0 profile" id="" value="{{$userInfo->phone?? ''}}">
-                                            <input type="tel" hidden="hidden"  name="phone" class="form-control rounded-0 profile_edit hide-status hide-field" id="phone" value="{{isset(auth()->user()->phone)?auth()->user()->phone:''}}">
+                                            <input type="tel" hidden="hidden"  name="phone" class="form-control rounded-0 profile_edit hide-status hide-field" id="phone" value="{{auth()->user()->phone == 'N/A'?'':auth()->user()->phone}}">
+                                            <div class="invalid-feedback hide-status"></div>
                                         </div>
                                         <div class="col-lg">
-                                            <label  class="fw-bold hide-status" for="marital_status">Marital Status</label>
+                                            <label  class="fw-bolder hide-status" for="marital_status">Marital Status</label>
 
                                             <?php
                                             if (isset($userInfo->marital_status_id)){
@@ -89,7 +107,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="gender">Gender</label>
+                                            <label  class="fw-bolder" for="gender">Gender</label>
                                             <input type="text" disabled name="gender" class="form-control rounded-0 profile" id="" value={{config('membership.statuses.gender.1')}}>
                                             <select name="gender" hidden="hidden" id="gender" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
@@ -101,17 +119,36 @@
                                             </select>
                                         </div>
                                         <div class="col-lg profile">
-                                            <label  class="fw-bold" for="dob" class="profile">Age</label>
-                                            <input type="text" disabled  name="dob" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->dob) ? \Carbon\Carbon::parse($userInfo->dob)->age: ''}}">
+                                            <?php
+                                            if (isset(auth()->user()->dob)){
+                                                $comp_full_age = \Carbon\Carbon::parse(auth()->user()->dob)->diff(\Carbon\Carbon::now());
+                                                $years = $comp_full_age->y;
+                                                $months = $comp_full_age->m;
+                                                $days = $comp_full_age->d;
+                                                $full_age = $years.' years, '.$months.' months and '.$days.' days';
+                                                $full_age_array = explode(',', $full_age);
+
+                                                $first_age_parameter= $full_age_array[0];
+                                                $full_first_age_parameter = explode(' ', $first_age_parameter);
+                                                $first_full_first_age_parameter = $full_first_age_parameter[0];
+
+                                                if ($first_full_first_age_parameter == 0){
+                                                    array_shift($full_age_array);
+                                                    $full_age = implode(' ', $full_age_array);
+                                                }
+                                            }?>
+                                            <label  class="fw-bolder" for="dob" class="profile">Age</label>
+                                            <input type="text" disabled  name="dob" class="form-control rounded-0 profile" id="" value="{{$full_age?:''}}">
                                         </div>
                                         <div class="col-lg profile_edit"  hidden="hidden">
-                                            <label  class="fw-bold" for="dob" class="profile_edit">Date of Birth</label>
+                                            <label  class="fw-bolder" for="dob" class="profile_edit">Date of Birth</label>
                                             <input type="date"  name="dob" class="form-control rounded-0 profile_edit" id="dob" value="">
+                                            <div class="invalid-feedback"></div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="estate">Sub County</label>
+                                            <label  class="fw-bolder" for="estate">Sub County</label>
 
                                             <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->estate_id) ? explode(' ', config('membership.statuses.sub_county')[$userInfo->estate_id]['text'])[0] : ''}}">
 
@@ -124,7 +161,7 @@
                                             </select>
                                         </div>
                                         <div class="col-lg profile">
-                                            <label  class="fw-bold" for="estate">Ward</label>
+                                            <label  class="fw-bolder" for="estate">Ward</label>
 
                                             <input type="text" disabled name="estate" class="form-control rounded-0 profile" id="" value="{{config('membership.statuses.sub_county')[$userInfo->estate_id]['wards'][$userInfo->ward]['text'] ??''}}">
 
@@ -135,7 +172,7 @@
                                         </div>
 
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="cell_group">Cell Group</label>
+                                            <label  class="fw-bolder" for="cell_group">Cell Group</label>
 
                                             <input type="text" disabled name="cell_group" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->cell_group_id) ? config('membership.statuses.cell_group')[$userInfo->cell_group_id] : ''}}">
                                             <select hidden="hidden" name="cell_group" id="cell_group" class="form-select rounded-0 profile_edit">
@@ -151,7 +188,7 @@
 
 
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="education_level">Level of Education</label>
+                                            <label  class="fw-bolder" for="education_level">Level of Education</label>
                                             <input type="text" disabled name="education_level" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->education_level_id) ? config('membership.statuses.level_of_education')[$userInfo->education_level_id]  : ''}}">
 
                                             <select hidden="hidden" name="education_level" id="education_level" class="form-select rounded-0 profile_edit">
@@ -164,7 +201,7 @@
                                         </div>
 
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="born_again">Born Again</label>
+                                            <label  class="fw-bolder" for="born_again">Born Again</label>
                                             <input type="text" disabled name="born_again" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->born_again_id) ? config('membership.statuses.flag')[$userInfo->born_again_id]  : ''}}">
 
                                             <select hidden="hidden" name="born_again" id="born_again" class="form-select rounded-0 profile_edit">
@@ -178,7 +215,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="leadership_status">In Leadership?</label>
+                                            <label  class="fw-bolder" for="leadership_status">In Leadership?</label>
 
                                             <input type="text" disabled name="leadership_status" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->leadership_status_id) ? config('membership.statuses.flag')[$userInfo->leadership_status_id]: ''}}">
                                             <select hidden="hidden" name="leadership_status" id="leadership_status" class="form-select rounded-0 profile_edit">
@@ -190,7 +227,7 @@
                                             </select>
                                         </div>
                                         <div class="col-lg" hidden="hidden">
-                                            <label  class="fw-bold" for="ministry">Current Ministry</label>
+                                            <label  class="fw-bolder" for="ministry">Current Ministry</label>
                                             <input type="text" disabled name="ministry" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->ministry_id) ? config('membership.statuses.ministry')[$userInfo->ministry_id] : ''}}">
 
                                             <select hidden="hidden" name="ministry" id="ministry" class="form-select rounded-0 profile_edit">
@@ -203,7 +240,7 @@
                                         </div>
                                     </div>
                                     <div class="row profile_edit" hidden="hidden">
-                                        <label  class="fw-bold" for="leadership_status">Current Ministry/ Ministry of Interest (Tick all the applicable options)</label>
+                                        <label  class="fw-bolder" for="leadership_status">Current Ministry/ Ministry of Interest (Tick all the applicable options)</label>
                                         @foreach(config('membership.ministry') as $ministry)
                                             <div class="form-check col-lg">
                                                 <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="{{$ministry['id']}}">
@@ -213,7 +250,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold hide-status" for="occupation">Occupation/ Specialization</label>
+                                            <label  class="fw-bolder hide-status" for="occupation">Occupation/ Specialization</label>
                                             <?php
                                             if (isset($userInfo->occupation_id)){
                                                 $occupation = is_numeric($userInfo->occupation_id) ? config('membership.statuses.occupation')[$userInfo->occupation_id] : $userInfo->occupation_id;
@@ -233,7 +270,7 @@
                                         </div>
 
                                         <div class="col-lg">
-                                            <label  class="fw-bold hide-status" for="employment_status">Employment Status</label>
+                                            <label  class="fw-bolder hide-status" for="employment_status">Employment Status</label>
 
 
                                             <?php
@@ -258,6 +295,7 @@
                                     </div>
 
                                     <div class="my-2">
+                                        <input type="button"  hidden="hidden" class="btn btn-secondary rounded-5 float-left" value="Ignore" id="ignore_btn">
                                         <input type="submit" hidden="hidden" class="btn btn-primary rounded-0 float-end" value="Update Profile" id="profile_btn">
                                     </div>
                                 </form>
@@ -273,9 +311,10 @@
 @section('script')
     <script>
         $(function (){
+            $('.profile').val()
             if ($('#add_user_id').val() == 'admin'){
                 $('.profile').hide();
-                $('.profile_edit, #profile_btn').removeAttr('hidden');
+                $('.profile_edit, #ignore_btn, #profile_btn').removeAttr('hidden');
             }
             $('.hide_ward_get_sub_county').hide()
             $("#picture").change(function (e){
@@ -313,8 +352,8 @@
             $('body').on('submit', '#profile_form', function (e){
                 e.preventDefault();
                 let id = $('#user_id').val();
-                alert($(this).attr('id'))
                 $('#profile_btn').val('Updating...');
+                $('#ignore_btn').hide();
 
                 $.ajaxSetup({
                     headers: {
@@ -338,6 +377,16 @@
                             setTimeout(function() {
                                 window.location.href = "{{route('profile')}}"
                             }, 1000);
+                        }else if (response.status == 400){
+                            showError('phone', response.messages.phone);
+                            $('#profile_btn').val('Update');
+                            $('#ignore_btn').show();
+                            $('#profile_form')[0].reset();
+                        }else if(response.status == 401){
+                            showError('dob', response.messages.dob);
+                            $('#profile_btn').val('Update');
+                            $('#ignore_btn').show();
+                            $('#profile_form')[0].reset();
                         }
                     }
                 });
@@ -345,9 +394,13 @@
             // if($('#distinguish_page').val(undefined)) {
             //     $('#edit_profile_button').html('yeza Profile')
             // }
+            $('#ignore_btn').click(function (e) {
+                e.preventDefault();
+                window.location = '{{'profile'}}'
+            })
             $('body').on('click', '#edit_profile_button', function (e) {
                 e.preventDefault();
-                $('.profile_edit, #profile_btn').removeAttr('hidden');
+                $('.profile_edit, #ignore_btn, #profile_btn').removeAttr('hidden');
                 $('.profile').hide();
                 if($('#distinguish_page').val() == undefined){
                     let id = $(this).data('side-edit')

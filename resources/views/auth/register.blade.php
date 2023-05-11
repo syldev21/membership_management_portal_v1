@@ -28,8 +28,14 @@
                                         @csrf
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
-                                                   name="name" id="name" aria-describedby="emailHelp"
-                                                   placeholder="Enter Your Name...">
+                                                   name="surName" id="surName" aria-describedby="emailHelp"
+                                                   placeholder="Surname...">
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                         <div class="form-group">
+                                            <input type="text" class="form-control form-control-user"
+                                                   name="otherNames" id="otherNames" aria-describedby="emailHelp"
+                                                   placeholder="Other Names...">
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="form-group">
@@ -49,6 +55,13 @@
                                                    name="confirm_password" id="confirm_password" aria-describedby="emailHelp"
                                                    placeholder="Confirm Password">
                                             <div class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="terms" name="terms" data-bs-toggle="modal" data-bs-target="#termsModal" value="">
+                                                <label class="custom-control-label" for="terms">Agree with terms and conditions</label>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
                                         </div>
                                         <div class="">
                                             <input type="submit" value="Register" class="btn btn-primary btn-user btn-block" id="register_btn">
@@ -70,15 +83,126 @@
             </div>
 
         </div>
+        {{--Terms Modal--}}
 
+        <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning">
+
+                        <h5 class="fw-bold text-white" id="exampleModalLabel">Terms and Conditions for MOSH Church Buru Buru Membership Portal Registration</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <input type="" id="delete_user_id" value="" hidden="hidden">
+                    <div id="terms_alert"></div>
+                    <div class="invalid-feedback"></div>
+                    <div class="modal-body">
+                        <form method="POST" id="terms_form">
+                            @csrf
+                            <div class="my-2">
+                                <ol class="fw-bold text-white bg-primary">
+                                    <li>
+                                        VOSH Church Buru Buru will hold your data as a data processor
+                                    </li>
+                                    <li>
+                                        We use the information we collect from you, to understand our members better
+                                    </li>
+                                    <li>
+                                        We use the information to have accurate number of members in our records
+                                    </li>
+                                    <li>
+                                        The information about you will help us do follow-up on a member who stays away for an alarming period
+                                    </li>
+                                    <li>
+                                        We use the information to identify those who do not belong to any cell group and allocate them appropriately
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="form-group bg-light">
+                                <div class="form-check text-success">
+                                    <input type="radio" class="form-check-input" id="accept_radio" name="review_radio" value="1">Accept
+                                    <label class="form-check-label" for="accept_radio"></label>
+                                </div>
+                                <div class="form-check text-danger">
+                                    <input type="radio" class="form-check-input" id="reject_radio" name="review_radio" value="2">Reject
+                                    <label class="form-check-label" for="reject_radio"></label>
+                                </div>
+                                <div class="invalid-feedback"></div>
+                                <div class="invalid-review-feedback"></div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button style="!important; float: left" type="button" class="btn btn-secondary rounded-5" data-bs-dismiss="modal">Close</button>
+                        <button style="!important; float: right" type="button" class="btn btn-warning rounded-5 accept_btn" data-bs-dismiss="" data-toggle="tooltip" data-placement="bottom" title="Make sure you selected an option before clicking this button!"><span class="review_icon"><i class="fa fa-check"></i></span>Submit Review</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+float: left
     </div>@endsection
 
 @section('script')
     <script>
         $(function(){
+            $('input[type=radio][name=review_radio]').prop('checked', false);
+            $('input[type=radio][name=review_radio]').on('change', function() {
+                if($(this).val()== 1){
+                    $('.accept_btn').html('Accept')
+                    $('.accept_btn').removeClass('btn-danger')
+                    $('.accept_btn').removeClass('btn-warning')
+                    $('.accept_btn').addClass('btn-success')
+                }else {
+                    $('.accept_btn').html('Reject')
+                    $('.accept_btn').removeClass('btn-warning')
+                    $('.accept_btn').removeClass('btn-success')
+                    $('.accept_btn').addClass('btn-danger')
+                }
+            })
+
+            $('.accept_btn').click(function (e){
+                e.preventDefault()
+                $('.accept_btn').val('Submitting...')
+                $.ajaxSetup({
+
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '/review-terms',
+                    method: 'POST',
+                    data: $('#terms_form').serialize(),
+                    dataType: 'json',
+                    success: function (response){
+                        if (response.status == 400){
+                            showError('review_radio', response.messages.review_radio);
+                            $('.invalid-review-feedback').html(showMessage('danger', response.messages))
+                            $('.accept_btn').val('Submit Review')
+                        }else{
+                            if (response.status == 200){
+                                $('#terms_alert').html(showMessage('success', response.messages));
+                                $('#terms').prop('checked', true)
+                                $('#terms').val(1)
+                                $('.accept_btn').val('Submit Review')
+                            }else {
+                                $('#terms_alert').html(showMessage('warning', response.messages));
+                                $('#terms').prop('checked', false)
+                                $('.accept_btn').val('Submit Review')
+                            }
+
+                            setTimeout(function() {
+                                $('#termsModal').modal('hide')
+                            }, 1000);
+                        }
+                        $('#terms_form')[0].reset();
+                    }
+                })
+            })
+
             $('#register_form').submit(function (e) {
                 e.preventDefault();
-                // alert('hello bro')
                 $('#register_btn').val('Please Wait...');
                 $.ajaxSetup({
 
@@ -87,19 +211,21 @@
                     }
                 });
                 $.ajax({
-                    {{--url: '{{route('auth.register')}}',--}}
                     url: '/register',
                     method: 'post',
                     data: $(this).serialize(),
                     dataType: 'json',
                     success: function (res){
                         if(res.status == 400){
-                            showError('name', res.messages.name);
+                            showError('surName', res.messages.surName);
+                            showError('otherNames', res.messages.otherNames);
                             showError('email', res.messages.email);
                             showError('password', res.messages.password);
                             showError('confirm_password', res.messages.confirm_password);
+                            showError('terms', res.messages.terms);
                             $('#register_btn').val('Register');
-                        }else if(res.status == 200){
+                        }
+                        else if(res.status == 200){
                             $('#show-success-alert').html(showMessage('success', res.messages));
                             $('#register_form')[0].reset();
                             removeValidationClasses('#register_form');

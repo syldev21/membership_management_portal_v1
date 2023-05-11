@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [\App\Http\Controllers\UserController::class, 'loginPage']);
 Route::get('/registration-page', [\App\Http\Controllers\UserController::class, 'registrationPage']);
+Route::post('/review-terms', [\App\Http\Controllers\UserController::class, 'reviewTerms']);
 Route::get('/register', [\App\Http\Controllers\UserController::class, 'register']);
 Route::get('/forgot', [\App\Http\Controllers\UserController::class, 'forgot']);
 Route::get('/reset/{email}/{token}', [\App\Http\Controllers\UserController::class, 'reset'])->name('reset');
@@ -42,22 +43,19 @@ Route::group(['middleware'=>['LoginCheck']], function (){
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/side-profile-edit', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('side-profile-edit');
     Route::get('/main-church-members', [\App\Http\Controllers\Admin\DashboardController::class, 'churchMembers'])->name('members.index');
-    Route::get('/members', [\App\Http\Controllers\Admin\DashboardController::class, 'members']);
+    Route::get('/status-based-members', [\App\Http\Controllers\Admin\DashboardController::class, 'statusBasedMembers']);
+    Route::get('/conditional_title_array', [\App\Http\Controllers\Admin\DashboardController::class, 'conditionTitleArray']);
     Route::post('delete-member', [\App\Http\Controllers\UserController::class, 'destroy'])->name('destroy');
     Route::post('deactivate-member', [\App\Http\Controllers\UserController::class, 'deactivate'])->name('deactivate');
     Route::post('/edit-member', [\App\Http\Controllers\UserController::class, 'profileUpdate'])->name('profile.admin_update');
     Route::post('/admin-add-member', [\App\Http\Controllers\Admin\DashboardController::class, 'adminRegisterMember'])->name('members.create');
     Route::post('/admin-assign-role', [\App\Http\Controllers\Admin\DashboardController::class, 'adminAssignRole'])->name('members.assign');
     Route::post('/admin-assign-id', [\App\Http\Controllers\Admin\DashboardController::class, 'adminAssignId'])->name('members.assign_id');
+    Route::post('/admin-review-membership', [\App\Http\Controllers\Admin\DashboardController::class, 'reviewMembership'])->name('admin.review-membership');
 });
 
-
-Route::get('tester', function (){
-    $kisumu = 'Kisumu county';
-    $rift = 'rift valley county';
-    $kisumu_array_count = count(explode(' ', $kisumu));
-    $rift_array_count = count(explode(' ', $rift));
-    dump($kisumu_array_count);
-    dd($rift_array_count);
+//test route
+Route::get('test', function (){
+    return view('admin.watermark');
 });
 

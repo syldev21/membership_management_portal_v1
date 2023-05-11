@@ -1,6 +1,32 @@
 <?php
 
 return [
+    'registration_statuses'=>[
+      'declined_members'=>[
+          'id'=>0,
+          'text'=>'Declined Registrations'
+      ],
+      'cell_group_registered'=>[
+          'id'=>1,
+          'text'=>'Registered'
+      ],
+      'cell_group_approved'=>[
+          'id'=>2,
+          'text'=>'Approved'
+      ],
+      'church_registered'=>[
+          'id'=>3,
+          'text'=>'Registered'
+      ],
+      'church_provisionally_approved'=>[
+          'id'=>4,
+          'text'=>'Provisionally Approved'
+      ],
+      'church_approved'=>[
+          'id'=>5,
+          'text'=>'Approved'
+      ],
+    ],
     'delete_reason'=>[
         'death'=> [
             'text'=>'Death',
@@ -15,7 +41,21 @@ return [
             'id'=>3
         ],
     ],
+    'decline_reason'=>[
+        'not_cell_group_member'=> [
+            'text'=>'Not a Cell Group Member',
+            'id'=>1
+        ],
+        'not_a_church_member'=> [
+            'text'=>'Not a Church Member',
+            'id'=>2
+        ],
+    ],
     'roles'=>[
+        'view_only'=>[
+            'id'=>0,
+            'text'=>'View Only'
+        ],
         'admin'=>[
             'id'=>1,
             'text'=>'Admin'
@@ -31,11 +71,8 @@ return [
         'cell_group_pastor'=>[
             'id'=>4,
             'text'=>'Cell Group Pastor'
-        ],
-        'cell_group_secretary'=>[
-            'id'=>5,
-            'text'=>'Cell Group Secretary'
         ]
+
     ],
     'deactivate_reason'=>[
         'transfer'=> [
@@ -73,7 +110,10 @@ return [
         ],'Jericho' => [
             'text' => "Jericho",
             'id' => 7
-        ],
+        ],'not_sure'=>[
+            'text'=>'Not sure',
+            'id'=>8
+        ]
     ],
     'sub_county'=>[
         'ruaka'=>[
@@ -724,22 +764,143 @@ return [
             'id'=>0,
             'text'=>'All Members'
         ],
-        'Children'=>[
+        'stage1'=>[
+            'start'=>0,
+            'end'=>4,
             'id'=>1,
-            'text'=>'Children'
-        ],'Teenies'=>[
+            'text'=>'Stage 1'
+        ],'stage2'=>[
+            'start'=>5,
+            'end'=>9,
             'id'=>2,
-            'text'=>'Teenies'
-        ],'Youths'=>[
+            'text'=>'Stage 2'
+        ],'stage3'=>[
+            'start'=>10,
+            'end'=>14,
             'id'=>3,
-            'text'=>'Youths'
-        ],'Middle_Age'=>[
+            'text'=>'Stage 3'
+        ],'stage4'=>[
+            'start'=>15,
+            'end'=>19,
             'id'=>4,
-            'text'=>'Middle Age'
-        ],'Adults'=>[
-            'id'=>5,
-            'text'=>'Adults'
+            'text'=>'Stage 4'
         ]
+        ,'stage5'=>[
+            'start'=>10,
+            'end'=>24,
+            'id'=>5,
+            'text'=>'Stage 5'
+        ]
+        ,'stage6'=>[
+            'start'=>0,
+            'end'=>25,
+            'id'=>29,
+            'text'=>'Stage 6'
+        ]
+        ,'stage7'=>[
+            'start'=>30,
+            'end'=>34,
+            'id'=>7,
+            'text'=>'Stage 7'
+        ]
+        ,'stage8'=>[
+            'start'=>35,
+            'end'=>39,
+            'id'=>8,
+            'text'=>'Stage 8'
+        ]
+        ,'stage9'=>[
+            'start'=>40,
+            'end'=>44,
+            'id'=>9,
+            'text'=>'Stage 9'
+        ]
+        ,'stage10'=>[
+            'start'=>45,
+            'end'=>49,
+            'id'=>10,
+            'text'=>'Stage 10'
+        ]
+        ,'stage11'=>[
+            'start'=>50,
+            'end'=>54,
+            'id'=>11,
+            'text'=>'Stage 11'
+        ]
+        ,'stage12'=>[
+            'start'=>55,
+            'end'=>59,
+            'id'=>12,
+            'text'=>'Stage 12'
+        ]
+        ,'stage13'=>[
+            'start'=>60,
+            'end'=>64,
+            'id'=>13,
+            'text'=>'Stage 13'
+        ]
+        ,'stage14'=>[
+            'start'=>65,
+            'end'=>69,
+            'id'=>14,
+            'text'=>'Stage 14'
+        ]
+        ,'stage15'=>[
+            'start'=>70,
+            'end'=>74,
+            'id'=>15,
+            'text'=>'Stage 15'
+        ]
+        ,'stage16'=>[
+            'start'=>75,
+            'end'=>79,
+            'id'=>16,
+            'text'=>'Stage 16'
+        ]
+        ,'stage17'=>[
+            'start'=>80,
+            'id'=>17,
+            'text'=>'Stage 17'
+        ]
+    ],
+
+    'title'=>[
+      'bishop'=>[
+          'text'=>'Bishop',
+          'id'=>1
+      ],
+      'ass_bishop'=>[
+          'text'=>'Assistant Bishop',
+          'id'=>2
+      ],
+      'reverend'=>[
+          'text'=>'Reverend',
+          'id'=>3
+      ],
+      'apostle'=>[
+          'text'=>'Apostle',
+          'id'=>4
+      ],
+      'evangelist'=>[
+          'text'=>'Evangelist',
+          'id'=>5
+      ],
+      'pastor'=>[
+          'text'=>'Pastor',
+          'id'=>6
+      ],
+      'member'=>[
+          'text'=>'Member',
+          'id'=>7
+      ],
+      'elder'=>[
+          'text'=>'Elder',
+          'id'=>8
+      ],
+      'admin'=>[
+          'text'=>'Admin',
+          'id'=>9
+      ],
     ],
 
     "LATER_DATE"=>[
@@ -748,7 +909,103 @@ return [
 
 
     'statuses'=>[
+        'roles'=>[
+            0=>[
+                'id'=>0,
+                'text'=>'View Only'
+            ],
+            1=>[
+                'id'=>1,
+                'text'=>'Admin'
+            ],
+            2=>[
+                'id'=>2,
+                'text'=>'Church Secretary'
+            ],
+            3=>[
+                'id'=>3,
+                'text'=>'Assistant Church Secretary'
+            ],
+            4=>[
+                'id'=>4,
+                'text'=>'Cell Group Pastor'
+            ]
 
+        ],
+        'title'=>[
+            1=>[
+                'text'=>'Bishop',
+                'id'=>1
+            ],
+            2=>[
+                'text'=>'Assistant Bishop',
+                'id'=>2
+            ],
+            3=>[
+                'text'=>'Reverend',
+                'id'=>3
+            ],
+            4=>[
+                'text'=>'Apostle',
+                'id'=>4
+            ],
+            5=>[
+                'text'=>'Evangelist',
+                'id'=>5
+            ],
+            6=>[
+                'text'=>'Pastor',
+                'id'=>6
+            ],
+            7=>[
+                'text'=>'Member',
+                'id'=>7
+            ],
+            8=>[
+                'text'=>'Elder',
+                'id'=>8
+            ],
+            9=>[
+                'text'=>'Admin',
+                'id'=>9
+            ],
+        ],
+        'decline_reason'=>[
+            1=> [
+                'text'=>'Not a Cell Group Member',
+                'id'=>1
+            ],
+            2=> [
+                'text'=>'Not a Church Member',
+                'id'=>2
+            ],
+        ],
+        'registration_statuses'=>[
+            0=>[
+                'id'=>0,
+                'text'=>'Declined Registrations'
+            ],
+            1=>[
+                'id'=>1,
+                'text'=>'Registered'
+            ],
+            2=>[
+                'id'=>2,
+                'text'=>'Approved'
+            ],
+            3=>[
+                'id'=>3,
+                'text'=>'Registered'
+            ],
+            4=>[
+                'id'=>4,
+                'text'=>'Provisionally Approved'
+            ],
+            5=>[
+                'id'=>5,
+                'text'=>'Approved'
+            ],
+        ],
        'sub_county'=>[
             1=>[
                 'text'=>'Ruaka sub-county',
@@ -1141,6 +1398,7 @@ return [
             5 =>'Diaspora',
             6 =>"Lang'ata",
             7 =>"Jericho",
+            8 =>"Not Sure",
         ],
         'gender' => [
             1 =>'Male',
@@ -1223,13 +1481,109 @@ return [
             14=>'Strategy, Monitoring & Evaluation Unit',
             15=>'Audit, Risk & Compliance Unit'
         ],
-        'age_cluster'=>[
-            0=>'All Members',
-            1=>'Children',
-            2=>'Teenies',
-            3=>'Youths',
-            4=>'Middle Age',
-            5=>'Adults',
+        'age_clusters'=>[
+            0=>[
+                'id'=>0,
+                'text'=>'All Members'
+            ],
+            1=>[
+                'start'=>0,
+                'end'=>4,
+                'id'=>1,
+                'text'=>'Stage 1'
+            ],2=>[
+                'start'=>5,
+                'end'=>9,
+                'id'=>2,
+                'text'=>'Stage 2'
+            ],3=>[
+                'start'=>10,
+                'end'=>14,
+                'id'=>3,
+                'text'=>'Stage 3'
+            ],4=>[
+                'start'=>15,
+                'end'=>19,
+                'id'=>4,
+                'text'=>'Stage 4'
+            ]
+            ,5=>[
+                'start'=>10,
+                'end'=>24,
+                'id'=>5,
+                'text'=>'Stage 5'
+            ]
+            ,29=>[
+                'start'=>0,
+                'end'=>25,
+                'id'=>29,
+                'text'=>'Stage 6'
+            ]
+            ,7=>[
+                'start'=>30,
+                'end'=>34,
+                'id'=>7,
+                'text'=>'Stage 7'
+            ]
+            ,8=>[
+                'start'=>35,
+                'end'=>39,
+                'id'=>8,
+                'text'=>'Stage 8'
+            ]
+            ,9=>[
+                'start'=>40,
+                'end'=>44,
+                'id'=>9,
+                'text'=>'Stage 9'
+            ]
+            ,10=>[
+                'start'=>45,
+                'end'=>49,
+                'id'=>10,
+                'text'=>'Stage 10'
+            ]
+            ,11=>[
+                'start'=>50,
+                'end'=>54,
+                'id'=>11,
+                'text'=>'Stage 11'
+            ]
+            ,12=>[
+                'start'=>55,
+                'end'=>59,
+                'id'=>12,
+                'text'=>'Stage 12'
+            ]
+            ,13=>[
+                'start'=>60,
+                'end'=>64,
+                'id'=>13,
+                'text'=>'Stage 13'
+            ]
+            ,14=>[
+                'start'=>65,
+                'end'=>69,
+                'id'=>14,
+                'text'=>'Stage 14'
+            ]
+            ,15=>[
+                'start'=>70,
+                'end'=>74,
+                'id'=>15,
+                'text'=>'Stage 15'
+            ]
+            ,16=>[
+                'start'=>75,
+                'end'=>79,
+                'id'=>16,
+                'text'=>'Stage 16'
+            ]
+            ,17=>[
+                'start'=>80,
+                'id'=>17,
+                'text'=>'Stage 17'
+            ]
         ],
         ],
 ];

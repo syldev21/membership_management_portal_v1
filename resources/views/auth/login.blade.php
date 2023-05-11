@@ -55,7 +55,7 @@
                                             <input type="submit" value="Login" class="btn btn-primary btn-user btn-block" id="login_button">
 {{--                                            <a href="/signin" class="btn btn-primary btn-user btn-block">--}}
                                                 Login
-                                            </a>
+{{--                                            </a>--}}
                                         </div>
                                     </form>
                                     <hr>
@@ -98,17 +98,12 @@
                     data: $(this).serialize(),
                     dataType: 'json',
                     success: function (res){
-                        if (res.status == 400){
-                            showError('email', res.messages.email);
+                        if(res.status == 401){
+                            showError('user_name', res.messages.user_name);
                             showError('password', res.messages.password);
                             $('#login_button').val('Login');
-                        }else if(res.status == 401){
-                            $('#login_alert').html(showMessage('danger', res.message));
-                            $('#login_button').val('Login');
-                        }else {
-                            if (res.status === 200 && res.messages === 'Success'){
+                        }else if (res.status == 200){
                                 window.location = '{{ route('profile') }}';
-                            }
                         }
                     }
                 })

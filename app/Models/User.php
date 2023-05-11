@@ -19,6 +19,7 @@ class User extends Authenticatable
         'phone',
         'marital_status_id',
         'estate_id',
+        'ward',
         'cell_group_id',
         'employment_status_id',
         'born_again_id',
@@ -30,4 +31,10 @@ class User extends Authenticatable
         'token',
         'token_expire',
     ];
+
+    public function roles()
+    {
+        return $this->hasMany(ModelHasRole::class, 'mode_id', 'id');
+    }
+
 }

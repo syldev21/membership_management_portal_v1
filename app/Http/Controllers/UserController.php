@@ -50,16 +50,47 @@ class UserController extends Controller
         return view('auth.reset', ['email'=>$email, 'token'=>$token]);
     }
 
+    //handle terms review ajax request
+    public function reviewTerms(Request $request){
+        $validator = Validator::make($request->all(),[
+            'review_radio'=>'required'
+        ],[
+            'review_radio.required'=>'Kindly select your review option on our terms and conditions before you can proceed!'
+        ]);
+
+        if ($validator->fails()){
+            return response()->json([
+                'status'=>400,
+//                'messages'=>$validator->getMessageBag(),
+                'messages'=>'You need to select an option to confirm that you have read and understood our terms!',
+            ]);
+        }else{
+            if ($request->review_radio == 1){
+                $alert_status = 200;
+                $alert_message = 'Thank you for accepting our terms! You will be redirected to the registration page to continue with registration!';
+            }else{
+                $alert_status = 401;
+                $alert_message = 'Thank you for your review! However, you cannot proceed with the registration without accepting our terms!';
+            }
+            return response()->json([
+                'status'=>$alert_status,
+                'messages'=>$alert_message
+            ]);
+        }
+    }
     //handle register user ajax request
     public function saveUser(Request $request){
       $validator = Validator::make($request->all(),[
-          'name'=>'required|max:50',
+          'surName'=>'required|max:50',
+          'otherNames'=>'required|max:50',
           'email'=>'required|email|unique:users|max:100',
           'password'=>'required|min:6|max:50',
-          'confirm_password'=>'required|min:6|same:password'
+          'confirm_password'=>'required|min:6|same:password',
+          'terms'=>'required',
       ],[
           'confirm_password.same'=>'Password did not match!',
           'confirm_password.required'=>'Confirm password is required!',
+          'terms.required'=>'You need to read and accept our terms and conditions!',
       ]);
 
       if ($validator->fails()){
@@ -68,12 +99,38 @@ class UserController extends Controller
               'messages'=>$validator->getMessageBag()
           ]);
       }else{
-          $user_name = substr(explode(' ', $request->name)[0], 0, 4).Factory::create()->randomNumber(4, true);
+          $fullName = $request->otherNames.' '.$request->surName;
+          $current_year = date('Y');
+
+          $member = User::orderBy("id","DESC")->first();
+          if(isset($member->member_number))
+          {
+              $memberNoArray = explode('/',$member->member_number);
+
+              $lastArrayElement = end($memberNoArray);
+              $lastArrayElement++;
+              array_pop($memberNoArray);
+              array_push($memberNoArray,$lastArrayElement);
+              $member_number = implode('/',$memberNoArray);
+          }else
+          {
+              $member_number = 'M/VBB/'.$current_year.'/1';
+          }
+
+          $memberNoArray = explode('/',$member_number);
+          $lastArrayElement = end($memberNoArray);
+          $updatedLastArrayElement = str_pad($lastArrayElement, 4, '0', STR_PAD_LEFT);
+          array_pop($memberNoArray);
+          array_push($memberNoArray,$updatedLastArrayElement);
+          $member_number = implode('/',$memberNoArray);
+
+          $user_name = substr(explode(' ', $request->otherNames)[0], 0, 4).Factory::create()->randomNumber(4, true);
           $user = new User();
-          $user->name = $request->name;
+          $user->name = $fullName;
           $user->email = $request->email;
           $user->password = Hash::make($request->password);
           $user->user_name = $user_name;
+          $user->member_number = $member_number;
           $user->save();
           return  response()->json([
               'status'=>200,
@@ -81,12 +138,15 @@ class UserController extends Controller
           ]);
       }
     }
-    //handle login user ajax request
+//    handle login user ajax request
     public function loginUser(Request $request){
-       $request->validate([
+//       $validator = $request->validate([
+       $validator = Validator::make($request->all(),[
 //           'email' =>'required|email|max:100',
-           'user_name' =>'required|min:3|max:100',
-           'password' =>'required|min:6|max:100',
+           'user_name' =>'required|min:8|max:100|exists:users',
+           'password' =>'required|min:6|max:100|exists:users',
+       ],[
+
        ]);
        if (Auth::attempt([
 //           'email'=>$request->email,
@@ -102,11 +162,32 @@ class UserController extends Controller
    }else{
        return  response()->json([
            'status' =>401,
-           'messages' =>'Invalid email or password',
+           'messages' =>$validator->getMessageBag()
        ]);
    }
 
     }
+//    public function loginUser(Request $request){
+//        $validator = $request->validate(
+//            [
+//                'email' =>'required|email|max:100',
+//                'password' =>'required|min:6|max:100',
+//            ]);
+//
+//        try{
+//            $resp=Auth::attempt([
+//                'email'=>$request->email,
+//                'password'=> $request->password]);
+//            if($resp)
+//            {
+//                dd('text');
+//            }else{
+//                dd("jjjj");
+//            }
+//        }catch (\Exception $exception){
+//            dd($exception->getMessage());
+//        }
+//    }
 
 //    profile page
 
@@ -160,60 +241,114 @@ public function profile(Request $request){
     public function profileUpdate(Request $request){
 
 
-        if (isset($request->dob) && $request->dob > Carbon::now()->format('Y-m-d')){
-            return response()->json([
-                'status'=>400,
-                'messages'=> config('membership.LATER_DATE.message').Carbon::now()->format("Y-m-d"),
-            ]);
-        }else{
+
             if (isset($request->dob)){
+                $validator = Validator::make($request->all(), [
+                    'dob' => 'date|before_or_equal:today',
+                ],[
+                    'dob.before_or_equal'=>'Your date of birth cannot be later than today'
+                ]);
+                if ($validator->fails()){
+                    return response()->json([
+                        'status'=>401,
+                        'messages'=>$validator->getMessageBag()
+                    ]);
+                }
                 $age = Carbon::parse($request->dob)->age;
 
-                if ($age<12){
-                    $age_cluster = config('membership.age_clusters.Children.id');
-                }elseif($age>=13 && $age<=19){
-                    $age_cluster = config('membership.age_clusters.Teenies.id');
-                }elseif($age>=20 && $age<=35){
-                    $age_cluster = config('membership.age_clusters.Youths.id');
-                }elseif($age>=36 && $age<=40){
-                    $age_cluster = config('membership.age_clusters.Middle_Age.id');
-                }elseif($age>=41){
-                    $age_cluster = config('membership.age_clusters.Adults.id');
+                if ($age<5){
+                    $age_cluster = config('membership.age_clusters.stage1.id');
+                }elseif($age>=5 && $age<10){
+                    $age_cluster = config('membership.age_clusters.stage2.id');
+                }elseif($age>=10 && $age<15){
+                    $age_cluster = config('membership.age_clusters.stage3.id');
+                }elseif($age>=15 && $age<20){
+                    $age_cluster = config('membership.age_clusters.stage4.id');
+                }
+                elseif($age>=20 && $age<25){
+                    $age_cluster = config('membership.age_clusters.stage5.id');
+                }
+                elseif($age>=25 && $age<30){
+                    $age_cluster = config('membership.age_clusters.stage6.id');
+                }
+                elseif($age>=30 && $age<35){
+                    $age_cluster = config('membership.age_clusters.stage7.id');
+                }
+                elseif($age>=35 && $age<40){
+                    $age_cluster = config('membership.age_clusters.stage8.id');
+                }
+                elseif($age>=40 && $age<45){
+                    $age_cluster = config('membership.age_clusters.stage9.id');
+                }
+                elseif($age>=45 && $age<50){
+                    $age_cluster = config('membership.age_clusters.stage10.id');
+                }
+                elseif($age>=50 && $age<55){
+                    $age_cluster = config('membership.age_clusters.stage11.id');
+                }
+                elseif($age>=55 && $age<60){
+                    $age_cluster = config('membership.age_clusters.stage12.id');
+                }
+                elseif($age>=60 && $age<65){
+                    $age_cluster = config('membership.age_clusters.stage13.id');
+                }
+                elseif($age>=65 && $age<70){
+                    $age_cluster = config('membership.age_clusters.stage14.id');
+                }
+                elseif($age>=70 && $age<75){
+                    $age_cluster = config('membership.age_clusters.stage15.id');
+                }
+                elseif($age>=75 && $age<80){
+                    $age_cluster = config('membership.age_clusters.stage16.id');
+                }
+                elseif($age>=80){
+                    $age_cluster = config('membership.age_clusters.stage17.id');
                 }
 
-                    if ($age<18){
-                        $value = 'N/A';
-                    }
-            }
-
-            $udpate_data_array = [
-                'name' => $request->name,
-                'email' => $request->email,
-                'gender' => $request->gender,
-                'dob' => $request->dob,
-                'phone' => isset($value) ? $value : $request->phone,
-                'marital_status_id' => isset($value) ? $value : $request->marital_status,
-                'estate_id' => $request->estate,
-                'ward' => $request->ward,
-                'cell_group_id' => $request->cell_group,
-                'employment_status_id' => isset($value) ? $value : $request->employment_status,
-                'born_again_id' => $request->born_again,
-                'leadership_status_id' => $request->leadership_status,
-                'ministry_id' => $request->ministry,
-                'occupation_id' => isset($value) ? $value : $request->occupation,
-                'education_level_id' => $request->education_level,
-                'age_cluster' => isset($age_cluster)?$age_cluster:null,
-                'ministries_of_interest' => isset($request->check_box)?implode (',', $request->check_box):null,
-            ];
-
-
-            foreach ($udpate_data_array as  $key=>$value){
-                if (is_null($value)){
-                    unset($udpate_data_array[$key]);
+                if ($age<18){
+                    $value = 'N/A';
                 }
             }
-
             $user = User::where('id', $request->id);
+            $phone = $request->phone;
+            $validator = false;
+                if (isset($phone)){
+                    $validator = Validator::make($request->all(), [
+                        'phone' => ['required', 'regex:/^(\+254|0)[1-9]\d{8}$/i', 'unique:users'],
+                    ]);
+                }
+            if ($validator && $validator->fails()){
+                return response()->json(
+                    [
+                        'status'=>400,
+                        'messages'=>$validator->getMessageBag()
+                    ]
+                );
+            }else{
+                $udpate_data_array = [
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'gender' => $request->gender,
+                    'dob' => $request->dob,
+                    'phone' => $value ?? $phone,
+                    'marital_status_id' => $value ?? $request->marital_status,
+                    'estate_id' => $request->estate,
+                    'ward' => $request->ward,
+                    'cell_group_id' => $request->cell_group,
+                    'employment_status_id' => $value ?? $request->employment_status,
+                    'born_again_id' => $request->born_again,
+                    'leadership_status_id' => $request->leadership_status,
+                    'ministry_id' => $request->ministry,
+                    'occupation_id' => $value ?? $request->occupation,
+                    'education_level_id' => $request->education_level,
+                    'age_cluster' => $age_cluster ?? null,
+                    'ministries_of_interest' => isset($request->check_box)?implode (',', $request->check_box):null,
+                ];
+                foreach ($udpate_data_array as  $key=>$value){
+                    if (is_null($value)){
+                        unset($udpate_data_array[$key]);
+                    }
+                }
                 $user->update(
                     $udpate_data_array
                 );
@@ -222,23 +357,39 @@ public function profile(Request $request){
                     'status'=>200,
                     'messages'=>'Profile updated successfully!',
                 ]);
+
         }
     }
 
     //handle member delete
 
     public function destroy(Request $request){
-        $member_id = $request->id;
-        if (isset($member_id)){
-            User::where('id', $member_id)->update(['exists' => 0, 'active'=>0]);
-            return response()->json([
-                'status'=>200,
-                'messages'=>'Member deleted successfully'
-            ]);
+        $member_id = $request->id ?: null;
+        $validator = Validator::make($request->all(), [
+            'delete_reason' => 'required',
+        ], [
+            'delete_reason.required' => 'Choose a reason from above for deleting ' . ($request->first_name ?: ''),
+        ]);
+        $member = User::where('id', $member_id);
+        if ($member->first()->existing == 1){
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 400,
+                    'messages' => $validator->getMessageBag()
+                ]);
+            }
+            else {
+                $member->update(['existing' => 0, 'active' => 0]);
+                return response()->json([
+                    'status' => 200,
+                    'messages' => explode(' ', $member->first()->name)[0].' deleted successfully'
+                ]);
+            }
         }else{
+            $member->update(['existing' => 1, 'active' => 1]);
             return response()->json([
-                'status'=>401,
-                'messages'=>'A problem occurred while trying to delete the user'
+                'status' => 200,
+                'messages' => explode(' ', $member->first()->name)[0].' reinstated successfully'
             ]);
         }
     }
@@ -247,28 +398,47 @@ public function profile(Request $request){
 
     public function deactivate(Request $request){
         $member_id = $request->id;
-        if (isset($member_id)){
-            $user = User::where('id', $member_id)->limit(1)->get()->first();
-            if ($user->active == 1){
-                $user->update(['active'=>0]);
+        $change_status_reason = $request->deactivate_reason;
+        $validator = Validator::make($request->all(), [
+            'deactivate_reason'=>'required'
+        ],[
+            'deactivate_reason.required'=>'Please select reason for deactivating '.explode(' ', User::where('id', $member_id)->first()->name)[0]
+        ]);
+
+            if (isset($member_id)) {
+                $user = User::where('id', $member_id)->first();
+                if ($user->active == 1) {
+                    if ($validator->fails()){
+                        return response()->json([
+                            'status'=>400,
+                            'messages'=>$validator->getMessageBag()
+                        ]);
+                    }else{
+                        $deactivated = User::where('id', $member_id)->update(['active' => 0]);
+                        if ($deactivated) {
+                            return response()->json([
+                                'status' => 200,
+                                'messages' => explode(' ', $user->name)[0].' deactivated successfully'
+                            ]);
+                        }
+                    }
+
+                } else {
+                    $activated = User::where('id', $member_id)->update(['active' => 1]);
+                    if ($activated) {
+                        return response()->json([
+                            'status' => 200,
+                            'messages' => explode(' ', $user->name)[0].' activated successfully'
+                        ]);
+                    }
+                }
+
+            } else {
                 return response()->json([
-                    'status'=>200,
-                    'messages'=>'Member deactivated successfully'
-                ]);
-            }else{
-                $user->update(['active'=>1]);
-                return response()->json([
-                    'status'=>200,
-                    'messages'=>'Member activated successfully'
+                    'status' => 401,
+                    'messages' => 'A problem occurred while trying to deactivate the user'
                 ]);
             }
-
-        }else{
-            return response()->json([
-                'status'=>401,
-                'messages'=>'A problem occurred while trying to deactivate the user'
-            ]);
-        }
     }
 
     //handle forgot password
