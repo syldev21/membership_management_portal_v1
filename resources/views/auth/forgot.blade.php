@@ -20,7 +20,7 @@
                             <div class="col-lg-5">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Forgot Password!</h1>
+                                        <h1 class="h4 bg-primary text-white rounded-circle mb-4">Forgot Password!</h1>
                                     </div>
                                     <div id="forgot_alert"></div>
                                     <form  class="user" action="#" method="POST" id="forgot_form">

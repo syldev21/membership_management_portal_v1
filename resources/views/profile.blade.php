@@ -20,11 +20,6 @@
                         <div id="profile_alert"></div>
                         <div class="row">
                              <div class="col-lg-4 px-5 text-center" style="border-right: 1px solid #999;">
-                                 @php
-                                         $picture = isset($userInfo->picture) ? 'stotage/images/{{}}' : asset('images/vosh_avator.jpg');
-                                 @endphp
-
-
                                  @if($userInfo->picture)
                                      <img src="storage/images/{{ $userInfo->picture }}" id="image_preview" class="img-fluid rounded-circle img-thumbnail" width="200">
                                  @else
@@ -55,14 +50,14 @@
                                     <meta name="csrf-token" content="{{ csrf_token() }}" />
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bolder"  for="name">Surname</label>
-                                            <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{explode(' ', $userInfo->name)[2]??explode(' ', $userInfo->name)[1]}}">
-                                            <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{explode(' ', $userInfo->name)[2]??explode(' ', $userInfo->name)[1]}}">
+                                            <label  class="fw-bolder"  for="name">First Name</label>
+                                            <input type="text" disabled name="firstName" class="form-control rounded-0 profile" id="" value="{{explode(' ', $userInfo->name)[0]??''}}">
+                                            <input type="text" hidden="hidden" name="firstName" class="form-control rounded-0 profile_edit" id="firstName" value="{{explode(' ', $userInfo->name)[0]??''}}">
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bolder"  for="name">Other Names</label>
-                                            <input type="text" disabled name="name" class="form-control rounded-0 profile" id="" value="{{isset(explode(' ', $userInfo->name)[2])?explode(' ', $userInfo->name)[0].' '.explode(' ', $userInfo->name)[1]:explode(' ', $userInfo->name)[0]}}">
-                                            <input type="text" hidden="hidden" name="name" class="form-control rounded-0 profile_edit" id="name" value="{{isset(explode(' ', $userInfo->name)[2])?explode(' ', $userInfo->name)[0].' '.explode(' ', $userInfo->name)[1]:explode(' ', $userInfo->name)[0]}}">
+                                            <input type="text" disabled name="otherNames" class="form-control rounded-0 profile" id="" value="{{implode(' ', array_slice(explode(' ', $userInfo->name), 1))??''}}">
+                                            <input type="text" hidden="hidden" name="otherNames" class="form-control rounded-0 profile_edit" id="otherNames" value="{{implode(' ', array_slice(explode(' ', $userInfo->name), 1))??''}}">
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bolder" for="name">Email</label>
@@ -108,7 +103,7 @@
                                     <div class="row">
                                         <div class="col-lg">
                                             <label  class="fw-bolder" for="gender">Gender</label>
-                                            <input type="text" disabled name="gender" class="form-control rounded-0 profile" id="" value={{config('membership.statuses.gender.1')}}>
+                                            <input type="text" disabled name="gender" class="form-control rounded-0 profile" id="" value={{config('membership.statuses.gender')[$userInfo->gender]}}>
                                             <select name="gender" hidden="hidden" id="gender" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
                                                 @foreach(config('membership.gender') as $gender)
@@ -117,6 +112,12 @@
                                                 @endforeach
 
                                             </select>
+                                        </div>
+                                        <div class="col-lg">
+                                            <label  class="fw-bolder" for="year_joined">Year Joined VOSH</label>
+                                            <input type="text" disabled name="year_joined" class="form-control rounded-0 profile" id="" value={{$userInfo->year_joined??''}}>
+                                            <input  data-toggle="tooltip" data-placement="bottom" title="The year you joined VOSH not necessarily Buru Buru!" type="date" hidden=""  name="year_joined" class="form-control rounded-0 profile_edit" id="year_joined" value="">
+                                            <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="col-lg profile">
                                             <?php
@@ -138,7 +139,7 @@
                                                 }
                                             }?>
                                             <label  class="fw-bolder" for="dob" class="profile">Age</label>
-                                            <input type="text" disabled  name="dob" class="form-control rounded-0 profile" id="" value="{{$full_age?:''}}">
+                                            <input type="text" disabled  name="dob" class="form-control rounded-0 profile" id="" value="{{$full_age??''}}">
                                         </div>
                                         <div class="col-lg profile_edit"  hidden="hidden">
                                             <label  class="fw-bolder" for="dob" class="profile_edit">Date of Birth</label>

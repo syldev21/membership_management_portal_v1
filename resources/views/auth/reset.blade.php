@@ -17,7 +17,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Reset Password!</h1>
+                                        <h1 class="h4 text-white bg-primary rounded-circle mb-4">Reset Password!</h1>
                                     </div>
                                     <div id="reset_alert"></div>
                                     <form  class="user" action="#" method="POST" id="reset_form">

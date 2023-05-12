@@ -108,12 +108,22 @@ class DashboardController extends Controller
 
 
             $members= User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 1)->where('registration_status', config('membership.statuses.registration_statuses')[$progressive_registration]);
+
         }else{
             $display_for_progress = false;
             if (isset($category) && strpos($category, 'church-members') == true){
                 if ($member_age_cluster_category_id == config('membership.age_clusters.All_members')['id']){
                     $members= User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('active', 1)->where('registration_status', 5);
+                    $category_detail_description = '(All Ages)';
                 }else{
+                    $category_details = config('membership.statuses.age_clusters')[$member_age_cluster_category_id];
+                    if(isset($category_details['end'])){
+                        $category_detail_description = 'Age between '.$category_details['start']. ' - '.$category_details['end'];
+                    }else{
+                        $category_detail_description = 'Age above '.$category_details['start'];
+                    }
+
+                    $category_detail_description = '(' . $category_detail_description . ')';
                     $members = User::where('cell_group_id', '!=', null)->where(['age_cluster' => $member_age_cluster_category_id])->where('active', 1)->where('registration_status', 5);
                 }
             }
@@ -134,7 +144,7 @@ class DashboardController extends Controller
             $priv = false;
             $members = $members->get();
         }
-        return view('admin.church-members', ['priv'=>$priv, 'members' => $members,'category_name'=>$member_age_cluster_category_text, 'member_age_cluster_category_id'=>$member_age_cluster_category_id, 'category'=>$category,'display_for_progress'=>$display_for_progress, 'progressive_registration'=>$progressive_registration]);
+        return view('admin.church-members', ['category_detail_description'=>$category_detail_description??null, 'priv'=>$priv, 'members' => $members,'category_name'=>$member_age_cluster_category_text, 'member_age_cluster_category_id'=>$member_age_cluster_category_id, 'category'=>$category,'display_for_progress'=>$display_for_progress, 'progressive_registration'=>$progressive_registration]);
     }
     public function editMember($id){
         $member = User::where('id', $id)->first();
@@ -143,7 +153,6 @@ class DashboardController extends Controller
     }
     public function adminRegisterMember(Request $request){
         $member = User::orderBy("id","DESC")->first();
-        $current_year = date('Y');
         if(isset($member->member_number))
         {
             $memberNoArray = explode('/',$member->member_number);
@@ -155,11 +164,11 @@ class DashboardController extends Controller
             $member_number = implode('/',$memberNoArray);
         }else
         {
-            $member_number= 'M/VBB/'.$current_year.'/1';
+            $member_number = 'VOSHC/BB/1';
         }
         $memberNoArray = explode('/',$member_number);
         $lastArrayElement = end($memberNoArray);
-        $updatedLastArrayElement = str_pad($lastArrayElement, 4, '0', STR_PAD_LEFT);
+        $updatedLastArrayElement = str_pad($lastArrayElement, 5, '0', STR_PAD_LEFT);
         array_pop($memberNoArray);
         array_push($memberNoArray,$updatedLastArrayElement);
         $member_number = implode('/',$memberNoArray);
@@ -219,13 +228,13 @@ class DashboardController extends Controller
                 $value = 'N/A';
             }
         }
-        if (isset($request->surName) || isset($request->otherNames)){
-            $name = $request->otherNames. ' '.$request->surName;
+        if (isset($request->firstName) || isset($request->otherNames)){
+            $fullName = implode(' ', [$request->firstName, $request->otherNames]);
         }
 
         if (isset($request->id)){
             $udpate_data_array = [
-                'name' => $name??'',
+                'name' => $fullName??'',
                 'email' => $request->email,
                 'gender' => $request->gender,
                 'dob' => $request->dob,
@@ -266,7 +275,7 @@ class DashboardController extends Controller
 
 
             $validator_array = [
-                'surName'=>'required|regex:/^[a-zA-Z]+$/',
+                'firstName'=>'required|regex:/^[a-zA-Z]+$/',
                 'otherNames'=>'required',
                 'email'=>'required|email|unique:users|min:11|max:30',
                 'title'=>'required',
@@ -295,8 +304,33 @@ class DashboardController extends Controller
                 ]);
             }
             else{
-                $fullName = $request->otherNames.' '.$request->surName;
-                $user_name = substr(explode(' ', $request->name)[0], 0, 4).Factory::create()->randomNumber(4, true);
+                // Get the last part of the member number after the last forward slash
+                $parts = explode('/', $member_number);
+                $last_part = end($parts);
+
+// Determine the length of the last part of the member number
+                $length = strlen($last_part);
+
+// Determine the number of leading zeros in the last part of the member number
+                $num_zeros = strspn($last_part, "0");
+
+// Extract the appropriate number of digits from the last part of the member number
+                if ($num_zeros >= 2) {
+                    $digits = substr($last_part, -3);
+//              $last_three = substr($string, -3)
+                } elseif ($num_zeros == 1) {
+                    $digits = substr($last_part, -4);
+                } else {
+                    $digits = $last_part;
+                }
+
+// Pad the digits with leading zeros if necessary
+//          $digits = str_pad($digits, 4, "0", STR_PAD_LEFT);
+
+// Concatenate the first name and digits to create the username
+                $username = $request->firstName . $digits;
+                $fullName = implode(' ', [$request->firstName, $request->otherNames]);
+                $user_name = $username;
                 $user = new User();
                 $user->name = $fullName;
                 $user->email = $request->email;
@@ -316,7 +350,7 @@ class DashboardController extends Controller
                 $user->employment_status_id=$value ?? ($request->employment_status ?? null);
                 $user->age_cluster = $age_cluster??null;
                 $user->member_number = $member_number??null;
-                $user->user_name = $user_name;
+                $user->user_name = $username;
                 $user->title = $request->title??null;
                 $user->save();
                 return  response()->json([

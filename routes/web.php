@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Faker\Provider\Uuid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +57,12 @@ Route::group(['middleware'=>['LoginCheck']], function (){
 
 //test route
 Route::get('test', function (){
-    return view('admin.watermark');
+    $User = User::all();
+    foreach ($User as $user){
+        $old_member_number = $user->member_number;
+        $new_member_number = str_replace('M/VBB/2023/', 'VOSHC/BB/0', $old_member_number);
+        $user->member_number = $new_member_number;
+        $user->save();
+    }
 });
 

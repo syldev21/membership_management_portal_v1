@@ -4,7 +4,7 @@
     <input type="hidden" id="progressive_registration" value="{{$progressive_registration}}">
     <div>
 
-        <div style="float: left; width: 75%; height: 38px" class="bar_ups bg-primary"><h2 class="mb-4">{{in_array($category_name, config('membership.statuses.cell_group'))?$category_name. ' Cell Group Members':$category_name}}<span class="spanned_status_category display_for_progress text-danger text-warning text-success bg-body"></span> <span class="spanned_conditional_display"></span></h2></div>
+        <div style="float: left; width: 75%; height: 38px" class="bar_ups bg-primary text-white"><h2 class="mb-4">{{in_array($category_name, config('membership.statuses.cell_group'))?$category_name. ' Cell Group Members':$category_name.' '.($category_detail_description)}}<span class="spanned_status_category display_for_progress text-danger text-warning text-success bg-body"></span> <span class="spanned_conditional_display"></span></h2></div>
         <div style="float: left">
             <select name="" id="report_status_category" class="form-select rounded display_for_progress bg-success bg-warning bg-danger bg-info"  style="color: white">
                 <option value="active">--Choose Report Category--</option>
@@ -30,8 +30,7 @@
                     <th>Member Number</th>
                     <th>Title</th>
                     <th>First Name</th>
-                    <th>Second Name</th>
-                    <th>Surname</th>
+                    <th>Other Names</th>
                     <th>Phone</th>
                     <th>Age</th>
                     @if(isset($priv) && $priv)
@@ -135,8 +134,7 @@
                             <td>{{$member->member_number??''}}</td>
                             <td>{{config('membership.statuses.title')[$member->title]['text']??''}}</td>
                             <td>{{explode(' ', $member->name)[0] ?? ''}}</td>
-                            <td>{{explode(' ', $member->name)[1] ?? ''}}</td>
-                            <td>{{explode(' ', $member->name)[2] ?? ''}}</td>
+                            <td>{{implode(' ', array_slice(explode(' ', $member->name), 1)) ?? ''}}</td>
                             <td>{{isset($member->phone)?$member->phone:''}}</td>
                             <td>{{$full_age??''}}</td>
                             @if(isset($priv) && $priv)
@@ -158,7 +156,7 @@
                             <td>{{isset($member->created_at) ? \Carbon\Carbon::parse($member->created_at)->diffForHumans() : ''}}</td>
                             <td class="hide_for_execs">
                                 <select id="" name="" class="browser-default">
-                                    <option data-id="{{$member->id}}" data-user_sur_name="{{explode(' ', $member->name)[2]??explode(' ', $member->name)[1]}}" data-user_other_names="{{isset(explode(' ', $member->name)[2])?explode(' ', $member->name)[0].' '.explode(' ', $member->name)[1]:explode(' ', $member->name)[0]}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                                    <option data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
                                         <i class="fa fa-user-alt"></i>Edit
                                     </option>
                                     <option data-id="{{$member->id}}" data-existing="{{$member->existing}}"  data-hide="{{auth()->id()}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary hide-this" data-bs-toggle="modal" data-bs-target="#deleteModal">
@@ -278,8 +276,8 @@
 
                                         </div>
                                         <div class="col-lg">
-                                            <label  class="fw-bold"  for="name">Surname</label>
-                                            <input type="text" name="surName" class="form-control rounded-0 " id="surName" value="">
+                                            <label  class="fw-bold"  for="name">First Name</label>
+                                            <input type="text" name="firstName" class="form-control rounded-0 " id="firstName" value="">
                                             <div class="invalid-feedback"></div>
                                         </div> <div class="col-lg">
                                             <label  class="fw-bold"  for="name">Other Names</label>
@@ -303,6 +301,11 @@
                                                 @endforeach
 
                                             </select>
+                                        </div>
+                                        <div class="col-lg">
+                                            <label  class="fw-bolder" for="year_joined">Year Joined VOSH</label>
+                                            <input  data-toggle="tooltip" data-placement="bottom" title="The year you joined VOSH not necessarily Buru Buru!" type="date" name="year_joined" class="form-control rounded-0 profile_edit" id="year_joined" value="">
+                                            <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bold" for="dob" class="">Date of Birth</label>
@@ -630,7 +633,7 @@
             $('#report_status_category').removeClass('bg-warning')
             $('#report_status_category').removeClass('bg-danger')
             $('#conditional_report_status').val($('#conditional_report_status').data('active'))
-            $('.spanned_status_category').html(' (Active)')
+            $('.spanned_status_category').html(' -Active')
 
             $('.spanned_status_category').removeClass('text-danger')
             $('.spanned_status_category').removeClass('text-warning')
@@ -649,7 +652,7 @@
                     $('#report_status_category').removeClass('bg-danger')
                     $('#report_status_category').removeClass('bg-info')
                     $('#conditional_report_status').val($('#conditional_report_status').data('inactive'))
-                    $('.spanned_status_category').html(' (Inactive)')
+                    $('.spanned_status_category').html(' -Inactive')
 
                     $('.spanned_status_category').addClass('text-warning')
                     $('.spanned_status_category').removeClass('text-success')
@@ -660,7 +663,7 @@
                     $('#report_status_category').removeClass('bg-info')
                     $('#report_status_category').addClass('bg-danger')
                     $('#conditional_report_status').val($('#conditional_report_status').data('deleted'))
-                    $('.spanned_status_category').html(' (Deleted)')
+                    $('.spanned_status_category').html(' -Deleted')
 
                     $('.spanned_status_category').removeClass('text-warning')
                     $('.spanned_status_category').removeClass('text-success')
@@ -674,7 +677,7 @@
                     $('#report_status_category').removeClass('bg-danger')
                     $('#report_status_category').addClass('bg-info')
                     $('#conditional_report_status').val($('#conditional_report_status').data('all'))
-                    $('.spanned_status_category').html(' (All Registered)')
+                    $('.spanned_status_category').html(' -All Registered')
 
                     $('.spanned_status_category').removeClass('text-warning')
                     $('.spanned_status_category').removeClass('text-success')
@@ -686,7 +689,7 @@
                     $('#report_status_category').removeClass('bg-danger')
                     $('#report_status_category').removeClass('bg-info')
                     $('#conditional_report_status').val($('#conditional_report_status').data('active'))
-                    $('.spanned_status_category').html(' (Active)')
+                    $('.spanned_status_category').html(' -Active')
 
                     $('.spanned_status_category').removeClass('text-warning')
                     $('.spanned_status_category').addClass('text-success')
@@ -743,9 +746,9 @@
             })
             $("body").on('click', '#edit, #add_new_one', function (e) {
                 e.preventDefault()
-                $('.edit-modal-title').html('Edit '+$(this).data('user_name'))
+                $('.edit-modal-title').html('Edit '+$(this).data('user_first_name'))
                 $('#user_id').val($(this).data('id'))
-                $('#surName').val($(this).data('user_sur_name'))
+                $('#firstName').val($(this).data('user_first_name'))
                 $('#otherNames').val($(this).data('user_other_names'))
                 $('#email').val($(this).data('user_email'))
                 $('#phone').val($(this).data('user_phone'))
@@ -914,7 +917,7 @@
                     dataType: 'json',
                     success: function (response) {
                         if(response.status == 400){
-                            showError('surName', response.messages.surName);
+                            showError('firstName', response.messages.firstName);
                             showError('otherNames', response.messages.otherNames);
                             showError('email', response.messages.email);
                             showError('dob', response.messages.dob);

@@ -52,20 +52,7 @@ class UserController extends Controller
 
     //handle terms review ajax request
     public function reviewTerms(Request $request){
-        $validator = Validator::make($request->all(),[
-            'review_radio'=>'required'
-        ],[
-            'review_radio.required'=>'Kindly select your review option on our terms and conditions before you can proceed!'
-        ]);
-
-        if ($validator->fails()){
-            return response()->json([
-                'status'=>400,
-//                'messages'=>$validator->getMessageBag(),
-                'messages'=>'You need to select an option to confirm that you have read and understood our terms!',
-            ]);
-        }else{
-            if ($request->review_radio == 1){
+            if ($request->review_value == 1){
                 $alert_status = 200;
                 $alert_message = 'Thank you for accepting our terms! You will be redirected to the registration page to continue with registration!';
             }else{
@@ -76,12 +63,11 @@ class UserController extends Controller
                 'status'=>$alert_status,
                 'messages'=>$alert_message
             ]);
-        }
     }
     //handle register user ajax request
     public function saveUser(Request $request){
       $validator = Validator::make($request->all(),[
-          'surName'=>'required|max:50',
+          'firstName'=>'required|max:50',
           'otherNames'=>'required|max:50',
           'email'=>'required|email|unique:users|max:100',
           'password'=>'required|min:6|max:50',
@@ -99,8 +85,7 @@ class UserController extends Controller
               'messages'=>$validator->getMessageBag()
           ]);
       }else{
-          $fullName = $request->otherNames.' '.$request->surName;
-          $current_year = date('Y');
+          $fullName = implode(' ', [$request->firstName, $request->otherNames]);
 
           $member = User::orderBy("id","DESC")->first();
           if(isset($member->member_number))
@@ -114,27 +99,51 @@ class UserController extends Controller
               $member_number = implode('/',$memberNoArray);
           }else
           {
-              $member_number = 'M/VBB/'.$current_year.'/1';
+              $member_number = 'VOSHC/BB/1';
           }
 
           $memberNoArray = explode('/',$member_number);
           $lastArrayElement = end($memberNoArray);
-          $updatedLastArrayElement = str_pad($lastArrayElement, 4, '0', STR_PAD_LEFT);
+          $updatedLastArrayElement = str_pad($lastArrayElement, 5, '0', STR_PAD_LEFT);
           array_pop($memberNoArray);
           array_push($memberNoArray,$updatedLastArrayElement);
           $member_number = implode('/',$memberNoArray);
 
-          $user_name = substr(explode(' ', $request->otherNames)[0], 0, 4).Factory::create()->randomNumber(4, true);
+          // Get the last part of the member number after the last forward slash
+          $parts = explode('/', $member_number);
+          $last_part = end($parts);
+
+// Determine the length of the last part of the member number
+          $length = strlen($last_part);
+
+// Determine the number of leading zeros in the last part of the member number
+          $num_zeros = strspn($last_part, "0");
+
+// Extract the appropriate number of digits from the last part of the member number
+          if ($num_zeros >= 2) {
+              $digits = substr($last_part, -3);
+//              $last_three = substr($string, -3)
+          } elseif ($num_zeros == 1) {
+              $digits = substr($last_part, -4);
+          } else {
+              $digits = $last_part;
+          }
+
+// Pad the digits with leading zeros if necessary
+//          $digits = str_pad($digits, 4, "0", STR_PAD_LEFT);
+
+// Concatenate the first name and digits to create the username
+          $username = $request->firstName . $digits;
           $user = new User();
           $user->name = $fullName;
           $user->email = $request->email;
           $user->password = Hash::make($request->password);
-          $user->user_name = $user_name;
+          $user->user_name = $username;
           $user->member_number = $member_number;
           $user->save();
           return  response()->json([
               'status'=>200,
-              'messages'=>'Registered Successfully;&nbsp; Your username is '.$user_name.' <a href="/login">Login Now</a>',
+              'messages'=>'Registered Successfully;&nbsp; Your username is '.$username.' <a href="/login">Login Now</a>',
           ]);
       }
     }
@@ -239,9 +248,6 @@ public function profile(Request $request){
 
 //    handle profile update ajax request
     public function profileUpdate(Request $request){
-
-
-
             if (isset($request->dob)){
                 $validator = Validator::make($request->all(), [
                     'dob' => 'date|before_or_equal:today',
@@ -325,8 +331,9 @@ public function profile(Request $request){
                     ]
                 );
             }else{
+                $full_name = implode(' ',[$request->firstName, $request->otherNames]);
                 $udpate_data_array = [
-                    'name' => $request->name,
+                    'name' => $full_name,
                     'email' => $request->email,
                     'gender' => $request->gender,
                     'dob' => $request->dob,

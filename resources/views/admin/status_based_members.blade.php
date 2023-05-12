@@ -6,8 +6,7 @@
             <th>Member Number</th>
             <th>Title</th>
             <th>First Name</th>
-            <th>Second Name</th>
-            <th>Surname</th>
+            <th>Other Names</th>
             <th>Phone</th>
             <th>Age</th>
             @if(isset($priv) && $priv)
@@ -111,8 +110,7 @@
                     <td>{{$member->member_number??''}}</td>
                     <td>{{config('membership.statuses.title')[$member->title]['text']??''}}</td>
                     <td>{{explode(' ', $member->name)[0] ?? ''}}</td>
-                    <td>{{explode(' ', $member->name)[1] ?? ''}}</td>
-                    <td>{{explode(' ', $member->name)[2] ?? ''}}</td>
+                    <td>{{implode(' ', array_slice(explode(' ', $member->name), 1)) ?? ''}}</td>
                     <td>{{isset($member->phone)?$member->phone:''}}</td>
                     <td>{{$full_age??''}}</td>
                     @if(isset($priv) && $priv)
@@ -134,7 +132,7 @@
                     <td>{{isset($member->created_at) ? \Carbon\Carbon::parse($member->created_at)->diffForHumans() : ''}}</td>
                     <td class="hide_for_execs">
                         <select id="" name="" class="browser-default">
-                            <option data-id="{{$member->id}}" data-user_sur_name="{{explode(' ', $member->name)[2]??explode(' ', $member->name)[1]}}" data-user_other_names="{{isset(explode(' ', $member->name)[2])?explode(' ', $member->name)[0].' '.explode(' ', $member->name)[1]:explode(' ', $member->name)[0]}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                            <option data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
                                 <i class="fa fa-user-alt"></i>Edit
                             </option>
                             <option data-id="{{$member->id}}" data-existing="{{$member->existing}}"  data-hide="{{auth()->id()}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary hide-this" data-bs-toggle="modal" data-bs-target="#deleteModal">

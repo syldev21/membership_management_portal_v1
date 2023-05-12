@@ -19,9 +19,30 @@
     <link href="{{asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            height: 400px; /* set the height of the container */
+        }
+
+        .image-container img {
+            width: auto;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+    </style>
 </head>
-<body class="bg-info" style="background-image: url({{ asset('images/slide2.jpeg') }});background-size: cover;
- background-repeat: no-repeat; " id="image_head">
+{{--<body class="bg-info" style="background-image: url({{ asset('images/slide2.jpeg') }});background-size: cover; background-repeat: no-repeat; " id="image_head">--}}
+<body class="bg-info" style="background-image: url('{{ asset('images/slide-view/slide8.jpeg') }}'); background-size: cover; background-repeat: no-repeat;" id="image_head">
+
+
+
     <main>
         @yield('content')
     </main>
@@ -51,13 +72,13 @@
         image_head.style.width = '100%';
 
         var i = 0;
-        setInterval(function() {
-            image_head.style.backgroundImage = "url(" + images[i] + ")";
-            i = i + 1;
-            if (i == images.length) {
-                i =  0;
-            }
-        }, 5000);
+        // setInterval(function() {
+        //     image_head.style.backgroundImage = "url(" + images[i] + ")";
+        //     i = i + 1;
+        //     if (i == images.length) {
+        //         i =  0;
+        //     }
+        // }, 5000);
 
     });
 </script>

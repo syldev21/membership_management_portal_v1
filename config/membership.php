@@ -869,8 +869,8 @@ return [
           'text'=>'Bishop',
           'id'=>1
       ],
-      'ass_bishop'=>[
-          'text'=>'Assistant Bishop',
+      'aux_bishop'=>[
+          'text'=>'Aux. Bishop',
           'id'=>2
       ],
       'reverend'=>[
@@ -897,9 +897,13 @@ return [
           'text'=>'Elder',
           'id'=>8
       ],
+      'deacon'=>[
+          'text'=>'Deacon',
+          'id'=>9
+      ],
       'admin'=>[
           'text'=>'Admin',
-          'id'=>9
+          'id'=>10
       ],
     ],
 
@@ -938,7 +942,7 @@ return [
                 'id'=>1
             ],
             2=>[
-                'text'=>'Assistant Bishop',
+                'text'=>'Aux. Bishop',
                 'id'=>2
             ],
             3=>[
@@ -966,8 +970,12 @@ return [
                 'id'=>8
             ],
             9=>[
-                'text'=>'Admin',
+                'text'=>'Deacon',
                 'id'=>9
+            ],
+            10=>[
+                'text'=>'Admin',
+                'id'=>10
             ],
         ],
         'decline_reason'=>[

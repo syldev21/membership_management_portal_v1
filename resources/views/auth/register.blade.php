@@ -14,29 +14,37 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-7 d-none d-lg-block" style="display: flex; justify-content: center; align-items: center; overflow: hidden">
-                                <img src="{{ asset('images/login.jpeg') }}" class="img-responsive" style="flex-shrink: 0; min-width: 100%; min-height: 100%">
+{{--                            <div class="col-lg-7 d-none d-lg-block" style="display: flex; justify-content: center; align-items: center; overflow: hidden">--}}
+{{--                                <img src="{{ asset('images/login.jpeg') }}" class="img-responsive" style="flex-shrink: 0; min-width: 100%; min-height: 100%">--}}
+{{--                            </div>--}}
+{{--                            <div class="col-lg-7 d-none d-lg-block" style="display: flex; justify-content: center; align-items: center; overflow: hidden">--}}
+{{--                                <img src="{{ asset('images/login.jpeg') }}" class="img-responsive" style="flex-shrink: 0; max-width: 100%; max-height: 100%;">--}}
+{{--                            </div>--}}
+                            <div class="col-lg-4 d-none d-lg-block image-container">
+                                <img src="{{ asset('images/login.jpeg') }}" class="img-responsive">
                             </div>
                             <div class="vr"></div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-7">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Create an Account</h1>
+                                        <h1 class="h4 rounded-circle mb-4 bg-primary text-white">Create an Account</h1>
                                     </div>
                                     <div id="show-success-alert"></div>
                                     <form  class="user" action="#" method="POST" id="register_form">
                                         @csrf
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                   name="surName" id="surName" aria-describedby="emailHelp"
-                                                   placeholder="Surname...">
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                   name="otherNames" id="otherNames" aria-describedby="emailHelp"
-                                                   placeholder="Other Names...">
-                                            <div class="invalid-feedback"></div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-4">
+                                                <input type="text" class="form-control form-control-user"
+                                                       name="firstName" id="firstName" aria-describedby="emailHelp"
+                                                       placeholder="First Name...">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                            <div class="form-group col-lg-8">
+                                                <input type="text" class="form-control form-control-user"
+                                                       name="otherNames" id="otherNames" aria-describedby="emailHelp"
+                                                       placeholder="Other Names...">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
@@ -44,17 +52,19 @@
                                                    placeholder="Enter Email Address...">
                                             <div class="invalid-feedback"></div>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                   name="password" id="password" aria-describedby="emailHelp"
-                                                   placeholder="Password">
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                   name="confirm_password" id="confirm_password" aria-describedby="emailHelp"
-                                                   placeholder="Confirm Password">
-                                            <div class="invalid-feedback"></div>
+                                        <div class="row">
+                                            <div class="form-group col">
+                                                <input type="password" class="form-control form-control-user"
+                                                       name="password" id="password" aria-describedby="emailHelp"
+                                                       placeholder="Password">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                            <div class="form-group col">
+                                                <input type="password" class="form-control form-control-user"
+                                                       name="confirm_password" id="confirm_password" aria-describedby="emailHelp"
+                                                       placeholder="Confirm Password">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -118,24 +128,11 @@
                                     </li>
                                 </ol>
                             </div>
-                            <div class="form-group bg-light">
-                                <div class="form-check text-success">
-                                    <input type="radio" class="form-check-input" id="accept_radio" name="review_radio" value="1">Accept
-                                    <label class="form-check-label" for="accept_radio"></label>
-                                </div>
-                                <div class="form-check text-danger">
-                                    <input type="radio" class="form-check-input" id="reject_radio" name="review_radio" value="2">Reject
-                                    <label class="form-check-label" for="reject_radio"></label>
-                                </div>
-                                <div class="invalid-feedback"></div>
-                                <div class="invalid-review-feedback"></div>
-                            </div>
-
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button style="!important; float: left" type="button" class="btn btn-secondary rounded-5" data-bs-dismiss="modal">Close</button>
-                        <button style="!important; float: right" type="button" class="btn btn-warning rounded-5 accept_btn" data-bs-dismiss="" data-toggle="tooltip" data-placement="bottom" title="Make sure you selected an option before clicking this button!"><span class="review_icon"><i class="fa fa-check"></i></span>Submit Review</button>
+                        <button id="rejected_review" value="0" style="!important; float: left" type="button" class="btn btn-secondary rounded-5 accept_btn" data-bs-dismiss="modal" data-toggle="tooltip" data-placement="bottom" title="You wil not be able to continue with registration if you close without accepting the terms and conditions!"><span class="review_icon"><i class=""></i></span>Close</button>
+                        <button id="accepted_review" value="1" style="!important; float: right" type="button" class="btn btn-warning rounded-5 accept_btn" data-bs-dismiss="" data-toggle="tooltip" data-placement="bottom" title="Make sure you read and understood the terms and conditions before clicking this button!"><span class="review_icon"><i class="fa fa-check"></i></span>Accept</button>
                     </div>
                 </div>
             </div>
@@ -146,24 +143,12 @@ float: left
 @section('script')
     <script>
         $(function(){
-            $('input[type=radio][name=review_radio]').prop('checked', false);
-            $('input[type=radio][name=review_radio]').on('change', function() {
-                if($(this).val()== 1){
-                    $('.accept_btn').html('Accept')
-                    $('.accept_btn').removeClass('btn-danger')
-                    $('.accept_btn').removeClass('btn-warning')
-                    $('.accept_btn').addClass('btn-success')
-                }else {
-                    $('.accept_btn').html('Reject')
-                    $('.accept_btn').removeClass('btn-warning')
-                    $('.accept_btn').removeClass('btn-success')
-                    $('.accept_btn').addClass('btn-danger')
-                }
-            })
-
             $('.accept_btn').click(function (e){
                 e.preventDefault()
-                $('.accept_btn').val('Submitting...')
+                let review_value = $(this).val();
+                if($(this).attr('id') == 'accepted_review'){
+                    $(this).html('Submitting Review...')
+                }
                 $.ajaxSetup({
 
                     headers: {
@@ -173,30 +158,26 @@ float: left
                 $.ajax({
                     url: '/review-terms',
                     method: 'POST',
-                    data: $('#terms_form').serialize(),
+                    data: {
+                        review_value:review_value
+            },
                     dataType: 'json',
                     success: function (response){
-                        if (response.status == 400){
-                            showError('review_radio', response.messages.review_radio);
-                            $('.invalid-review-feedback').html(showMessage('danger', response.messages))
-                            $('.accept_btn').val('Submit Review')
-                        }else{
-                            if (response.status == 200){
+                            if (response.status == 200) {
                                 $('#terms_alert').html(showMessage('success', response.messages));
                                 $('#terms').prop('checked', true)
                                 $('#terms').val(1)
-                                $('.accept_btn').val('Submit Review')
-                            }else {
-                                $('#terms_alert').html(showMessage('warning', response.messages));
-                                $('#terms').prop('checked', false)
-                                $('.accept_btn').val('Submit Review')
-                            }
+                                $('#accepted_review').html('Accept')
+                                }else {
+                                    $('#terms_alert').html(showMessage('warning', response.messages));
+                                    $('#terms').prop('checked', false)
+                                    $('.accept_btn').val('Submit Review')
+                                }
 
-                            setTimeout(function() {
-                                $('#termsModal').modal('hide')
-                            }, 1000);
-                        }
-                        $('#terms_form')[0].reset();
+                                setTimeout(function () {
+                                    $('#terms_alert').empty()
+                                    $('#termsModal').modal('hide')
+                                }, 3000);
                     }
                 })
             })
@@ -217,7 +198,7 @@ float: left
                     dataType: 'json',
                     success: function (res){
                         if(res.status == 400){
-                            showError('surName', res.messages.surName);
+                            showError('firstName', res.messages.firstName);
                             showError('otherNames', res.messages.otherNames);
                             showError('email', res.messages.email);
                             showError('password', res.messages.password);
@@ -230,7 +211,6 @@ float: left
                             $('#register_form')[0].reset();
                             removeValidationClasses('#register_form');
                             $('#register_btn').val('Register');
-                            {{--window.location.href = "{{route('register')}}"--}}
                         }
                     }
                 });
