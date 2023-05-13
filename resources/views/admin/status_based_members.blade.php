@@ -22,9 +22,11 @@
             <th>Employment Status</th>
             <th>Leadership Status</th>
             <th>Occupation</th>
-            <th>Ministries of Interest</th>
+            <th>Other/ Ministries of Interest</th>
             <th>Level of Education</th>
             <th>Registered</th>
+            <th>Year Joined</th>
+            <th class="removed removed-table-head"></th>
             <th class="hide_for_execs">Actions</th>
         </tr>
         </thead>
@@ -130,6 +132,19 @@
                     <td>{{isset($ministries)?$ministries:''}}</td>
                     <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
                     <td>{{isset($member->created_at) ? \Carbon\Carbon::parse($member->created_at)->diffForHumans() : ''}}</td>
+                    <td>{{$member->year_joined?explode('-', explode(' ', $member->year_joined)[0])[0]:''}}</td>
+                    @php
+                        if (isset($member->delete_reason)){
+                            $removed_reason = config('membership.statuses.delete_reason')[$member->delete_reason]['text'];
+                        }else if (isset($member->deactivate_reason)){
+                            $removed_reason = config('membership.statuses.deactivate_reason')[$member->deactivate_reason]['text'];
+                        }else if (isset($member->decline_reason)){
+                            $removed_reason = config('membership.statuses.deactivate_reason')[$member->decline_reason]['text'];
+                        }else{
+                            $removed_reason = '';
+                        }
+                    @endphp
+                    <td class="removed removed-table-data">{{$removed_reason}}</td>
                     <td class="hide_for_execs">
                         <select id="" name="" class="browser-default">
                             <option data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">

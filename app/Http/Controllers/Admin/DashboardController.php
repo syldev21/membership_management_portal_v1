@@ -88,8 +88,9 @@ class DashboardController extends Controller
         }else{
             $members = $members->get();
         }
+        $category_detail_description = 'lulu';
 
-        return view('admin.status_based_members', ['members' => $members, 'category_name'=>$member_age_cluster_category_text,'display_for_progress'=>$display_for_progress, 'progressive_registration'=>$progressive_registration]);
+        return view('admin.status_based_members', ['category_detail_description'=>$category_detail_description, 'members' => $members, 'category_name'=>$member_age_cluster_category_text,'display_for_progress'=>$display_for_progress, 'progressive_registration'=>$progressive_registration]);
     }
 
     public function churchMembers(Request $request){
@@ -103,6 +104,7 @@ class DashboardController extends Controller
         $loggedin_user = User::where('id', auth()->id())->with('roles')->first();
 
         if (isset($class_name) && strpos($class_name, 'progressive-registration')){
+//            dd($progressive_registration);
 
             $display_for_progress = true;
 
@@ -252,6 +254,7 @@ class DashboardController extends Controller
                 'age_cluster' => $age_cluster??null,
                 'ministries_of_interest' => isset($request->check_box)?implode (',', $request->check_box):null,
                 'title' => $request->title ?? null,
+                'year_joined' => $request->year_joined ?? null,
             ];
 
 
@@ -282,6 +285,7 @@ class DashboardController extends Controller
                 'dob' => 'required|date|before_or_equal:today',
                 'cell_group'=>'required',
                 'phone' => ['required', 'regex:/^(\+254|0)[1-9]\d{8}$/i', 'unique:users'],
+                'year_joined' => 'required|date|before_or_equal:today',
             ];
             if (isset($age) && $age<18) {
                 unset($validator_array['phone']);
@@ -293,6 +297,8 @@ class DashboardController extends Controller
                 'email.max'=>'The email address cannot be more than 30 characters!',
                 'title.required'=>'Choose a title  from the drop down menu!',
                 'dob.required'=>'Pick the date of birth from the calender!',
+                'year_joined.required'=>"Pick the year you joined VOSH Church Int'l from the calender!",
+                'year_joined.before_or_equal'=>'The date of you joined cannot be later than today!',
                 'dob.before_or_equal'=>'The date of birth cannot be later than today!',
                 'cell_group.required'=>'Choose the member cell group from the drop down menu!',
             ]);
@@ -352,6 +358,7 @@ class DashboardController extends Controller
                 $user->member_number = $member_number??null;
                 $user->user_name = $username;
                 $user->title = $request->title??null;
+                $user->year_joined = $request->year_joined??null;
                 $user->save();
                 return  response()->json([
                     'status'=>200,
@@ -419,7 +426,7 @@ class DashboardController extends Controller
                     'messages'=>$validator->getMessageBag()
                 ]);
             }else{
-                $user->update(['previous_registration_status'=>config('membership.registration_statuses.church_approved.id'), 'registration_status'=>config('membership.registration_statuses.declined_members.id')]);
+                $user->update(['previous_registration_status'=>config('membership.registration_statuses.church_approved.id'), 'registration_status'=>config('membership.registration_statuses.declined_members.id'), 'decline_reason'=>$review_reason]);
 
                 return response()->json([
                     'status'=>200,

@@ -350,6 +350,7 @@ public function profile(Request $request){
                     'education_level_id' => $request->education_level,
                     'age_cluster' => $age_cluster ?? null,
                     'ministries_of_interest' => isset($request->check_box)?implode (',', $request->check_box):null,
+                    'year_joined' => $request->year_joined??null,
                 ];
                 foreach ($udpate_data_array as  $key=>$value){
                     if (is_null($value)){
@@ -386,7 +387,7 @@ public function profile(Request $request){
                 ]);
             }
             else {
-                $member->update(['existing' => 0, 'active' => 0]);
+                $member->update(['existing' => 0, 'active' => 0, 'delete_reason'=>$request->delete_reason]);
                 return response()->json([
                     'status' => 200,
                     'messages' => explode(' ', $member->first()->name)[0].' deleted successfully'
@@ -421,7 +422,7 @@ public function profile(Request $request){
                             'messages'=>$validator->getMessageBag()
                         ]);
                     }else{
-                        $deactivated = User::where('id', $member_id)->update(['active' => 0]);
+                        $deactivated = User::where('id', $member_id)->update(['active' => 0, 'deactivate_reason'=>$change_status_reason]);
                         if ($deactivated) {
                             return response()->json([
                                 'status' => 200,

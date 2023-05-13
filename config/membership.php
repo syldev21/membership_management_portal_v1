@@ -36,20 +36,16 @@ return [
             'text'=>'Transfer',
             'id'=>2
         ],
-        'stopped'=> [
-            'text'=>'No longer Coming',
+        'no_mo_attending'=> [
+            'text'=>'No longer attending our services',
             'id'=>3
         ],
     ],
     'decline_reason'=>[
-        'not_cell_group_member'=> [
-            'text'=>'Not a Cell Group Member',
+        'pending_verification'=> [
+            'text'=>'Pending Verification',
             'id'=>1
-        ],
-        'not_a_church_member'=> [
-            'text'=>'Not a Church Member',
-            'id'=>2
-        ],
+        ]
     ],
     'roles'=>[
         'view_only'=>[
@@ -75,13 +71,10 @@ return [
 
     ],
     'deactivate_reason'=>[
-        'transfer'=> [
-            'text'=>'Transfer',
-            'id'=>1
-        ],
+
         'stopped'=> [
-            'text'=>'No longer Coming',
-            'id'=>2
+            'text'=>'Not a regular attendant',
+            'id'=>1
         ],
     ],
     'cell_group' => [
@@ -873,37 +866,41 @@ return [
           'text'=>'Aux. Bishop',
           'id'=>2
       ],
+      'pastor_in_charge'=>[
+          'text'=>'Pastor in Charge',
+          'id'=>3
+      ],
       'reverend'=>[
           'text'=>'Reverend',
-          'id'=>3
+          'id'=>4
       ],
       'apostle'=>[
           'text'=>'Apostle',
-          'id'=>4
+          'id'=>5
       ],
       'evangelist'=>[
           'text'=>'Evangelist',
-          'id'=>5
+          'id'=>6
       ],
       'pastor'=>[
           'text'=>'Pastor',
-          'id'=>6
+          'id'=>7
       ],
       'member'=>[
           'text'=>'Member',
-          'id'=>7
+          'id'=>8
       ],
       'elder'=>[
           'text'=>'Elder',
-          'id'=>8
+          'id'=>9
       ],
       'deacon'=>[
           'text'=>'Deacon',
-          'id'=>9
+          'id'=>10
       ],
       'admin'=>[
           'text'=>'Admin',
-          'id'=>10
+          'id'=>11
       ],
     ],
 
@@ -913,6 +910,27 @@ return [
 
 
     'statuses'=>[
+        'deactivate_reason'=>[
+
+            1=> [
+                'text'=>'Not a regular attendant',
+                'id'=>1
+            ],
+        ],
+        'delete_reason'=>[
+            1=> [
+                'text'=>'Death',
+                'id'=>1
+            ],
+            2=> [
+                'text'=>'Transfer',
+                'id'=>2
+            ],
+            3=> [
+                'text'=>'No longer attending our services',
+                'id'=>3
+            ],
+        ],
         'roles'=>[
             0=>[
                 'id'=>0,
@@ -946,47 +964,47 @@ return [
                 'id'=>2
             ],
             3=>[
-                'text'=>'Reverend',
+                'text'=>'Pastor in Charge',
                 'id'=>3
             ],
             4=>[
-                'text'=>'Apostle',
+                'text'=>'Reverend',
                 'id'=>4
             ],
             5=>[
-                'text'=>'Evangelist',
+                'text'=>'Apostle',
                 'id'=>5
             ],
             6=>[
-                'text'=>'Pastor',
+                'text'=>'Evangelist',
                 'id'=>6
             ],
             7=>[
-                'text'=>'Member',
+                'text'=>'Pastor',
                 'id'=>7
             ],
             8=>[
-                'text'=>'Elder',
+                'text'=>'Member',
                 'id'=>8
             ],
             9=>[
-                'text'=>'Deacon',
+                'text'=>'Elder',
                 'id'=>9
             ],
             10=>[
-                'text'=>'Admin',
+                'text'=>'Deacon',
                 'id'=>10
+            ],
+            11=>[
+                'text'=>'Admin',
+                'id'=>11
             ],
         ],
         'decline_reason'=>[
             1=> [
-                'text'=>'Not a Cell Group Member',
+                'text'=>'Pending Verification',
                 'id'=>1
-            ],
-            2=> [
-                'text'=>'Not a Church Member',
-                'id'=>2
-            ],
+            ]
         ],
         'registration_statuses'=>[
             0=>[

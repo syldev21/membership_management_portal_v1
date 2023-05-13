@@ -46,9 +46,11 @@
                     <th>Employment Status</th>
                     <th>Leadership Status</th>
                     <th>Occupation</th>
-                    <th>Ministries of Interest</th>
+                    <th>Other/ Ministries of Interest</th>
                     <th>Level of Education</th>
                     <th>Registered</th>
+                    <th>Year Joined</th>
+                    <th class="removed removed-table-head"></th>
                     <th class="hide_for_execs">Actions</th>
                 </tr>
                 </thead>
@@ -154,6 +156,19 @@
                             <td>{{isset($ministries)?$ministries:''}}</td>
                             <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
                             <td>{{isset($member->created_at) ? \Carbon\Carbon::parse($member->created_at)->diffForHumans() : ''}}</td>
+                            <td>{{$member->year_joined?explode('-', explode(' ', $member->year_joined)[0])[0]:''}}</td>
+                            @php
+                            if (isset($member->delete_reason)){
+                                $removed_reason = config('membership.statuses.delete_reason')[$member->delete_reason]['text'];
+                            }else if (isset($member->deactivate_reason)){
+                                $removed_reason = config('membership.statuses.deactivate_reason')[$member->deactivate_reason]['text'];
+                            }else if (isset($member->decline_reason)){
+                                $removed_reason = config('membership.statuses.deactivate_reason')[$member->decline_reason]['text'];
+                            }else{
+                                $removed_reason = '';
+                            }
+                            @endphp
+                            <td class="removed removed-table-data">{{$removed_reason}}</td>
                             <td class="hide_for_execs">
                                 <select id="" name="" class="browser-default">
                                     <option data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
@@ -304,7 +319,7 @@
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bolder" for="year_joined">Year Joined VOSH</label>
-                                            <input  data-toggle="tooltip" data-placement="bottom" title="The year you joined VOSH not necessarily Buru Buru!" type="date" name="year_joined" class="form-control rounded-0 profile_edit" id="year_joined" value="">
+                                            <input  data-toggle="tooltip" data-placement="bottom" title="The year you joined VOSH Church Int'l not necessarily Buru Buru!" type="date" name="year_joined" class="form-control rounded-0 profile_edit" id="year_joined" value="">
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="col-lg">
@@ -396,7 +411,7 @@
                                             </select>
                                         </div>
                                         <div class="col-lg" >
-                                            <label  class="fw-bold" for="ministry">Current Ministry</label>
+                                            <label  class="fw-bold" for="ministry">Key Ministry</label>
                                             <select  name="ministry" id="ministry" class="form-select rounded-0 ">
                                                 <option selected value="">--Select--</option>
                                                 @foreach(config('membership.ministry') as $ministry)
@@ -406,8 +421,8 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <label  class="fw-bold" for="leadership_status">Current Ministry/ Ministry of Interest (Tick all the applicable options)</label>
+                                    <div class="row">`
+                                        <label  class="fw-bold" for="leadership_status">Other Ministries/ Ministries of Interest (Tick as appropriate)</label>
                                         @foreach(config('membership.ministry') as $ministry)
                                             <div class="form-check col-lg">
                                                 <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="{{$ministry['id']}}">
@@ -575,6 +590,7 @@
 
     <script>
         $(document).ready( function () {
+            $('.removed').hide()
             let role_id = $('.limited_view_and_action').val()
             if(role_id == 4){
                 let to_be_hidden_array= [
@@ -605,6 +621,8 @@
                 if($('#progressive_registration').val() == 0){
                     $('.bar_ups').removeClass('bg-primary')
                     $('.bar_ups').addClass('bg-danger')
+                    $('.removed').show()
+                    $('.removed-table-head').html('Decline Reason')
                 }
                 else if($('#progressive_registration').val() <  3 && $('#progressive_registration').val()>0){
                     $('.spanned_conditional_display').html(' at Cell Group Level')
@@ -645,7 +663,6 @@
                 var member_category =$('#member_category_name').data('member_category')
                 var category =$('#member_category_name').data('category')
 
-
                 if($(this).val() == 'inactive'){
                     $('#report_status_category').removeClass('bg-success')
                     $('#report_status_category').addClass('bg-warning')
@@ -653,6 +670,8 @@
                     $('#report_status_category').removeClass('bg-info')
                     $('#conditional_report_status').val($('#conditional_report_status').data('inactive'))
                     $('.spanned_status_category').html(' -Inactive')
+                    $('.removed').show()
+                    $('.removed-table-head').html('Deactivating Reason')
 
                     $('.spanned_status_category').addClass('text-warning')
                     $('.spanned_status_category').removeClass('text-success')
@@ -664,6 +683,8 @@
                     $('#report_status_category').addClass('bg-danger')
                     $('#conditional_report_status').val($('#conditional_report_status').data('deleted'))
                     $('.spanned_status_category').html(' -Deleted')
+                    $('.removed').show()
+                    $('.removed-table-head').html('Deleting Reason')
 
                     $('.spanned_status_category').removeClass('text-warning')
                     $('.spanned_status_category').removeClass('text-success')
@@ -678,6 +699,8 @@
                     $('#report_status_category').addClass('bg-info')
                     $('#conditional_report_status').val($('#conditional_report_status').data('all'))
                     $('.spanned_status_category').html(' -All Registered')
+                    $('.removed').hide()
+                    $('.removed-table-head').html('Deleting/ Deactivating/ Decline Reason')
 
                     $('.spanned_status_category').removeClass('text-warning')
                     $('.spanned_status_category').removeClass('text-success')
@@ -690,6 +713,8 @@
                     $('#report_status_category').removeClass('bg-info')
                     $('#conditional_report_status').val($('#conditional_report_status').data('active'))
                     $('.spanned_status_category').html(' -Active')
+                    $('.removed').hide()
+                    $('.removed-table-head').html('')
 
                     $('.spanned_status_category').removeClass('text-warning')
                     $('.spanned_status_category').addClass('text-success')
@@ -924,6 +949,7 @@
                             showError('title', response.messages.title);
                             showError('cell_group', response.messages.cell_group);
                             showError('phone', response.messages.phone);
+                            showError('year_joined', response.messages.year_joined);
                             $('#admin_profile_edit_btn').val('Submit');
                         }
                         else if (response.status == 200){

@@ -103,7 +103,7 @@
                                     <div class="row">
                                         <div class="col-lg">
                                             <label  class="fw-bolder" for="gender">Gender</label>
-                                            <input type="text" disabled name="gender" class="form-control rounded-0 profile" id="" value={{config('membership.statuses.gender')[$userInfo->gender]}}>
+                                            <input type="text" disabled name="gender" class="form-control rounded-0 profile" id="" value={{config('membership.statuses.gender')[$userInfo->gender]??''}}>
                                             <select name="gender" hidden="hidden" id="gender" class="form-select rounded-0 profile_edit">
                                                 <option selected disabled>--Select</option>
                                                 @foreach(config('membership.gender') as $gender)
@@ -115,7 +115,7 @@
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bolder" for="year_joined">Year Joined VOSH</label>
-                                            <input type="text" disabled name="year_joined" class="form-control rounded-0 profile" id="" value={{$userInfo->year_joined??''}}>
+                                            <input type="text" disabled name="year_joined" class="form-control rounded-0 profile" id="" value={{$userInfo->year_joined?explode('-', explode(' ', $userInfo->year_joined)[0])[0]:''}}>
                                             <input  data-toggle="tooltip" data-placement="bottom" title="The year you joined VOSH not necessarily Buru Buru!" type="date" hidden=""  name="year_joined" class="form-control rounded-0 profile_edit" id="year_joined" value="">
                                             <div class="invalid-feedback"></div>
                                         </div>
@@ -227,8 +227,8 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-lg" hidden="hidden">
-                                            <label  class="fw-bolder" for="ministry">Current Ministry</label>
+                                        <div class="col-lg">
+                                            <label  class="fw-bolder" for="ministry">Key Ministry</label>
                                             <input type="text" disabled name="ministry" class="form-control rounded-0 profile" id="" value="{{isset($userInfo->ministry_id) ? config('membership.statuses.ministry')[$userInfo->ministry_id] : ''}}">
 
                                             <select hidden="hidden" name="ministry" id="ministry" class="form-select rounded-0 profile_edit">
@@ -241,7 +241,7 @@
                                         </div>
                                     </div>
                                     <div class="row profile_edit" hidden="hidden">
-                                        <label  class="fw-bolder" for="leadership_status">Current Ministry/ Ministry of Interest (Tick all the applicable options)</label>
+                                        <label  class="fw-bolder" for="leadership_status">Other Ministries/ Ministries of Interest (Tick as appropriate)</label>
                                         @foreach(config('membership.ministry') as $ministry)
                                             <div class="form-check col-lg">
                                                 <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="{{$ministry['id']}}">
