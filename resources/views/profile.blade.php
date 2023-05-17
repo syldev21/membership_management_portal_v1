@@ -74,8 +74,21 @@
                                         <div class="col-lg">
                                             <label  class="fw-bolder hide-status" for="phone">Phone</label>
                                             <input type="tel" disabled  name="phone" class="form-control rounded-0 profile" id="" value="{{$userInfo->phone?? ''}}">
-                                            <input type="tel" hidden="hidden"  name="phone" class="form-control rounded-0 profile_edit hide-status hide-field" id="phone" value="{{auth()->user()->phone == 'N/A'?'':auth()->user()->phone}}">
-                                            <div class="invalid-feedback hide-status"></div>
+                                            <div class="input-group profile_edit hide-status hide-field" hidden="hidden">
+                                                <div class="input-group-prepend">
+                                                    <label class="input-group-text" for="country_code">Country Code</label>
+                                                </div>
+                                                <select class="custom-select" id="country_code" name="country_code">
+                                                    <option value="" disabled selected>--selected country code--</option>
+                                                    @foreach (config('membership.country_codes') as $code => $country)
+                                                        <option value="{{ $code }}">{{ $code }} ({{ $country }})</option>
+                                                    @endforeach
+                                                </select>
+{{--                                                <div class="invalid-feedback"></div>--}}
+                                                <input type="tel" name="phone" placeholder="700000000" class="form-control rounded-0" id="phone" value="{{auth()->user()->phone == 'N/A'?'':auth()->user()->phone}}">
+                                            </div>
+                                            <div class="invalid-feedback"></div>
+                                            <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bolder hide-status" for="marital_status">Marital Status</label>
@@ -380,6 +393,7 @@
                             }, 1000);
                         }else if (response.status == 400){
                             showError('phone', response.messages.phone);
+                            showError('country_code', response.messages.country_code);
                             $('#profile_btn').val('Update');
                             $('#ignore_btn').show();
                             $('#profile_form')[0].reset();

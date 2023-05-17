@@ -317,10 +317,13 @@ public function profile(Request $request){
             }
             $user = User::where('id', $request->id);
             $phone = $request->phone;
+            $country_code = $request->country_code;
             $validator = false;
                 if (isset($phone)){
                     $validator = Validator::make($request->all(), [
+//                        'phone' => ['required', 'regex:/^(\+254|0)[1-9]\d{8}$/i', 'unique:users'],
                         'phone' => ['required', 'regex:/^(\+254|0)[1-9]\d{8}$/i', 'unique:users'],
+                        'country_code' => 'required',
                     ]);
                 }
             if ($validator && $validator->fails()){
@@ -331,13 +334,15 @@ public function profile(Request $request){
                     ]
                 );
             }else{
+                $complete_phone_number = implode(' ',[$country_code,$phone]);
+                dd($complete_phone_number);
                 $full_name = implode(' ',[$request->firstName, $request->otherNames]);
                 $udpate_data_array = [
                     'name' => $full_name,
                     'email' => $request->email,
                     'gender' => $request->gender,
                     'dob' => $request->dob,
-                    'phone' => $value ?? $phone,
+                    'phone' => $value ?? $complete_phone_number,
                     'marital_status_id' => $value ?? $request->marital_status,
                     'estate_id' => $request->estate,
                     'ward' => $request->ward,

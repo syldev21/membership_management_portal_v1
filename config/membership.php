@@ -1,6 +1,19 @@
 <?php
 
 return [
+    'country_codes'=>[
+        '+254'=>'Kenya',
+
+        '+255'=>'Tanzania',
+
+        '+256'=>'Uganda',
+
+        '+1'=>'USA',
+
+        '+44'=>'United Kingdom',
+
+        '+191'=>'India',
+    ],
     'registration_statuses'=>[
       'declined_members'=>[
           'id'=>0,
@@ -56,8 +69,12 @@ return [
             'id'=>1,
             'text'=>'Admin'
         ],
-        'church_secretary'=>[
+        'pastor_in_charge'=>[
             'id'=>2,
+            'text'=>'Pastor in Charge'
+        ],
+        'church_secretary'=>[
+            'id'=>3,
             'text'=>'Church Secretary'
         ],
         'ass_church_secretary'=>[
@@ -943,6 +960,10 @@ return [
             2=>[
                 'id'=>2,
                 'text'=>'Church Secretary'
+            ],
+            3=>[
+                'id'=>3,
+                'text'=>'Pastor in Charge'
             ],
             3=>[
                 'id'=>3,
