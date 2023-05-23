@@ -58,7 +58,7 @@ Route::group(['middleware'=>['LoginCheck']], function (){
 
 //test route
 Route::get('test', function (){
-    $usersWithRoles = User::has('roles')->get(); // get users with roles only
+    $usersWithRoles = User::has('roles')->get();
     dd($usersWithRoles);
 
     echo "<br><br>";
