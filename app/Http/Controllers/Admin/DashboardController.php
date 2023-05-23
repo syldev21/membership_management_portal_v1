@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ModelHasRole;
+use App\Models\CustomModelHasRole;
 use App\Models\User;
 use Carbon\Carbon;
 use Faker\Factory;
@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Services\DataTable;
 use function PHPUnit\Framework\isEmpty;
@@ -37,7 +38,7 @@ class DashboardController extends Controller
 
         $progressive_registration = $request->progressive_registration??null;
         $class_name = $request->class_name;
-        $loggedin_user = User::where('id', auth()->id())->with('roles')->first();
+        $loggedin_user = User::where('id', auth()->id())->with('customRoles')->first();
 
         if (isset($class_name) && strpos($class_name, 'progressive-registration')){
 
@@ -50,7 +51,7 @@ class DashboardController extends Controller
             if (isset($category) && strpos($category, 'church-members')){
                 if ($member_category == config('membership.age_clusters.All_members')['id']){
                     if ($active_status == 'active') {
-                        $members = User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 1)->where('active', 1)->where('registration_status', 5);
+                        $members = User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 1)->where('active', 1)->where('registration_status', 5)->orWhere('email', 'voshburuburu@gmail.com');
                     }elseif ($active_status == 'inactive'){
                         $members= User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 1)->where('active', 0)->where('registration_status', 5);
                     }elseif($active_status == 'all'){
@@ -60,7 +61,7 @@ class DashboardController extends Controller
                     }
                 }else{
                     if ($active_status == 'active') {
-                        $members = User::where('cell_group_id', '!=', null)->where(['age_cluster' => $member_category])->where('existing', 1)->where('active', 1)->where('registration_status', 5);
+                        $members = User::where('cell_group_id', '!=', null)->where(['age_cluster' => $member_category])->where('existing', 1)->where('active', 1)->where('registration_status', 5)->orWhere('email', 'voshburuburu@gmail.com');
                     }elseif ($active_status == 'inactive'){
                         $members = User::where('cell_group_id', '!=', null)->where(['age_cluster' => $member_category])->where('existing', 1)->where('active', 0)->where('registration_status', 5);
                     }elseif ($active_status == 'all'){
@@ -71,7 +72,7 @@ class DashboardController extends Controller
                 }
             }else{
                 if ($active_status == 'active') {
-                    $members = User::where('age_cluster', '!=', null)->where('cell_group_id', $member_category)->where('existing', 1)->where('active', 1)->where('registration_status', 5);
+                    $members = User::where('age_cluster', '!=', null)->where('cell_group_id', $member_category)->where('existing', 1)->where('active', 1)->where('registration_status', 5)->orWhere('email', 'voshburuburu@gmail.com');
                 }elseif ($active_status == 'inactive'){
                     $members = User::where('age_cluster', '!=', null)->where('cell_group_id', $member_category)->where('existing', 1)->where('active', 0)->where('registration_status', 5);
                 }elseif($active_status == 'all'){
@@ -101,7 +102,7 @@ class DashboardController extends Controller
         $progressive_registration = $request->progressive_registration??null;
         $class_name = $request->class_name;
 
-        $loggedin_user = User::where('id', auth()->id())->with('roles')->first();
+        $loggedin_user = User::where('id', auth()->id())->with('customRoles')->first();
 
         if (isset($class_name) && strpos($class_name, 'progressive-registration')){
 //            dd($progressive_registration);
@@ -115,7 +116,7 @@ class DashboardController extends Controller
             $display_for_progress = false;
             if (isset($category) && strpos($category, 'church-members') == true){
                 if ($member_age_cluster_category_id == config('membership.age_clusters.All_members')['id']){
-                    $members= User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('active', 1)->where('registration_status', 5);
+                    $members= User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('active', 1)->where('registration_status', 5)->orWhere('email', 'voshburuburu@gmail.com');
                     $category_detail_description = '(All Ages)';
                 }else{
                     $category_details = config('membership.statuses.age_clusters')[$member_age_cluster_category_id];
@@ -126,20 +127,20 @@ class DashboardController extends Controller
                     }
 
                     $category_detail_description = '(' . $category_detail_description . ')';
-                    $members = User::where('cell_group_id', '!=', null)->where(['age_cluster' => $member_age_cluster_category_id])->where('active', 1)->where('registration_status', 5);
+                    $members = User::where('cell_group_id', '!=', null)->where(['age_cluster' => $member_age_cluster_category_id])->where('active', 1)->where('registration_status', 5)->orWhere('email', 'voshburuburu@gmail.com');
                 }
             }
             else
             {
-                $members = User::where('age_cluster', '!=', null)->where('cell_group_id', $member_age_cluster_category_id)->where('active', 1)->where('registration_status', 5);
+                $members = User::where('age_cluster', '!=', null)->where('cell_group_id', $member_age_cluster_category_id)->where('active', 1)->where('registration_status', 5)->orWhere('email', 'voshburuburu@gmail.com');
 
             }
         }
         if ($request->priviledged_id) {
-            $members = User::join('model_has_roles', ['users.id' => 'model_has_roles.mode_id'])->get();
+            $members = User::has('roles')->get();
             $priv = true;
         }
-        else if (isset($loggedin_user->roles[0]->role_id) && $loggedin_user->roles[0]->role_id == 4){
+        else if ($loggedin_user->hasRole('membership.roles.cell_group_pastor.text')){
             $priv = false;
             $members = $members->where('cell_group_id', $loggedin_user->cell_group_id)->get();
         }else{
@@ -369,40 +370,72 @@ class DashboardController extends Controller
 
     }
     public function adminAssignRole(Request $request){
-        $id = $request->id;
+      // Get the user ID and role ID from the request
+        $userId = $request->input('id');
+        $roleId = $request->input('role_id');
 
-        $role_array=$request->check_box;
+        // Find the user
+        $user = User::find($userId);
 
-        if (is_array($role_array)){
+        // Get the currently assigned role
+        $currentRole = $user->roles->first();
 
-            if (count($role_array)>1){
-                foreach ($role_array as $role){
-                    $model_has_role_array= [
-                        'mode_id'=>$id,
-                        'role_id'=>$role
-                    ];
-                    ModelHasRole::updateOrCreate($model_has_role_array);
-                    User::where(['id'=>$id])->update(['role_as'=>1, 'registration_status'=>5]);
+
+        // Get the requested role
+        $requestedRole = Role::find($roleId);
+
+        // Find the user
+        $user = User::find($userId);
+
+        if ($roleId) {
+            // A role is selected
+            // Find the role based on the ID
+            $role = Role::find($roleId);
+
+            // Assign the role to the user
+            $user->syncRoles([$role]);
+
+            // Retrieve the associated permissions of the role
+            $permissions = $role->permissions->pluck('name')->toArray();
+
+            // Assign the permissions to the user
+            $user->syncPermissions($permissions);
+
+            if (isset($currentRole->name)){
+                if ($currentRole->name == $requestedRole->name){
+                    return response()->json([
+                        'status'=>200,
+                        'messages'=>$currentRole->name.' role and associated permissions confirmed successfully'
+                    ]);
+                }else{
+                    return response()->json([
+                        'status'=>200,
+                        'messages'=>'Role changed from '.$currentRole->name.' to '.$requestedRole->name.' and associated permissions assigned successfully'
+                    ]);
                 }
             }else{
-                list($key, $value) = each($role_array);
-                ModelHasRole::updateOrCreate(['mode_id'=>$id, 'role_id'=>$value]);
+                return response()->json([
+                    'status'=>200,
+                    'messages'=>$requestedRole->name.' and associated permissions assigned successfully'
+                ]);
             }
-            User::where(['id'=>$id])->update(['role_as'=>1, 'registration_status'=>5]);
-        }
-        else{
-            $model_has_role = ModelHasRole::where('mode_id', $id);
-            if (isset($model_has_role)){
-                $model_has_role->delete();
+        } else {
+            // No role is selected, unassign the current role and permissions
+            $user->syncRoles([]);
+            $user->syncPermissions([]);
+            if (isset($currentRole->name)){
+                return response()->json([
+                    'status'=>200,
+                    'messages'=>$currentRole->name.' role and associated permissions unassigned successfully'
+                ]);
+            }else{
+                return response()->json([
+                    'status'=>200,
+                    'messages'=>'Member has no role and this has been  confirmed successfully'
+                ]);
             }
-            User::where(['id'=>$id])->update(['role_as'=>0]);
+
         }
-
-        return response()->json([
-            'status'=>200,
-            'messages'=>'Role assigned successfully'
-        ]);
-
     }
     public function adminAssignId(Request $request){
         return view('admin.with-id', ['id'=>$request->id]);

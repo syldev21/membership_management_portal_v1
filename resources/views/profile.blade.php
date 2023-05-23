@@ -38,7 +38,7 @@
                              </div>
 
                             <input type="hidden" name="user_id" id="user_id" value="{{$userInfo->id ?? ''}}">
-                            <div class="col-lg-8 px-5">
+                            <div class="col-lg-8 px-5 bg-gray text-danger">
                                 <form action="#" method="POST" id="profile_form" class="accordion-flush self_edit">
                                     @csrf
                                     <div class="row">
@@ -151,7 +151,7 @@
                                                     $full_age = implode(' ', $full_age_array);
                                                 }
                                             }?>
-                                            <label  class="fw-bolder" for="dob" class="profile">Age</label>
+                                            <label  class="fw-bolder text-danger" for="dob" class="profile">Age</label>
                                             <input type="text" disabled  name="dob" class="form-control rounded-0 profile" id="" value="{{$full_age??''}}">
                                         </div>
                                         <div class="col-lg profile_edit"  hidden="hidden">
@@ -325,6 +325,7 @@
 @section('script')
     <script>
         $(function (){
+            $('.profile').addClass('text-secondary', 'fw-bolder')
             $('.profile').val()
             if ($('#add_user_id').val() == 'admin'){
                 $('.profile').hide();

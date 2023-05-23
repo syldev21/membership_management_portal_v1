@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as  Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable, HasRoles;
     protected $fillable = [
         'name',
         'email',
@@ -29,12 +31,15 @@ class User extends Authenticatable
         'education_level_id',
         'password',
         'token',
-        'token_expire',
+        'token_expire'
     ];
 
-    public function roles()
+    public function customRoles()
     {
-        return $this->hasMany(ModelHasRole::class, 'mode_id', 'id');
+        return $this->hasMany(CustomModelHasRole::class, 'mode_id', 'id');
     }
-
+    public function hasAnyRole()
+    {
+        return $this->roles()->exists();
+    }
 }

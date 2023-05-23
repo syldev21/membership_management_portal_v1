@@ -143,7 +143,7 @@
                         }else{
                             $removed_reason = '';
                         }
-                    @endphp
+//                            @endphp
                     <td class="removed removed-table-data">{{$removed_reason}}</td>
                     <td class="hide_for_execs">
                         <select id="" name="" class="browser-default">
@@ -165,9 +165,13 @@
                                     Deactivate
                                 @endif
                             </option>
-                            <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
-                                Assign Role
-                            </option>
+                            @if(auth()->user()->hasPermissionTo(config('membership.permissions.Assign_Role.text')))
+                                <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
+                                    Assign Role
+                                </option>
+                            @endif
+
+                            endHasRole
                             <option data-cell_group="{{config('membership.statuses.cell_group')[$member->cell_group_id]??null}}" data-user_first_name="{{explode(' ', $member->name)[0]}}"  data-user_name="{{$member->name}}" data-id="{{$member->id}}" data-bs-toggle="modal" data-bs-target="#reviewModal" data-registration_status="{{$member->registration_status}}" id="reviewRegistration">
                                 @if($member->registration_status== config('membership.registration_statuses.cell_group_registered.id'))
                                     Approve new Member

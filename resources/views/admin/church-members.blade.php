@@ -167,7 +167,7 @@
                             }else{
                                 $removed_reason = '';
                             }
-                            @endphp
+//                            @endphp
                             <td class="removed removed-table-data">{{$removed_reason}}</td>
                             <td class="hide_for_execs">
                                 <select id="" name="" class="browser-default">
@@ -189,9 +189,13 @@
                                             Deactivate
                                         @endif
                                     </option>
-                                    <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
-                                        Assign Role
-                                    </option>
+                                    @if(auth()->user()->hasPermissionTo(config('membership.permissions.Assign_Role.text')))
+                                        <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
+                                            Assign Role
+                                        </option>
+                                    @endif
+
+                                    endHasRole
                                     <option data-cell_group="{{config('membership.statuses.cell_group')[$member->cell_group_id]??null}}" data-user_first_name="{{explode(' ', $member->name)[0]}}"  data-user_name="{{$member->name}}" data-id="{{$member->id}}" data-bs-toggle="modal" data-bs-target="#reviewModal" data-registration_status="{{$member->registration_status}}" id="reviewRegistration">
                                             @if($member->registration_status== config('membership.registration_statuses.cell_group_registered.id'))
                                                 Approve new Member
@@ -237,29 +241,24 @@
                                     @foreach(config('membership.roles') as $role)
                                         <th>{{$role['text']}}</th>
                                     @endforeach
+                                        <th rowspan="2" class="align-content-center text-center">
+                                            <button id="clear_role_button" type="button" class="btn btn-warning">Clear Selection</button>
+                                        </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <div id="with_id">
-                                    <tr>
-                                        @foreach(config('membership.roles') as $role)
+                                <tr id="with_id">
 
-                                            <td>
-                                                <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="{{$role['id']}}" data-role="" >
-                                            </td>
-                                        @endforeach
-
-                                    </tr>
-                                </div>
+                                </tr>
                                 </tbody>
                             </table>
                         </form>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-primary" id="assign_role_button" data-bs-popper="" value="Assign">
+                <div class="modal-footer d-flex justify-content-between">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="button" class="btn btn-primary" id="assign_role_button" data-bs-popper="" value="Assign">
                 </div>
             </div>
         </div>
@@ -590,6 +589,11 @@
 
     <script>
         $(document).ready( function () {
+            // Event listener for the "Clear Selection" button
+            $('#clear_role_button').click(function() {
+                // Find all the checked radio buttons within the form
+                $('#assign_role_form input[type="radio"]:checked').prop('checked', false);
+            });
             $('.removed').hide()
             let role_id = $('.limited_view_and_action').val()
             if(role_id == 4){
@@ -916,7 +920,7 @@
                     },
                     // dataType: 'json',
                     success: function (response) {
-                        // $('#with_id').html(response)
+                        $('#with_id').html(response)
 
                     }
                 });
@@ -970,7 +974,9 @@
 
 
 
-                let id = $('#role_user_id').val()
+                let id = $('#role_user_id').val();
+                let role_id = $('input[name="role_id"]:checked').val(); // Get the selected role ID
+
                 $(this).val('Assigning...');
 
                 $.ajaxSetup({
@@ -982,7 +988,11 @@
                 $.ajax({
                     url: '{{route('members.assign')}}',
                     method: 'post',
-                    data: $('#assign_role_form').serialize()+ `&id=+${id}`,
+                    // data: $('#assign_role_form').serialize()+ `&id=+${id}`,
+                    data: {
+                        id: id,
+                        role_id: role_id // Pass the selected role ID as role_id
+                    },
                     dataType: 'json',
                     success: function (response) {
                         if (response.status == 200){
@@ -992,7 +1002,7 @@
 
                             setTimeout(function() {
                                 window.location.href = "{{route('profile')}}"
-                            }, 2000);
+                            }, 3000);
                         }
                     }
                 });

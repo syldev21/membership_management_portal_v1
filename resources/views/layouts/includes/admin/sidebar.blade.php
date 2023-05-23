@@ -7,7 +7,8 @@
                     <a href="{{route('profile')}}"><img src="{{asset('images/login.jpeg')}}" data-toggle="tooltip" data-placement="top"></a>
                 </div>
                 <input type="hidden" class="is_a_cell_group_pastor" data-cell_group="{{\App\Models\User::where('id', auth()->id())->with('roles')->first()->cell_group_id??null}}" value="{{\App\Models\User::where('id', auth()->id())->with('roles')->first()->roles[0]->role_id??null}}">
-                @if(auth()->user()->role_as ==1)
+                @if(auth()->user()->can('See Members'))
+{{--                @if(auth()->user()->hasAnyRole())--}}
                 <a class="nav-link table-responsive admin_dashboard" href="#">
                     <div class="sb-nav-link-icon"><i class="fa fa-list-ol"></i></div>
                     Dashboard

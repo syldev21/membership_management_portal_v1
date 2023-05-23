@@ -60,29 +60,68 @@ return [
             'id'=>1
         ]
     ],
-    'roles'=>[
-        'view_only'=>[
+    'permissions'=>[
+        'Add_Members'=>[
             'id'=>0,
+            'text'=>'Add Members'
+        ],
+        'Assign_Role'=>[
+            'id'=>1,
+            'text'=>'Assign Role'
+        ],
+        'Decline_Membership'=>[
+            'id'=>2,
+            'text'=>'Decline Membership'
+        ],
+        'Delete_Members'=>[
+            'id'=>3,
+            'text'=>'Delete Members'
+        ],
+        'Edit_Members'=>[
+            'id'=>4,
+            'text'=>'Edit Members'
+        ],
+        'Initial_Approval'=>[
+            'id'=>5,
+            'text'=>'Initial Approval'
+        ],
+        'Provisional_Approval'=>[
+            'id'=>6,
+            'text'=>'Provisional Approval'
+        ],
+        'Final_Approval'=>[
+            'id'=>7,
+            'text'=>'Final Approval'
+        ],
+        'View_Only'=>[
+            'id'=>8,
             'text'=>'View Only'
         ],
+        'See_Members'=>[
+            'id'=>9,
+            'text'=>'See Members'
+        ],
+
+
+    ],'roles'=>[
         'admin'=>[
             'id'=>1,
             'text'=>'Admin'
         ],
-        'pastor_in_charge'=>[
+        'view'=>[
             'id'=>2,
+            'text'=>'View'
+        ],
+        'pastor_in_charge'=>[
+            'id'=>3,
             'text'=>'Pastor in Charge'
         ],
-        'church_secretary'=>[
-            'id'=>3,
-            'text'=>'Church Secretary'
-        ],
-        'ass_church_secretary'=>[
-            'id'=>3,
-            'text'=>'Assistant Church Secretary'
+        'secretary'=>[
+            'id'=>4,
+            'text'=>'Secretary'
         ],
         'cell_group_pastor'=>[
-            'id'=>4,
+            'id'=>5,
             'text'=>'Cell Group Pastor'
         ]
 
@@ -949,27 +988,23 @@ return [
             ],
         ],
         'roles'=>[
-            0=>[
+            1=>[
                 'id'=>0,
                 'text'=>'View Only'
             ],
-            1=>[
+            2=>[
                 'id'=>1,
                 'text'=>'Admin'
             ],
-            2=>[
-                'id'=>2,
-                'text'=>'Church Secretary'
-            ],
             3=>[
-                'id'=>3,
+                'id'=>2,
                 'text'=>'Pastor in Charge'
             ],
-            3=>[
-                'id'=>3,
-                'text'=>'Assistant Church Secretary'
-            ],
             4=>[
+                'id'=>3,
+                'text'=>'Church Secretary'
+            ],
+            5=>[
                 'id'=>4,
                 'text'=>'Cell Group Pastor'
             ]

@@ -1,9 +1,6 @@
-<tr>
-    @foreach(config('membership.roles') as $role)
-
+   @foreach(config('membership.roles') as $role)
         <td>
-            <input type="checkbox" class="check_box" id="check_box" name="check_box[]" value="{{$role['id']}}" data-role="" <?php $model_has_role=\App\Models\ModelHasRole::where('mode_id', 1)->where('role_id', $role['id'])->first();?> @if(isset($model_has_role)) checked @endif>
+            <input type="radio" class="radio_button" id="role_{{$role['id']}}" name="role_id" value="{{$role['id']}}" data-role="" {{\App\Models\User::find($id)->hasRole($role['text']) ? 'checked' : ''}}>
         </td>
     @endforeach
-
-</tr>
+    <td></td>
