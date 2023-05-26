@@ -989,23 +989,23 @@ return [
         ],
         'roles'=>[
             1=>[
-                'id'=>0,
+                'id'=>1,
                 'text'=>'View Only'
             ],
             2=>[
-                'id'=>1,
+                'id'=>2,
                 'text'=>'Admin'
             ],
             3=>[
-                'id'=>2,
+                'id'=>3,
                 'text'=>'Pastor in Charge'
             ],
             4=>[
-                'id'=>3,
+                'id'=>4,
                 'text'=>'Church Secretary'
             ],
             5=>[
-                'id'=>4,
+                'id'=>5,
                 'text'=>'Cell Group Pastor'
             ]
 

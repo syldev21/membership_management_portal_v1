@@ -1,6 +1,7 @@
 <div id="layoutSidenav_nav" style="background-color: lightskyblue; text-emphasis-color: white">
     <nav class="sb-sidenav accordion"style="background-color: lightskyblue" id="sidenavAccordion"
     >
+        <input type="hidden" name="" data-id="{{\Illuminate\Support\Facades\Auth::user()->cell_group_id}}" id="logged_in_user_role" value="{{\Illuminate\Support\Facades\Auth::user()->roles()->first()->name}}">
         <div class="sb-sidenav-menu fw-bolder fs-6 text-white">
             <div class="nav">
                 <div class="">
@@ -23,6 +24,17 @@
                     <div class="collapse text-dark" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link church-members" href="#" data-id="{{config('membership.age_clusters.All_members.id')}}"><i class="fa fa-group"></i>{{config('membership.age_clusters.All_members.text')}}</a>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseGender" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" id="cell">
+                                <div class="sb-nav-link-icon"><i class="fa fa-registered fa-lg"></i></div>
+                                Gender-Based
+                                <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseGender" aria-labelledby="headingOne" data-bs-parent="#collapseLayouts">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link church-members gender-based text-dark" href="#" data-id="{{config('membership.gender.male.id')}}"><i class="fa fa-male"></i>{{config('membership.gender.male.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" href="#" data-id="{{config('membership.gender.female.id')}}"><i class="fa fa-female"></i>{{config('membership.gender.female.text')}}</a>
+                                </nav>
+                            </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapse41" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" id="cell">
                                 <div class="sb-nav-link-icon"><i class="fa fa-registered fa-lg"></i></div>
                                 Stages 1-4
@@ -88,15 +100,103 @@
                     </a>
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                            <a class="nav-link cell_group_members text-dark kiambiu" href="#" data-id="{{config('membership.cell_group.kiambiu.id')}}"><i class="fa fa-child"></i>{{config('membership.cell_group.kiambiu.text')}}</a>
-                            <a class="nav-link cell_group_members text-dark umoja_bethel" href="#" data-id="{{config('membership.cell_group.umoja_bethel.id')}}"><i class="fa fa-child"></i>{{config('membership.cell_group.umoja_bethel.text')}}</a>
-                            <a class="nav-link cell_group_members text-dark kariobangi_south" href="#" data-id="{{config('membership.cell_group.kariobangi_south.id')}}"><i class="fa fa-child"></i>{{config('membership.cell_group.kariobangi_south.text')}}</a>
-                            <a class="nav-link cell_group_members text-dark chokaa_berea" href="#" data-id="{{config('membership.cell_group.chokaa_berea.id')}}"><i class="fa fa-child"></i>{{config('membership.cell_group.chokaa_berea.text')}}</a>
-                            <a class="nav-link cell_group_members text-dark diaspora" href="#" data-id="{{config('membership.cell_group.diaspora.id')}}"><i class="fa fa-child"></i>{{config('membership.cell_group.diaspora.text')}}</a>
-                            <a class="nav-link cell_group_members text-dark langata" href="#" data-id="{{config('membership.cell_group.langata.id')}}"><i class="fa fa-child"></i>{{config('membership.cell_group.langata.text')}}</a>
-                            <a class="nav-link cell_group_members text-dark Jericho" href="#" data-id="{{config('membership.cell_group.Jericho.id')}}"><i class="fa fa-child"></i>{{config('membership.cell_group.Jericho.text')}}</a>
-                            <a class="nav-link cell_group_members text-dark not_sure" href="#" data-id="{{config('membership.cell_group.not_sure.id')}}"><i class="fa fa-child"></i>{{config('membership.cell_group.not_sure.text')}}</a>
 
+                            <a class="nav-link collapsed collapsed-cell-categories" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseKiambiu" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" data-cell_id='{{config('membership.cell_group.kiambiu.id')}}' id="cell">
+                                <div class="sb-nav-link-icon"><i class="fa fa-registered fa-lg"></i></div>
+                                {{config('membership.cell_group.kiambiu.text')}}
+                                <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseKiambiu" aria-labelledby="headingOne" data-bs-parent="#collapsePages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link cell_group_members text-dark kiambiu" href="#" data-id="{{config('membership.cell_group.kiambiu.id')}}"><i class="fa fa-child"></i>{{config('membership.age_clusters.All_members.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" data-gender_cell="{{config('membership.cell_group.kiambiu.id')}}" href="#" data-id="{{config('membership.gender.male.id')}}"><i class="fa fa-male"></i>{{config('membership.gender.male.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" data-gender_cell="{{config('membership.cell_group.kiambiu.id')}}" href="#" data-id="{{config('membership.gender.female.id')}}"><i class="fa fa-female"></i>{{config('membership.gender.female.text')}}</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed collapsed-cell-categories" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseUmojaBethel" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" data-cell_id='{{config('membership.cell_group.umoja_bethel.id')}}' id="cell">
+                                <div class="sb-nav-link-icon"><i class="fa fa-registered fa-lg"></i></div>
+                                {{config('membership.cell_group.umoja_bethel.text')}}
+                                <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseUmojaBethel" aria-labelledby="headingOne" data-bs-parent="#collapsePages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link cell_group_members text-dark umoja_bethel" href="#" data-id="{{config('membership.cell_group.umoja_bethel.id')}}"><i class="fa fa-child"></i>{{config('membership.age_clusters.All_members.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" data-gender_cell="{{config('membership.cell_group.umoja_bethel.id')}}" href="#" data-id="{{config('membership.gender.male.id')}}"><i class="fa fa-male"></i>{{config('membership.gender.male.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" data-gender_cell="{{config('membership.cell_group.umoja_bethel.id')}}" href="#" data-id="{{config('membership.gender.female.id')}}"><i class="fa fa-female"></i>{{config('membership.gender.female.text')}}</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed collapsed-cell-categories" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseKariobangiSouth" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" data-cell_id='{{config('membership.cell_group.kariobangi_south.id')}}' id="cell">
+                                <div class="sb-nav-link-icon"><i class="fa fa-registered fa-lg"></i></div>
+                                {{config('membership.cell_group.kariobangi_south.text')}}
+                                <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseKariobangiSouth" aria-labelledby="headingOne" data-bs-parent="#collapsePages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link cell_group_members text-dark kariobangi_south" href="#" data-id="{{config('membership.cell_group.kariobangi_south.id')}}"><i class="fa fa-child"></i>{{config('membership.age_clusters.All_members.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" data-gender_cell="{{config('membership.cell_group.kariobangi_south.id')}}" href="#" data-id="{{config('membership.gender.male.id')}}"><i class="fa fa-male"></i>{{config('membership.gender.male.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" data-gender_cell="{{config('membership.cell_group.kariobangi_south.id')}}" href="#" data-id="{{config('membership.gender.female.id')}}"><i class="fa fa-female"></i>{{config('membership.gender.female.text')}}</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed collapsed-cell-categories" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseChokaaBerea" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" data-cell_id='{{config('membership.cell_group.chokaa_berea.id')}}' id="cell">
+                                <div class="sb-nav-link-icon"><i class="fa fa-registered fa-lg"></i></div>
+                                {{config('membership.cell_group.chokaa_berea.text')}}
+                                <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseChokaaBerea" aria-labelledby="headingOne" data-bs-parent="#collapsePages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link cell_group_members text-dark chokaa_berea" href="#" data-id="{{config('membership.cell_group.chokaa_berea.id')}}"><i class="fa fa-child"></i>{{config('membership.age_clusters.All_members.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" data-gender_cell="{{config('membership.cell_group.chokaa_berea.id')}}" href="#" data-id="{{config('membership.gender.male.id')}}"><i class="fa fa-male"></i>{{config('membership.gender.male.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" data-gender_cell="{{config('membership.cell_group.chokaa_berea.id')}}"  href="#" data-id="{{config('membership.gender.female.id')}}"><i class="fa fa-female"></i>{{config('membership.gender.female.text')}}</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed collapsed-cell-categories" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseDiaspora" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" data-cell_id='{{config('membership.cell_group.diaspora.id')}}' id="cell">
+                                <div class="sb-nav-link-icon"><i class="fa fa-registered fa-lg"></i></div>
+                                {{config('membership.cell_group.diaspora.text')}}
+                                <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseDiaspora" aria-labelledby="headingOne" data-bs-parent="#collapsePages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link cell_group_members text-dark diaspora" href="#" data-id="{{config('membership.cell_group.diaspora.id')}}"><i class="fa fa-child"></i>{{config('membership.age_clusters.All_members.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" data-gender_cell="{{config('membership.cell_group.diaspora.id')}}" href="#" data-id="{{config('membership.gender.male.id')}}"><i class="fa fa-male"></i>{{config('membership.gender.male.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" data-gender_cell="{{config('membership.cell_group.diaspora.id')}}" href="#" data-id="{{config('membership.gender.female.id')}}"><i class="fa fa-female"></i>{{config('membership.gender.female.text')}}</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed collapsed-cell-categories" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseLangata" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" data-cell_id='{{config('membership.cell_group.langata.id')}}' id="cell">
+                                <div class="sb-nav-link-icon"><i class="fa fa-registered fa-lg"></i></div>
+                                {{config('membership.cell_group.langata.text')}}
+                                <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseLangata" aria-labelledby="headingOne" data-bs-parent="#collapsePages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link cell_group_members text-dark langata" href="#" data-id="{{config('membership.cell_group.langata.id')}}"><i class="fa fa-child"></i>{{config('membership.age_clusters.All_members.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" data-gender_cell="{{config('membership.cell_group.langata.id')}}" href="#" data-id="{{config('membership.gender.male.id')}}"><i class="fa fa-male"></i>{{config('membership.gender.male.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" data-gender_cell="{{config('membership.cell_group.langata.id')}}" href="#" data-id="{{config('membership.gender.female.id')}}"><i class="fa fa-female"></i>{{config('membership.gender.female.text')}}</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed collapsed-cell-categories" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseJericho" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" data-cell_id='{{config('membership.cell_group.Jericho.id')}}' id="cell">
+                                <div class="sb-nav-link-icon"><i class="fa fa-registered fa-lg"></i></div>
+                                {{config('membership.cell_group.Jericho.text')}}
+                                <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseJericho" aria-labelledby="headingOne" data-bs-parent="#collapsePages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link cell_group_members text-dark Jericho" href="#" data-id="{{config('membership.cell_group.Jericho.id')}}"><i class="fa fa-child"></i>{{config('membership.age_clusters.All_members.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" href="#" data-gender_cell="{{config('membership.cell_group.Jericho.id')}}" data-id="{{config('membership.gender.male.id')}}"><i class="fa fa-male"></i>{{config('membership.gender.male.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" href="#" data-gender_cell="{{config('membership.cell_group.Jericho.id')}}" data-id="{{config('membership.gender.female.id')}}"><i class="fa fa-female"></i>{{config('membership.gender.female.text')}}</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed collapsed-cell-categories" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseNotSure" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" data-cell_id='{{config('membership.cell_group.not_sure.id')}}' id="cell">
+                                <div class="sb-nav-link-icon"><i class="fa fa-registered fa-lg"></i></div>
+                                {{config('membership.cell_group.not_sure.text')}}
+                                <div class="sb-sidenav-collapse-arrow"><i class="fa fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseNotSure" aria-labelledby="headingOne" data-bs-parent="#collapsePages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link cell_group_members text-dark Not_sure" href="#" data-id="{{config('membership.cell_group.not_sure.id')}}"><i class="fa fa-child"></i>{{config('membership.age_clusters.All_members.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" href="#" data-gender_cell="{{config('membership.cell_group.not_sure.id')}}" data-id="{{config('membership.gender.male.id')}}"><i class="fa fa-male"></i>{{config('membership.gender.male.text')}}</a>
+                                    <a class="nav-link church-members gender-based text-dark" href="#" data-gender_cell="{{config('membership.cell_group.not_sure.id')}}" data-id="{{config('membership.gender.female.id')}}"><i class="fa fa-female"></i>{{config('membership.gender.female.text')}}</a>
+                                </nav>
+                            </div>
                         </nav>
                     </div>
 
@@ -167,51 +267,22 @@
         </div>
         <div class="sb-sidenav-footer bg-success text-white">
             <div class="small">Logged in as:</div>
-            {{(\auth()->user()->name)}}
+            {{\auth()->user()->title == config('membership.title.member.id')||\auth()->user()->title == config('membership.title.admin.id')?\auth()->user()->name:implode(' ', [config('membership.statuses.title')[auth()->user()->title]['text'], \auth()->user()->name])}}
         </div>
     </nav>
 </div>
 <script>
     $(document).ready(function () {
-
-        if ($('.is_a_cell_group_pastor').val() == 4){
-            let multi_cell_group_array = [
-                [
-                    $('.kiambiu').data('id'), $('.kiambiu')
-                ],
-                [
-                    $('.umoja_bethel').data('id'), $('.umoja_bethel')
-                ],
-                [
-                    $('.kariobangi_south').data('id'), $('.kariobangi_south')
-                ],
-                [
-                    $('.chokaa_berea').data('id'), $('.chokaa_berea')
-                ],
-                [
-                    $('.diaspora').data('id'), $('.diaspora')
-                ],
-                [
-                    $('.langata').data('id'), $('.langata')
-                ],
-                [
-                    $('.Jericho').data('id'), $('.Jericho')
-                ],
-                [
-                    $('.not_sure').data('id'), $('.not_sure')
-                ]
-            ];
-            multi_cell_group_array.forEach(simple_cell_group=>{
-                if (simple_cell_group[0] == $('.is_a_cell_group_pastor').data('cell_group')){
-                    simple_cell_group[1].show()
-                }else {
-                    simple_cell_group[1].hide()
+        if ($('#logged_in_user_role').val() == 'Cell Group Pastor') {
+            var logged_in_user_cell_group = $('#logged_in_user_role').data('id');
+            $('.collapsed-cell-categories').each(function() {
+                if ($(this).data('cell_id') == logged_in_user_cell_group) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
                 }
-            })
-
+            });
         }
-
-
         $('#add-member').click(function (e) {
             e.preventDefault();
             $.ajaxSetup({

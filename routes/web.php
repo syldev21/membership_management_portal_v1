@@ -58,6 +58,38 @@ Route::group(['middleware'=>['LoginCheck']], function (){
 
 //test route
 Route::get('test', function (){
+
+dd(Auth::user()->cell_group_id);
+    $loggedin_user= Auth::user();
+    $members = User::all();
+
+    // Filter members based on cell group for cell group pastor
+    if ($loggedin_user->roles()->first()->name == config('membership.roles.cell_group_pastor.text')) {
+        $filteredMembers = collect([]);
+
+        foreach ($members as $member) {
+            if ($member->cell_group_id == $loggedin_user->cell_group_id) {
+                $filteredMembers->push($member);
+            }
+        }
+
+        $members = $filteredMembers;
+    }
+
+
+
+
+    $user = User::find(7);
+    if ($user->hasAnyRole()){
+        $user->roles()->detach(); // Unassign all roles from the user
+        $user->permissions()->sync([]); // Remove all associated permissions
+    }
+return;
+    $users_role = User::find(11)->roles()->first()->name;
+    dd($users_role);
+    dump( User::doesntHave('roles')->get());  // users with no roles
+    dd( User::has('roles')->get());  // users with roles
+    dd(config('membership.registration_statuses.church_approved.id'));
     $usersWithRoles = User::has('roles')->get(); // get users with roles only
     dd($usersWithRoles);
 
@@ -65,7 +97,6 @@ Route::get('test', function (){
     return;
 
 
-    dd(User::wherehasAnyRole(true)->get());
     dd($user->hasAnyRole());
     dd($user->hasRole('Admin'));
 

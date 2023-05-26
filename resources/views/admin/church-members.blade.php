@@ -23,6 +23,7 @@
     </div>
     <diV id="tbldv">
         <div class="table table-responsive m-2" id="main">
+            <input type="hidden" id="auth_user_role" value="{{$auth_user_role}}">
             <table id="dt_select" class="table table-striped table-bordered thead-dark" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
                 <thead>
                 <tr>
@@ -140,7 +141,7 @@
                             <td>{{isset($member->phone)?$member->phone:''}}</td>
                             <td>{{$full_age??''}}</td>
                             @if(isset($priv) && $priv)
-                                <td>{{isset($member->role_id)?config('membership.statuses.roles')[$member->role_id]['text']:''}}</td>
+                                <td>{{$member->roles()->first()->name ?? ''}}</td>
                             @else
                                 <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
                             @endif
@@ -170,7 +171,7 @@
 //                            @endphp
                             <td class="removed removed-table-data">{{$removed_reason}}</td>
                             <td class="hide_for_execs">
-                                <select id="" name="" class="browser-default">
+                                <select id="conditional-hide" name="" class="browser-default" data-registration_status="{{$member->registration_status}}">
                                     <option data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
                                         <i class="fa fa-user-alt"></i>Edit
                                     </option>
@@ -589,34 +590,27 @@
 
     <script>
         $(document).ready( function () {
+
+            //have the below section in the status based members file
+             if ($('#auth_user_role').val() == 'Cell Group Pastor' && $('#display_for_progress').val() == 1) {
+                  if ($('#conditional-hide').data('registration_status') > 2) {
+                    $('#conditional-hide option').prop('disabled', true);
+                  }
+            }else if ($('#auth_user_role').val() == 'Secretary' && $('#display_for_progress').val() == 1){
+                 if ($('#conditional-hide').data('registration_status') > 3) {
+                     $('#conditional-hide option').prop('disabled', true);
+                 }
+             }else if ($('#auth_user_role').val() == 'View'){
+                 $('#conditional-hide option').prop('disabled', true);
+             }
+
+
             // Event listener for the "Clear Selection" button
             $('#clear_role_button').click(function() {
                 // Find all the checked radio buttons within the form
                 $('#assign_role_form input[type="radio"]:checked').prop('checked', false);
             });
             $('.removed').hide()
-            let role_id = $('.limited_view_and_action').val()
-            if(role_id == 4){
-                let to_be_hidden_array= [
-                    $('#delete'),
-                    $('#deactivate'),
-                    $('#role'),
-                ];
-                // if($('#progressive_registration').val() > 2){
-                //     to_be_hidden_array.push($('.hide_for_execs'))
-                // }
-                to_be_hidden_array.forEach(action => {
-                    action.hide()
-                })
-                $('.show_for_execs').hide()
-            }
-            // else if (role_id == 1){
-            //     $('.hide_for_execs').hide()
-            //     $('.show_for_execs').removeClass('hidden')
-            // }
-            else {
-                $('.show_for_execs').hide()
-            }
             if($('#display_for_progress').val() == 1){
                 $('.display_for_progress').hide()
                 $('.bar_ups').addClass('text-white')

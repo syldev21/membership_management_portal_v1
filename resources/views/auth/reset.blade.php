@@ -13,7 +13,10 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block"style="background-image: url({{ asset('images/login.jpeg') }});background-size: cover; background-repeat: no-repeat;"></div>
+                            <div class="col-lg-5 d-none d-lg-block image-container">
+                                <img src="{{ asset('images/login.jpeg') }}" class="img-responsive">
+                            </div>
+                            <div class="vr"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
