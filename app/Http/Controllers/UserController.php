@@ -409,6 +409,10 @@ public function profile(Request $request){
             }
             else {
                 $member->update(['existing' => 0, 'active' => 0, 'delete_reason'=>$request->delete_reason]);
+                if ($member->first()->hasAnyRole()){
+                    $member->first()->roles()->detach(); // Unassign all roles from the user
+                    $member->first()->permissions()->sync([]); // Remove all  permissions associated with the user
+                }
                 return response()->json([
                     'status' => 200,
                     'messages' => explode(' ', $member->first()->name)[0].' deleted successfully'
@@ -444,6 +448,10 @@ public function profile(Request $request){
                         ]);
                     }else{
                         $deactivated = User::where('id', $member_id)->update(['active' => 0, 'deactivate_reason'=>$change_status_reason]);
+                        if ($user->hasAnyRole()){
+                            $user->roles()->detach(); // Unassign all roles from the user
+                            $user->permissions()->sync([]); // Remove all associated permissions
+                        }
                         if ($deactivated) {
                             return response()->json([
                                 'status' => 200,

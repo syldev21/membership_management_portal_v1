@@ -11,6 +11,7 @@ $('.church-members, .cell_group_members, .progressive-registration, #priviledged
     let registration_progress_id = $(this).data('id')
     let class_name = $(this).attr('class')
     let priviledged_id = $(this).attr('id')
+    let gender_cell = $(this).data('gender_cell')
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -24,38 +25,18 @@ $('.church-members, .cell_group_members, .progressive-registration, #priviledged
             category_name: category_name,
             progressive_registration: registration_progress_id,
             class_name: class_name,
-            priviledged_id: priviledged_id
+            priviledged_id: priviledged_id,
+            gender_cell: gender_cell,
         },
         success: function (data) {
             $('#dashboar').html(data)
             $('#dt_select').DataTable({
-                responsive: true
-            })
-            // $('#dt_select').DataTable({
-            //     processing: false,
-            //     serverSide: true,
-            //         destroy: true,
-            //     ajax: "{{ route('members.index}}",
-            //     columns: [
-            //         {data: 'id'},
-            //         {data: 'name'},
-            //         // {data: 'email'},
-            //         {data: 'phone'},
-            //         {data: 'dob'},
-            //         {data: 'born_again_id'},
-            //         {data: 'gender'},
-            //         {data: 'marital_status_id'},
-            //         {data: 'estate_id'},
-            //         {data: 'cell_group_id'},
-            //         {data: 'employment_status_id'},
-            //         {data: 'leadership_status_id'},
-            //         {data: 'occupation_id'},
-            //         {data: 'ministry_id'},
-            //         {data: 'education_level_id'},
-            //         {data: 'role_as'},
-            //         {data: 'action'},
-            //     ]
-            // });
+                responsive: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
         }
     })
 })

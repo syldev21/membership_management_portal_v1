@@ -1,4 +1,5 @@
 <div class="table table-responsive m-2" id="main">
+    <input type="hidden" id="auth_user_role" value="{{$auth_user_role}}">
     <table id="dt_select" class="table table-striped table-bordered thead-dark" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
         <thead>
         <tr>
@@ -116,7 +117,7 @@
                     <td>{{isset($member->phone)?$member->phone:''}}</td>
                     <td>{{$full_age??''}}</td>
                     @if(isset($priv) && $priv)
-                        <td>{{isset($member->role_id)?config('membership.statuses.roles')[$member->role_id]['text']:''}}</td>
+                        <td>{{$member->roles()->first()->name ?? ''}}</td>
                     @else
                         <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
                     @endif
@@ -146,7 +147,7 @@
 //                            @endphp
                     <td class="removed removed-table-data">{{$removed_reason}}</td>
                     <td class="hide_for_execs">
-                        <select id="" name="" class="browser-default">
+                        <select id="conditional-hide" name="" class="browser-default" data-registration_status="{{$member->registration_status}}">
                             <option data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
                                 <i class="fa fa-user-alt"></i>Edit
                             </option>
@@ -195,3 +196,22 @@
         </tboby>
     </table>
 </div>
+
+
+<script>
+    $(document).ready( function () {
+
+        //have the below section in the status based members file
+        if ($('#auth_user_role').val() == 'Cell Group Pastor' && $('#display_for_progress').val() == 1) {
+            if ($('#conditional-hide').data('registration_status') > 2) {
+                $('#conditional-hide option').prop('disabled', true);
+            }
+        } else if ($('#auth_user_role').val() == 'Secretary' && $('#display_for_progress').val() == 1) {
+            if ($('#conditional-hide').data('registration_status') > 3) {
+                $('#conditional-hide option').prop('disabled', true);
+            }
+        } else if ($('#auth_user_role').val() == 'View') {
+            $('#conditional-hide option').prop('disabled', true);
+        }
+    })
+</script>

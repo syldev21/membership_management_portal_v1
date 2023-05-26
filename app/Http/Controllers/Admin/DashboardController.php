@@ -8,6 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -30,7 +31,7 @@ class DashboardController extends Controller
         return view('admin.conditional_title_array', ['email'=>$email]);
     }
     public function statusBasedMembers(Request $request){
-
+        $gender_cell_group = $request->gender_cell;
         $member_category = $request->member_category;
         $member_age_cluster_category_text = $request->category_name;
         $category = $request->category;
@@ -43,15 +44,13 @@ class DashboardController extends Controller
         if (isset($class_name) && strpos($class_name, 'progressive-registration')){
 
             $display_for_progress = true;
-
-
             $members= User::where('existing', 1)->where('registration_status', config('membership.statuses.registration_statuses')[$progressive_registration]);
         }else{
             $display_for_progress = false;
             if (isset($category) && strpos($category, 'church-members')){
                 if ($member_category == config('membership.age_clusters.All_members')['id']){
                     if ($active_status == 'active') {
-                        $members = User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 1)->where('active', 1)->where('registration_status', 5)->orWhere('email', 'voshburuburu@gmail.com');
+                        $members = User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 1)->where('active', 1)->where('registration_status', 5);
                     }elseif ($active_status == 'inactive'){
                         $members= User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 1)->where('active', 0)->where('registration_status', 5);
                     }elseif($active_status == 'all'){
@@ -59,9 +58,36 @@ class DashboardController extends Controller
                     }else{
                         $members= User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 0)->where('registration_status', 5);
                     }
+                }elseif (strpos($category, 'gender-based')){
+                    if ($active_status == 'active') {
+                        if (isset($gender_cell_group)){
+                            $members= User::where('age_cluster', '!=', null)->where('cell_group_id', $gender_cell_group)->where('active', 1)->where('registration_status', 5)->where('gender', $member_category);
+                        }else{
+                            $members = User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 1)->where('active', 1)->where('registration_status', 5)->where('gender', $member_category);
+                        }
+                    }elseif ($active_status == 'inactive'){
+                        if (isset($gender_cell_group)){
+                            $members= User::where('age_cluster', '!=', null)->where('cell_group_id', $gender_cell_group)->where('existing', 1)->where('active', 0)->where('registration_status', 5)->where('gender', $member_category);
+                        }else{
+                            $members= User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 1)->where('active', 0)->where('registration_status', 5)->where('gender', $member_category);
+                        }
+
+                    }elseif($active_status == 'all'){
+                        if (isset($gender_cell_group)){
+                            $members= User::where('id', '!=', null)->where('cell_group_id', $gender_cell_group);
+                        }else{
+                            $members= User::where('id', '!=', null)->where('cell_group_id', $member_category);
+                        }
+                    }else{
+                        if (isset($gender_cell_group)){
+                            $members= User::where('age_cluster', '!=', null)->where('cell_group_id', $gender_cell_group)->where('existing', 0)->where('registration_status', 5)->where('gender', $member_category);
+                        }else{
+                            $members= User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 0)->where('registration_status', 5)->where('gender', $member_category);
+                        }
+                    }
                 }else{
                     if ($active_status == 'active') {
-                        $members = User::where('cell_group_id', '!=', null)->where(['age_cluster' => $member_category])->where('existing', 1)->where('active', 1)->where('registration_status', 5)->orWhere('email', 'voshburuburu@gmail.com');
+                        $members = User::where('cell_group_id', '!=', null)->where(['age_cluster' => $member_category])->where('existing', 1)->where('active', 1)->where('registration_status', 5);
                     }elseif ($active_status == 'inactive'){
                         $members = User::where('cell_group_id', '!=', null)->where(['age_cluster' => $member_category])->where('existing', 1)->where('active', 0)->where('registration_status', 5);
                     }elseif ($active_status == 'all'){
@@ -72,7 +98,7 @@ class DashboardController extends Controller
                 }
             }else{
                 if ($active_status == 'active') {
-                    $members = User::where('age_cluster', '!=', null)->where('cell_group_id', $member_category)->where('existing', 1)->where('active', 1)->where('registration_status', 5)->orWhere('email', 'voshburuburu@gmail.com');
+                    $members = User::where('age_cluster', '!=', null)->where('cell_group_id', $member_category)->where('existing', 1)->where('active', 1)->where('registration_status', 5);
                 }elseif ($active_status == 'inactive'){
                     $members = User::where('age_cluster', '!=', null)->where('cell_group_id', $member_category)->where('existing', 1)->where('active', 0)->where('registration_status', 5);
                 }elseif($active_status == 'all'){
@@ -84,70 +110,127 @@ class DashboardController extends Controller
             }
         }
 
-        if (isset($loggedin_user->roles[0]->role_id) && $loggedin_user->roles[0]->role_id == 3){
-            $members = $members->where('cell_group_id', $loggedin_user->cell_group_id)->get();
-        }else{
+        $loggedin_user = Auth::user();
+        if ($loggedin_user->roles()->first()->name == config('membership.roles.cell_group_pastor.text')) {
+
+            $filteredMembers = collect([]);
+
+            foreach ($members->get() as $member) {
+                if ($member->cell_group_id == $loggedin_user->cell_group_id) {
+                    $filteredMembers->push($member);
+                }
+            }
+
+            $members = $filteredMembers;
+        } else {
             $members = $members->get();
         }
-        $category_detail_description = 'lulu';
 
-        return view('admin.status_based_members', ['category_detail_description'=>$category_detail_description, 'members' => $members, 'category_name'=>$member_age_cluster_category_text,'display_for_progress'=>$display_for_progress, 'progressive_registration'=>$progressive_registration]);
+        $category_detail_description = '';
+
+        return view('admin.status_based_members', ['auth_user_role'=>$loggedin_user->roles()->first()->name, 'category_detail_description'=>$category_detail_description, 'members' => $members, 'category_name'=>$member_age_cluster_category_text,'display_for_progress'=>$display_for_progress, 'progressive_registration'=>$progressive_registration]);
     }
 
     public function churchMembers(Request $request){
+        $gender_cell_group = $request->gender_cell;
         $member_age_cluster_category_id = $request->member_category;
         $member_age_cluster_category_text = $request->category_name;
         $category = $request->category;
 
-        $progressive_registration = $request->progressive_registration??null;
+        $progressive_registration = $request->progressive_registration ?? null;
         $class_name = $request->class_name;
 
         $loggedin_user = User::where('id', auth()->id())->with('customRoles')->first();
 
-        if (isset($class_name) && strpos($class_name, 'progressive-registration')){
-//            dd($progressive_registration);
-
+        if (isset($class_name) && strpos($class_name, 'progressive-registration')) {
             $display_for_progress = true;
-
-
-            $members= User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 1)->where('registration_status', config('membership.statuses.registration_statuses')[$progressive_registration]);
-
-        }else{
+            $members = User::where('age_cluster', '!=', null)
+                ->where('cell_group_id', '!=', null)
+                ->where('existing', 1)
+                ->where('registration_status', config('membership.statuses.registration_statuses')[$progressive_registration]);
+        } else {
             $display_for_progress = false;
-            if (isset($category) && strpos($category, 'church-members') == true){
-                if ($member_age_cluster_category_id == config('membership.age_clusters.All_members')['id']){
-                    $members= User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('active', 1)->where('registration_status', 5)->orWhere('email', 'voshburuburu@gmail.com');
+            if (isset($category) && strpos($category, 'church-members')) {
+                if ($member_age_cluster_category_id == config('membership.age_clusters.All_members')['id']) {
+                    $members = User::where('age_cluster', '!=', null)
+                        ->where('cell_group_id', '!=', null)
+                        ->where('active', 1)
+                        ->where('registration_status', 5)
+                        ;
                     $category_detail_description = '(All Ages)';
-                }else{
-                    $category_details = config('membership.statuses.age_clusters')[$member_age_cluster_category_id];
-                    if(isset($category_details['end'])){
-                        $category_detail_description = 'Age between '.$category_details['start']. ' - '.$category_details['end'];
-                    }else{
-                        $category_detail_description = 'Age above '.$category_details['start'];
+                } elseif (strpos($category, 'gender-based')) {
+                    if (isset($gender_cell_group)) {
+                        $members = User::where('age_cluster', '!=', null)
+                            ->where('cell_group_id', $gender_cell_group)
+                            ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where('gender', $member_age_cluster_category_id)
+                            ;
+                    } else {
+                        $members = User::where('age_cluster', '!=', null)
+                            ->where('cell_group_id', '!=', null)
+                            ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where('gender', $member_age_cluster_category_id)
+                            ;
                     }
-
+                } else {
+                    $category_details = config('membership.statuses.age_clusters')[$member_age_cluster_category_id];
+                    if (isset($category_details['end'])) {
+                        $category_detail_description = 'Age between ' . $category_details['start'] . ' - ' . $category_details['end'];
+                    } else {
+                        $category_detail_description = 'Age above ' . $category_details['start'];
+                    }
                     $category_detail_description = '(' . $category_detail_description . ')';
-                    $members = User::where('cell_group_id', '!=', null)->where(['age_cluster' => $member_age_cluster_category_id])->where('active', 1)->where('registration_status', 5)->orWhere('email', 'voshburuburu@gmail.com');
+                    $members = User::where('cell_group_id', '!=', null)
+                        ->where(['age_cluster' => $member_age_cluster_category_id])
+                        ->where('active', 1)
+                        ->where('registration_status', 5)
+                        ;
                 }
-            }
-            else
-            {
-                $members = User::where('age_cluster', '!=', null)->where('cell_group_id', $member_age_cluster_category_id)->where('active', 1)->where('registration_status', 5)->orWhere('email', 'voshburuburu@gmail.com');
-
+            } else {
+                $members = User::where('age_cluster', '!=', null)
+                    ->where('cell_group_id', $member_age_cluster_category_id)
+                    ->where('active', 1)
+                    ->where('registration_status', 5)
+                    ;
             }
         }
+
         if ($request->priviledged_id) {
             $members = User::has('roles')->get();
             $priv = true;
-        }
-        else if ($loggedin_user->hasRole('membership.roles.cell_group_pastor.text')){
+        } else if ($loggedin_user->roles()->first()->name == config('membership.roles.cell_group_pastor.text')) {
+            $loggedin_user = Auth::user();
+            $filteredMembers = collect([]);
+
+            foreach ($members->get() as $member) {
+                if ($member->cell_group_id == $loggedin_user->cell_group_id) {
+                    $filteredMembers->push($member);
+                }
+            }
+
+            $members = $filteredMembers;
             $priv = false;
-            $members = $members->where('cell_group_id', $loggedin_user->cell_group_id)->get();
-        }else{
+        } else {
             $priv = false;
             $members = $members->get();
         }
-        return view('admin.church-members', ['category_detail_description'=>$category_detail_description??null, 'priv'=>$priv, 'members' => $members,'category_name'=>$member_age_cluster_category_text, 'member_age_cluster_category_id'=>$member_age_cluster_category_id, 'category'=>$category,'display_for_progress'=>$display_for_progress, 'progressive_registration'=>$progressive_registration]);
+
+// dd($members); // Uncomment this for debugging
+
+        return view('admin.church-members', [
+            'auth_user_role'=>$loggedin_user->roles()->first()->name,
+            'category_detail_description' => $category_detail_description ?? null,
+            'priv' => $priv,
+            'members' => $members,
+            'category_name' => $member_age_cluster_category_text,
+            'member_age_cluster_category_id' => $member_age_cluster_category_id,
+            'category' => $category,
+            'display_for_progress' => $display_for_progress,
+            'progressive_registration' => $progressive_registration
+        ]);
+
     }
     public function editMember($id){
         $member = User::where('id', $id)->first();
@@ -400,6 +483,7 @@ class DashboardController extends Controller
 
             // Assign the permissions to the user
             $user->syncPermissions($permissions);
+            User::where('id', $userId)->update(['registration_status'=>config('membership.registration_statuses.church_approved')['id']]);
 
             if (isset($currentRole->name)){
                 if ($currentRole->name == $requestedRole->name){
@@ -461,6 +545,10 @@ class DashboardController extends Controller
             }else{
                 $user->update(['previous_registration_status'=>config('membership.registration_statuses.church_approved.id'), 'registration_status'=>config('membership.registration_statuses.declined_members.id'), 'decline_reason'=>$review_reason]);
 
+                if ($user->first()->hasAnyRole()){
+                    $user->first()->roles()->detach(); // Unassign all roles from the user
+                    $user->first()->permissions()->sync([]); // Remove all associated permissions
+                }
                 return response()->json([
                     'status'=>200,
                     'messages'=>$request->member_first_name."'s membership status declined successfully!"

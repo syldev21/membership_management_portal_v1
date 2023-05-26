@@ -42,4 +42,8 @@ class User extends Authenticatable
     {
         return $this->roles()->exists();
     }
+    public function hasNoRoles()
+    {
+        return $this->roles->isEmpty();
+    }
 }
