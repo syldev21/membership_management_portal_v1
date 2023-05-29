@@ -165,55 +165,49 @@ class UserController extends Controller
       }
     }
 //    handle login user ajax request
-    public function loginUser(Request $request){
-//       $validator = $request->validate([
-       $validator = Validator::make($request->all(),[
-//           'email' =>'required|email|max:100',
-           'user_name' =>'required|min:8|max:100|exists:users',
-           'password' =>'required|min:6|max:100|exists:users',
-       ],[
+    public function loginUser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'login' => 'required',
+            'password' => 'required|min:6|max:100',
+        ], [
+            'login.required' => 'Kindly enter the system generated username or the email you used for registration!',
+            'password.required' => 'The password field is required!',
+            'password.min' => 'The password must be at least 6 characters!',
+            'password.max' => 'The password may not be greater than 100 characters!',
+        ]);
 
-       ]);
-       if (Auth::attempt([
-//           'email'=>$request->email,
-           'user_name'=>$request->user_name,
-           'password'=>$request->password
-       ])){
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 401,
+                'messages' => $validator->errors(),
+            ]);
+        }
 
-           $request->session()->put('loggedInUser', Auth::id());
-           return response()->json([
-               'status'=>200,
-               'messages'=>'Success'
-           ]);
-   }else{
-       return  response()->json([
-           'status' =>401,
-           'messages' =>$validator->getMessageBag()
-       ]);
-   }
+        $credentials = $request->only('login', 'password');
+        $usernameValid = Auth::attempt([
+            'user_name' => $credentials['login'],
+            'password' => $credentials['password']
+        ]);
 
+        $emailValid = Auth::attempt([
+            'email' => $credentials['login'],
+            'password' => $credentials['password']
+        ]);
+
+        if ($usernameValid || $emailValid) {
+            $request->session()->put('loggedInUser', Auth::id());
+            return response()->json([
+                'status' => 200,
+                'messages' => 'Success',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 422,
+                'messages' => 'Wrong login and  password combination. Please try again.',
+            ]);
+        }
     }
-//    public function loginUser(Request $request){
-//        $validator = $request->validate(
-//            [
-//                'email' =>'required|email|max:100',
-//                'password' =>'required|min:6|max:100',
-//            ]);
-//
-//        try{
-//            $resp=Auth::attempt([
-//                'email'=>$request->email,
-//                'password'=> $request->password]);
-//            if($resp)
-//            {
-//                dd('text');
-//            }else{
-//                dd("jjjj");
-//            }
-//        }catch (\Exception $exception){
-//            dd($exception->getMessage());
-//        }
-//    }
 
 //    profile page
 

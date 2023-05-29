@@ -207,6 +207,8 @@ float: left
                     error: function(xhr) {
                         if (xhr.status === 422) {
                             var errors = xhr.responseJSON.messages;
+                            alert(errors)
+                            return;
 
                             showError('firstName', errors.firstName);
                             showError('otherNames', errors.otherNames);

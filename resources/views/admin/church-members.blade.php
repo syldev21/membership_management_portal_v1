@@ -16,8 +16,11 @@
             </select>
             <input type="hidden" id="member_category_name" data-category="{{$category}}" data-category_name="{{$category_name??null}}" data-member_category="{{$member_age_cluster_category_id ?? null}}">
         </div>
-        <div style="float: right"><button class="btn btn-primary hide_for_execs"  data-bs-toggle="modal" id="add_new_one" data-bs-target="#editModal">Add New Member</button></div>
-        <div style="float: right"><button class="btn btn-warning show_for_execs" id="">View Only</button></div>
+        @if(auth()->user()->hasPermissionTo(config('membership.permissions.View_Only.text')))
+            <div style="float: right" id=""><button class="disabled btn btn-primary">View Only</button></div>
+        @else
+            <div style="float: right" id="add_new_one"><button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editModal">Add New Member</button></div>
+        @endif
 
 
     </div>
@@ -173,7 +176,7 @@
                             <td class="hide_for_execs">
                                 <select id="conditional-hide" name="" class="browser-default" data-registration_status="{{$member->registration_status}}">
                                     <option data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-                                        <i class="fa fa-user-alt"></i>Edit
+                                        <span><i class="fa fa-edit"></i></span>Edit
                                     </option>
                                     <option data-id="{{$member->id}}" data-existing="{{$member->existing}}"  data-hide="{{auth()->id()}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary hide-this" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                         @if($member->existing == 1)
@@ -191,7 +194,7 @@
                                         @endif
                                     </option>
                                     @if(auth()->user()->hasPermissionTo(config('membership.permissions.Assign_Role.text')))
-                                        <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
+                                        <option data-id="{{$member->id}}" data-user_title="{{$member->name}} data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
                                             Assign Role
                                         </option>
                                     @endif
