@@ -59,7 +59,11 @@ Route::group(['middleware'=>['LoginCheck']], function (){
 //test route
 Route::get('test', function (){
 
-dd(Auth::user()->cell_group_id);
+    $titled_name = implode(' ',[config('membership.statuses.title')[\auth()->user()->title]['text'], \auth()->user()->name]);
+    dd($titled_name);
+
+//return view('password-eye-lash');
+dd(Auth::user()->permissions()->get());
     $loggedin_user= Auth::user();
     $members = User::all();
 

@@ -128,7 +128,15 @@ class DashboardController extends Controller
 
         $category_detail_description = '';
 
-        return view('admin.status_based_members', ['auth_user_role'=>$loggedin_user->roles()->first()->name, 'category_detail_description'=>$category_detail_description, 'members' => $members, 'category_name'=>$member_age_cluster_category_text,'display_for_progress'=>$display_for_progress, 'progressive_registration'=>$progressive_registration]);
+        return view('admin.status_based_members',
+            [
+                'auth_user_role'=>$loggedin_user->roles()->first()->name,
+                'category_detail_description'=>$category_detail_description,
+                'members' => $members,
+                'category_name'=>$member_age_cluster_category_text,
+                'display_for_progress'=>$display_for_progress,
+                'progressive_registration'=>$progressive_registration
+            ]);
     }
 
     public function churchMembers(Request $request){
@@ -213,11 +221,9 @@ class DashboardController extends Controller
             $members = $filteredMembers;
             $priv = false;
         } else {
-            $priv = false;
             $members = $members->get();
+            $priv = false;
         }
-
-// dd($members); // Uncomment this for debugging
 
         return view('admin.church-members', [
             'auth_user_role'=>$loggedin_user->roles()->first()->name,
@@ -234,7 +240,6 @@ class DashboardController extends Controller
     }
     public function editMember($id){
         $member = User::where('id', $id)->first();
-//        dd($member);
         return view('profile', ['userInfo'=>$member]);
     }
     public function adminRegisterMember(Request $request){
@@ -375,7 +380,9 @@ class DashboardController extends Controller
                 unset($validator_array['phone']);
             }
 
-            $validator = Validator::make($request->all(),$validator_array,[
+            $validator = Validator::make($request->all(),
+                $validator_array,
+                [
                 'email.required'=>'The email field is required!',
                 'email.min'=>'The email address cannot be less than 11 characters!',
                 'email.max'=>'The email address cannot be more than 30 characters!',
@@ -385,7 +392,8 @@ class DashboardController extends Controller
                 'year_joined.before_or_equal'=>'The date of you joined cannot be later than today!',
                 'dob.before_or_equal'=>'The date of birth cannot be later than today!',
                 'cell_group.required'=>'Choose the member cell group from the drop down menu!',
-            ]);
+            ]
+            );
 
             if ($validator->fails()){
                 return response()->json([

@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 @section('title', 'Login')
 
@@ -17,31 +16,32 @@
                             <div class="col-lg-5 d-none d-lg-block image-container">
                                 <img src="{{ asset('images/login.jpeg') }}" class="img-responsive">
                             </div>
-                             <div class="vr"></div>
+                            <div class="vr"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 bg-primary text-white rounded-circle mb-4">Welcome Back!</h1>
                                     </div>
                                     <div id="login_alert"></div>
-                                    <form  class="user" action="#" method="POST" id="login_form">
+                                    <form class="user" action="#" method="POST" id="login_form">
                                         @csrf
-{{--                                        <div class="form-group">--}}
-{{--                                            <input type="email" class="form-control form-control-user"--}}
-{{--                                                   name="email" id="email" aria-describedby="emailHelp"--}}
-{{--                                                   placeholder="Enter Email Address...">--}}
-{{--                                            <div class="invalid-feedback"></div>--}}
-{{--                                        </div>--}}
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
-                                                   name="user_name" id="user_name" aria-describedby="emailHelp"
-                                                   placeholder="Enter User Name...">
+                                                   name="login" id="login" aria-describedby="emailHelp"
+                                                   placeholder="Enter User Name or Email...">
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                   name="password" id="password" aria-describedby="emailHelp"
-                                                   placeholder="Password">
+                                            <div class="input-group">
+                                                <input type="password" class="form-control form-control-user"
+                                                       name="password" id="password" aria-describedby="emailHelp"
+                                                       placeholder="Password"><span class="input-group-text" id="toggle-password">
+                                                        <i class="fa fa-eye"></i>
+                                                    </span>
+                                                <div class="input-group-append rounded-right">
+
+                                                </div>
+                                            </div>
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="form-group">
@@ -53,9 +53,6 @@
                                         </div>
                                         <div class="">
                                             <input type="submit" value="Login" class="btn btn-primary btn-user btn-block" id="login_button">
-{{--                                            <a href="/signin" class="btn btn-primary btn-user btn-block">--}}
-                                                Login
-{{--                                            </a>--}}
                                         </div>
                                     </form>
                                     <hr>
@@ -78,16 +75,30 @@
 
         </div>
 
-    </div>@endsection
+    </div>
+@endsection
 
 @section('script')
     <script>
         $(function (){
+            // Toggle password visibility
+            $('#toggle-password').click(function () {
+                var passwordInput = $('#password');
+                var passwordFieldType = passwordInput.attr('type');
+                if (passwordFieldType === 'password') {
+                    passwordInput.attr('type', 'text');
+                    $(this).html('<i class="fa fa-eye-slash"></i>');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    $(this).html('<i class="fa fa-eye"></i>');
+                }
+            });
+
             $('#login_form').submit(function (e){
                 e.preventDefault();
-                $('#login_button').val('Please Wait');
+                removeValidationClasses(this);
+                $('#login_button').val('Please Wait...');
                 $.ajaxSetup({
-
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
@@ -98,17 +109,22 @@
                     data: $(this).serialize(),
                     dataType: 'json',
                     success: function (res){
-                        if(res.status == 401){
-                            showError('user_name', res.messages.user_name);
-                            showError('password', res.messages.password);
+                        if(res.status == 200){
+                            $('#login_alert').html(showMessage('success', res.messages));
+                            window.location = '{{ route('profile') }}';
+
+                        }else {
+                            if (res.status == 401){
+                                showError('login', res.messages.login);
+                                showError('password', res.messages.password);
+                            }else {
+                                $('#login_alert').html(showMessage('danger', res.messages));
+                            }
                             $('#login_button').val('Login');
-                        }else if (res.status == 200){
-                                window.location = '{{ route('profile') }}';
                         }
                     }
                 })
-            }) ;
+            });
         });
     </script>
-
 @endsection
