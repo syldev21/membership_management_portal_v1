@@ -11,14 +11,30 @@
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
     <script src="https://kit.fontawesome.com/90018b3b25.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+
+    <!-- jQuery -->
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.min.css') }}">
+
+    <!-- DataTables JS -->
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+
+    <!-- DataTables Buttons CSS -->
+    <link href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" rel="stylesheet">
+
+    <!-- DataTables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.colVis.min.js"></script>
+
     <!-- Styles -->
     <link href="{{asset('assets/css/styles.css')}}" rel="stylesheet">
-    {{--    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>--}}
-    {{--    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>--}}
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
-    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.min.js"></script>
 
     <script src="{{ asset('js/function.js') }}"></script>
 </head>
@@ -36,11 +52,9 @@
 </div>
 
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
-{{--<script src="{{ asset('assets/js/scripts.js') }}"></script>--}}
 <script src="{{ asset('assets/js/script.min.js') }}"></script>
 <script src="{{asset('js/script.js')}}"></script>
-{{--<script src="https://cdn.datatables.net/autofill/2.5.2/js/dataTables.autoFill.min.js"></script>--}}
+
 @yield('script')
 </body>
 </html>
-

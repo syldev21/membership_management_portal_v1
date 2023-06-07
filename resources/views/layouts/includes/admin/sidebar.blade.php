@@ -281,7 +281,7 @@
                             </div>
                         </nav>
                     </div>
-                    <a class="nav-link collapsed text-body" id="priviledged_users" href="#" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="false" aria-controls="pagesCollapseSettings">
+                    <a class="nav-link collapsed text-body" data-column_filter="1" id="priviledged_users" href="#" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="false" aria-controls="pagesCollapseSettings">
                         <div class="sb-nav-link-icon text-white"><i class="fas fa-star"></i></div>
                         Privileged Users
                     </a>

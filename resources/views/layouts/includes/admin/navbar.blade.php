@@ -20,8 +20,8 @@
             <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-user fa-fw"></i> Profile &nbsp;&nbsp; Settings <span>  <i class="fa fa-bars"></i></span></a>
 
             <ul class="dropdown-menu dropdown-menu-end bg-info" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{{route('profile')}}"> <i class="fa fa-user fa-fw"></i>My Profile</a></li>
-                <li><a class="dropdown-item" href="{{route('auth.logout')}}"> <i class="fa fa-sign-out fa-fw"></i>Logout</a></li>
+                <li><a class="dropdown-item" href="{{route('profile')}}"> <i class="fa fa-user fa-fw"></i> My Profile</a></li>
+                <li><a class="dropdown-item" href="{{route('auth.logout')}}"> <i class="fa fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </li>
     </ul>

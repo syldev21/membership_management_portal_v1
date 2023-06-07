@@ -328,13 +328,23 @@ public function profile(Request $request){
             }
             $user = User::where('id', $request->id);
             $phone = $request->phone;
-            $country_code = $request->country_code;
+            $country_code = $request->countryCode;
+            $country_name = $request->countryName;
             $validator = false;
                 if (isset($phone)){
+
                     $validator = Validator::make($request->all(), [
-//                        'phone' => ['required', 'regex:/^(\+254|0)[1-9]\d{8}$/i', 'unique:users'],
-                        'phone' => ['required', 'regex:/^(\+254|0)[1-9]\d{8}$/i', 'unique:users'],
-                        'country_code' => 'required',
+//                        'phone' => ['regex:/^(\+254|0)[1-9]\d{8}$/i', 'unique:users'],
+                        'phone' => [function ($attribute, $value, $fail) use ($request) {
+                            // Check if the country code is 254
+                            if ($request->countryCode == '254') {
+                                // Perform the phone number validation
+                                if (!preg_match('/^(0|7)\d{8}$/i', $value)) {
+                                    $fail('The phone number format is invalid.');
+                                }
+                            }
+                        },
+                            'unique:users'],
                     ]);
                 }
             if ($validator && $validator->fails()){
@@ -352,7 +362,9 @@ public function profile(Request $request){
                     'email' => $request->email,
                     'gender' => $request->gender,
                     'dob' => $request->dob,
-                    'phone' => $value ?? $complete_phone_number,
+                    'phone' => $value ?? $phone,
+                    'dialing_code' => $value ?? $country_code,
+                    'country' => $value ?? $country_name,
                     'marital_status_id' => $value ?? $request->marital_status,
                     'estate_id' => $request->estate,
                     'ward' => $request->ward,

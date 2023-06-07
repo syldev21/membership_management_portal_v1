@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>Reset your password</h1>
-    <h3>Click the below link to rest your password</h3>
+    <h3>Click the below link to reset your password</h3>
     <a href="{{$details['body']}}">Reset Password</a>
 </body>
 </html>

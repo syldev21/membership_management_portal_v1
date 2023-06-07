@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
+use Yajra\DataTables\Facades\DataTables;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,71 +58,11 @@ Route::group(['middleware'=>['LoginCheck']], function (){
 });
 
 //test route
-Route::get('test', function (){
-
-    $titled_name = implode(' ',[config('membership.statuses.title')[\auth()->user()->title]['text'], \auth()->user()->name]);
-    dd($titled_name);
-
-//return view('password-eye-lash');
-dd(Auth::user()->permissions()->get());
-    $loggedin_user= Auth::user();
-    $members = User::all();
-
-    // Filter members based on cell group for cell group pastor
-    if ($loggedin_user->roles()->first()->name == config('membership.roles.cell_group_pastor.text')) {
-        $filteredMembers = collect([]);
-
-        foreach ($members as $member) {
-            if ($member->cell_group_id == $loggedin_user->cell_group_id) {
-                $filteredMembers->push($member);
-            }
-        }
-
-        $members = $filteredMembers;
+Route::get('users', function () {
+    if (request()->ajax()) {
+        return DataTables::eloquent(User::query())->toJson();
     }
 
-
-
-
-    $user = User::find(7);
-    if ($user->hasAnyRole()){
-        $user->roles()->detach(); // Unassign all roles from the user
-        $user->permissions()->sync([]); // Remove all associated permissions
-    }
-return;
-    $users_role = User::find(11)->roles()->first()->name;
-    dd($users_role);
-    dump( User::doesntHave('roles')->get());  // users with no roles
-    dd( User::has('roles')->get());  // users with roles
-    dd(config('membership.registration_statuses.church_approved.id'));
-    $usersWithRoles = User::has('roles')->get(); // get users with roles only
-    dd($usersWithRoles);
-
-    echo "<br><br>";
-    return;
-
-
-    dd($user->hasAnyRole());
-    dd($user->hasRole('Admin'));
-
-    $role = Role::where('name', 'Admin')->first();
-    foreach ($user->permissions as $permission){
-        dump($permission->name);
-    }
-    return;
-//    dd($user->permissions); // all the user permission
-//    dd($role->permissions);
-//    $user->assignRole($role); // assign role to this user
-
-//    dd($user->hasPermissionTo('Add Members')); // has the permission to edit members
-//    dd($user->can('Add Members')); // has the permission to edit members
-    $user->roles()->sync($role->id); // Assign the role to the user
-    $user->refresh(); // Refresh the user model
-
-// Sync the permissions for the user
-    $permissions = $role->permissions()->pluck('id')->toArray();
-    $user->permissions()->sync($permissions);
-
-    return "Role and permissions assigned successfully!";
-});
+    return view('users');
+})->name('users');
 

@@ -29,7 +29,35 @@
             <input type="hidden" id="auth_user_role" value="{{$auth_user_role}}">
             <table id="dt_select" class="table table-striped table-bordered thead-dark" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
                 <thead>
+                @if($priv)
                 <tr>
+                    <th rowspan="2">S/R</th>
+                    <th rowspan="2">Member Number</th>
+                    <th rowspan="2">Title</th>
+                    <th rowspan="2">First Name</th>
+                    <th rowspan="2">Other Names</th>
+                    <th rowspan="2">Role</th>
+                    <th colspan="10" class="permissions-column" style="text-align: center; background-color: #f1f1f1; border: 1px solid #ccc;">
+                        Permissions
+                    </th>
+                    <th rowspan="2" class="hide_for_execs">Actions</th>
+                </tr>
+                <tr>
+                    <th>{{config('membership.permissions.Add_Members.text')}}</th>
+                    <th>{{config('membership.permissions.Assign_Role.text')}}</th>
+                    <th>{{config('membership.permissions.Decline_Membership.text')}}</th>
+                    <th>{{config('membership.permissions.Delete_Members.text')}}</th>
+                    <th>{{config('membership.permissions.Edit_Members.text')}}</th>
+                    <th>{{config('membership.permissions.Initial_Approval.text')}}</th>
+                    <th>{{config('membership.permissions.Provisional_Approval.text')}}</th>
+                    <th>{{config('membership.permissions.Final_Approval.text')}}</th>
+                    <th>{{config('membership.permissions.See_Members.text')}}</th>
+                    <th>{{config('membership.permissions.View_Only.text')}}</th>
+                </tr>
+
+                @else
+                <tr>
+
                     <th>S/R</th>
                     <th>Member Number</th>
                     <th>Title</th>
@@ -37,11 +65,7 @@
                     <th>Other Names</th>
                     <th>Phone</th>
                     <th>Age</th>
-                    @if(isset($priv) && $priv)
-                        <th>Role</th>
-                    @else
-                        <th>Born Again</th>
-                    @endif
+                    <th>Born Again</th>
                     <th>Gender</th>
                     <th>Marital Status</th>
                     <th>Sub-County</th>
@@ -57,6 +81,7 @@
                     <th class="removed removed-table-head"></th>
                     <th class="hide_for_execs">Actions</th>
                 </tr>
+                @endif
                 </thead>
                 <tboby>
                     @foreach($members as $member)
@@ -136,19 +161,33 @@
                         ?>
 
                         <tr class="item{--><!--{$member->id}  text-black fw-bolder}">
+                            @if($priv)
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$member->member_number??''}}</td>
+                            <td>{{config('membership.statuses.title')[$member->title]['text']??''}}</td>
+                            <td>{{explode(' ', $member->name)[0] ?? ''}}</td>
+                            <td>{{implode(' ', array_slice(explode(' ', $member->name), 1)) ?? ''}}</td>
+                            <td>{{$member->roles()->first()->name ?? ''}}</td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Add_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Add_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Assign_Role.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Assign_Role.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Decline_Membership.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Decline_Membership.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Delete_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Delete_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Edit_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Edit_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Initial_Approval.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Initial_Approval.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Provisional_Approval.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Provisional_Approval.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Final_Approval.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Final_Approval.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.See_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.See_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.View_Only.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.View_Only.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            @else
                             <td>{{$loop->iteration}}</td>
                             <td>{{$member->member_number??''}}</td>
                             <td>{{config('membership.statuses.title')[$member->title]['text']??''}}</td>
                             <td>{{explode(' ', $member->name)[0] ?? ''}}</td>
                             <td>{{implode(' ', array_slice(explode(' ', $member->name), 1)) ?? ''}}</td>
                             <td>{{isset($member->phone)?$member->phone:''}}</td>
-                            <td>{{$full_age??''}}</td>
-                            @if(isset($priv) && $priv)
-                                <td>{{$member->roles()->first()->name ?? ''}}</td>
-                            @else
-                                <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
-                            @endif
-
+                            <td>{{$years??''}}</td>
+{{--                            <td>{{$full_age??''}}</td>--}}
+                            <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
                             <td>{{isset($member->gender)?config('membership.statuses.gender')[$member->gender]:''}}</td>
                             <td>{{isset($marital_status_id)?$marital_status_id:''}}</td>
                             <td>{{$sub_county}}</td>
@@ -173,6 +212,7 @@
                             }
 //                            @endphp
                             <td class="removed removed-table-data">{{$removed_reason}}</td>
+                            @endif
                             <td class="hide_for_execs">
                                 <select id="conditional-hide" name="" class="browser-default" data-registration_status="{{$member->registration_status}}">
                                     <option data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
@@ -334,7 +374,14 @@
                                     <div class="row">
                                         <div class="col-lg">
                                             <label  class="fw-bold hide-status" for="phone">Phone</label>
-                                            <input type="tel"   name="phone" class="form-control rounded-0  hide-status hide-field" id="phone" value="">
+                                            <div class="input-group">
+                                                <div>
+                                                    <input type="tel" id="phone" name="phone" placeholder="Phone number">
+                                                </div>
+                                                <div hidden="hidden">
+                                                    <select id="country_code" name="country_code"></select>
+                                                </div>
+                                            </div>
                                             <div class="invalid-feedback hide-status"></div>
                                         </div>
                                         <div class="col-lg">
@@ -590,57 +637,56 @@
             </div>
         </div>
     </div>
-
-    <script>
+</div>
+<script>
         $(document).ready( function () {
 
             //have the below section in the status based members file
-             if ($('#auth_user_role').val() == 'Cell Group Pastor' && $('#display_for_progress').val() == 1) {
-                  if ($('#conditional-hide').data('registration_status') > 2) {
+            if ($('#auth_user_role').val() == 'Cell Group Pastor' && $('#display_for_progress').val() == 1) {
+                if ($('#conditional-hide').data('registration_status') > 2) {
                     $('#conditional-hide option').prop('disabled', true);
-                  }
-            }else if ($('#auth_user_role').val() == 'Secretary' && $('#display_for_progress').val() == 1){
-                 if ($('#conditional-hide').data('registration_status') > 3) {
-                     $('#conditional-hide option').prop('disabled', true);
-                 }
-             }else if ($('#auth_user_role').val() == 'View'){
-                 $('#conditional-hide option').prop('disabled', true);
-             }
+                }
+            } else if ($('#auth_user_role').val() == 'Secretary' && $('#display_for_progress').val() == 1) {
+                if ($('#conditional-hide').data('registration_status') > 3) {
+                    $('#conditional-hide option').prop('disabled', true);
+                }
+            } else if ($('#auth_user_role').val() == 'View') {
+                $('#conditional-hide option').prop('disabled', true);
+            }
 
 
             // Event listener for the "Clear Selection" button
-            $('#clear_role_button').click(function() {
+            $('#clear_role_button').click(function () {
                 // Find all the checked radio buttons within the form
                 $('#assign_role_form input[type="radio"]:checked').prop('checked', false);
             });
             $('.removed').hide()
-            if($('#display_for_progress').val() == 1){
+            if ($('#display_for_progress').val() == 1) {
                 $('.display_for_progress').hide()
                 $('.bar_ups').addClass('text-white')
                 $('.bar_ups').addClass('text-center')
 
-                if($('#progressive_registration').val() == 0){
+                if ($('#progressive_registration').val() == 0) {
                     $('.bar_ups').removeClass('bg-primary')
                     $('.bar_ups').addClass('bg-danger')
                     $('.removed').show()
                     $('.removed-table-head').html('Decline Reason')
-                }
-                else if($('#progressive_registration').val() <  3 && $('#progressive_registration').val()>0){
+                } else if ($('#progressive_registration').val() < 3 && $('#progressive_registration').val() > 0) {
                     $('.spanned_conditional_display').html(' at Cell Group Level')
-                    if($('#progressive_registration').val() == 1){
+                    if ($('#progressive_registration').val() == 1) {
                         $('.bar_ups').removeClass('bg-primary')
                         $('.bar_ups').addClass('bg-secondary')
-                    }else{
+                    } else {
                         $('.bar_ups').removeClass('bg-primary')
                         $('.bar_ups').addClass('bg-warning')
                     }
-                }else{
+                } else {
                     $('.spanned_conditional_display').html('  Church Members')
-                    if($('#progressive_registration').val() == 3){
-                    }else if($('#progressive_registration').val() == 4){
+                    if ($('#progressive_registration').val() == 3) {
+                    } else if ($('#progressive_registration').val() == 4) {
                         $('.bar_ups').removeClass('bg-primary')
                         $('.bar_ups').addClass('bg-info')
-                    }else{
+                    } else {
                         $('.bar_ups').removeClass('bg-primary')
                         $('.bar_ups').addClass('bg-success')
                     }
@@ -656,6 +702,107 @@
 
             $('.spanned_status_category').removeClass('text-danger')
             $('.spanned_status_category').removeClass('text-warning')
+
+            // // Import DataTables CSS and JavaScript CDN links dynamically
+            // $.getScript("https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js", function () {
+            //     $.getScript("https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js", function () {
+            //         $.getScript("https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js", function () {
+            //             $.getScript("https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js", function () {
+            //                 $('<link>')
+            //                     .appendTo('head')
+            //                     .attr({
+            //                         type: 'text/css',
+            //                         rel: 'stylesheet',
+            //                         href: 'https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css'
+            //                     });
+            //
+            //                 // Inside the callback functions, DataTables and buttons libraries are loaded and ready to use
+            //             });
+            //         });
+            //     });
+            // });
+
+            // $('#report_status_category').change(function (e){
+            //     e.preventDefault()
+            //     var active = $(this).val()
+            //     var category_name =$('#member_category_name').data('category_name')
+            //     var member_category =$('#member_category_name').data('member_category')
+            //     var category =$('#member_category_name').data('category')
+            //
+            //     if($(this).val() == 'inactive'){
+            //         $('#report_status_category').removeClass('bg-success')
+            //         $('#report_status_category').addClass('bg-warning')
+            //         $('#report_status_category').removeClass('bg-danger')
+            //         $('#report_status_category').removeClass('bg-info')
+            //         $('#conditional_report_status').val($('#conditional_report_status').data('inactive'))
+            //         $('.spanned_status_category').html(' -Inactive')
+            //         $('.removed').show()
+            //         $('.removed-table-head').html('Deactivating Reason')
+            //
+            //         $('.spanned_status_category').addClass('text-warning')
+            //         $('.spanned_status_category').removeClass('text-success')
+            //         $('.spanned_status_category').removeClass('text-danger')
+            //     }else if($(this).val() == 'deleted'){
+            //         $('#report_status_category').removeClass('bg-success')
+            //         $('#report_status_category').removeClass('bg-warning')
+            //         $('#report_status_category').removeClass('bg-info')
+            //         $('#report_status_category').addClass('bg-danger')
+            //         $('#conditional_report_status').val($('#conditional_report_status').data('deleted'))
+            //         $('.spanned_status_category').html(' -Deleted')
+            //         $('.removed').show()
+            //         $('.removed-table-head').html('Deleting Reason')
+            //
+            //         $('.spanned_status_category').removeClass('text-warning')
+            //         $('.spanned_status_category').removeClass('text-success')
+            //         $('.spanned_status_category').addClass('text-danger')
+            //
+            //         $('.hide_for_deleted').hide()
+            //         $('.show_for_deleted').show()
+            //     }else if ($(this).val() == 'all'){
+            //         $('#report_status_category').removeClass('bg-success')
+            //         $('#report_status_category').removeClass('bg-warning')
+            //         $('#report_status_category').removeClass('bg-danger')
+            //         $('#report_status_category').addClass('bg-info')
+            //         $('#conditional_report_status').val($('#conditional_report_status').data('all'))
+            //         $('.spanned_status_category').html(' -All Registered')
+            //         $('.removed').hide()
+            //         $('.removed-table-head').html('Deleting/ Deactivating/ Decline Reason')
+            //
+            //         $('.spanned_status_category').removeClass('text-warning')
+            //         $('.spanned_status_category').removeClass('text-success')
+            //         $('.spanned_status_category').removeClass('text-danger')
+            //         $('.spanned_status_category').addClass('text-info')
+            //     }else {
+            //         $('#report_status_category').addClass('bg-success')
+            //         $('#report_status_category').removeClass('bg-warning')
+            //         $('#report_status_category').removeClass('bg-danger')
+            //         $('#report_status_category').removeClass('bg-info')
+            //         $('#conditional_report_status').val($('#conditional_report_status').data('active'))
+            //         $('.spanned_status_category').html(' -Active')
+            //         $('.removed').hide()
+            //         $('.removed-table-head').html('')
+            //
+            //         $('.spanned_status_category').removeClass('text-warning')
+            //         $('.spanned_status_category').addClass('text-success')
+            //         $('.spanned_status_category').removeClass('text-danger')
+            //     }
+            //
+            //     $.ajax({
+            //         url: '/status-based-members',
+            //         method: 'get',
+            //         data: {
+            //             active: active,
+            //             category_name:category_name,
+            //             member_category:member_category,
+            //             category:category,
+            //         },
+            //         success: function (response) {
+            //             $('#tbldv').html(response)
+            //         }
+            //     });
+            //
+            //
+            // })
 
             $('#report_status_category').change(function (e){
                 e.preventDefault()
@@ -738,6 +885,11 @@
 
 
             })
+
+
+
+
+
 
             $('.hide_ward').hide()
 
@@ -1100,4 +1252,4 @@
 
     </script>
 
-</div>
+

@@ -73,21 +73,15 @@
                                     <div class="row">
                                         <div class="col-lg">
                                             <label  class="fw-bolder hide-status" for="phone">Phone</label>
-                                            <input type="tel" disabled  name="phone" class="form-control rounded-0 profile" id="" value="{{$userInfo->phone?? ''}}">
+                                            <input type="tel" disabled  name="phone" class="form-control rounded-0 profile" id="" value="{{'+'.implode(' ', [$userInfo->dialing_code, $userInfo->phone])?? ''}}">
                                             <div class="input-group profile_edit hide-status hide-field" hidden="hidden">
-                                                <div class="input-group-prepend">
-                                                    <label class="input-group-text" for="country_code">Country Code</label>
+                                                <div>
+                                                    <input type="tel" id="phone" name="phone" placeholder="Phone number">
                                                 </div>
-                                                <select class="custom-select" id="country_code" name="country_code">
-                                                    <option value="" disabled selected>--selected country code--</option>
-                                                    @foreach (config('membership.country_codes') as $code => $country)
-                                                        <option value="{{ $code }}">{{ $code }} ({{ $country }})</option>
-                                                    @endforeach
-                                                </select>
-{{--                                                <div class="invalid-feedback"></div>--}}
-                                                <input type="tel" name="phone" placeholder="700000000" class="form-control rounded-0" id="phone" value="{{auth()->user()->phone == 'N/A'?'':auth()->user()->phone}}">
+                                                <div hidden="hidden">
+                                                    <select id="country_code" name="country_code"></select>
+                                                </div>
                                             </div>
-                                            <div class="invalid-feedback"></div>
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="col-lg">
@@ -324,7 +318,19 @@
 
 @section('script')
     <script>
-        $(function (){
+        $(document).ready(function (){
+            var input = document.querySelector("#phone");
+            var iti = window.intlTelInput(input, {
+                {{--utilsScript: "{{ asset('intl-tel-input/js/utils.min.js') }}"--}}
+                // utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.min.js"
+            });
+
+            var countryCodeInput = document.querySelector("#country_code");
+            countryCodeInput.addEventListener("change", function() {
+                var countryCode = this.value;
+                input.setAttribute("data-country_code", countryCode); // Set the country code as a data attribute on the phone input field
+                iti.setCountry(countryCode);
+            });
             // $('.profile').addClass('text-secondary', 'fw-bolder')
             $('.profile').val()
             if ($('#add_user_id').val() == 'admin'){
@@ -366,7 +372,9 @@
             });
             $('body').on('submit', '#profile_form', function (e){
                 e.preventDefault();
-                let id = $('#user_id').val();
+                let id = $('#user_id').val();    // Get the selected country code
+                var countryCode = iti.getSelectedCountryData().dialCode;
+                var countryName = iti.getSelectedCountryData().name;
                 $('#profile_btn').val('Updating...');
                 $('#ignore_btn').hide();
 
@@ -380,7 +388,7 @@
                 $.ajax({
                     url: '{{route('profile.update')}}',
                     method: 'post',
-                    data: $(this).serialize()+ `&id=+${id}`,
+                    data: $(this).serialize()+ `&id=+${id}`+ `&countryCode=+${countryCode}`+ `&countryName=+${countryName}`,
                     dataType: 'json',
                     success: function (response) {
                         if (response.status == 200){

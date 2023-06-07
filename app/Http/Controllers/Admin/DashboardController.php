@@ -127,6 +127,11 @@ class DashboardController extends Controller
         }
 
         $category_detail_description = '';
+        if ($request->category_name == 'Privileged Users'){
+            $priv = true;
+        }else{
+            $priv = false;
+        }
 
         return view('admin.status_based_members',
             [
@@ -135,7 +140,8 @@ class DashboardController extends Controller
                 'members' => $members,
                 'category_name'=>$member_age_cluster_category_text,
                 'display_for_progress'=>$display_for_progress,
-                'progressive_registration'=>$progressive_registration
+                'progressive_registration'=>$progressive_registration,
+                'priv'=>$priv
             ]);
     }
 
