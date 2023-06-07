@@ -2,34 +2,59 @@
     <input type="hidden" id="auth_user_role" value="{{$auth_user_role}}">
     <table id="dt_select" class="table table-striped table-bordered thead-dark" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
         <thead>
-        <tr>
-            <th>S/R</th>
-            <th>Member Number</th>
-            <th>Title</th>
-            <th>First Name</th>
-            <th>Other Names</th>
-            <th>Phone</th>
-            <th>Age</th>
-            @if(isset($priv) && $priv)
-                <th>Role</th>
-            @else
+        @if($priv)
+            <tr>
+                <th rowspan="2">S/R</th>
+                <th rowspan="2">Member Number</th>
+                <th rowspan="2">Title</th>
+                <th rowspan="2">First Name</th>
+                <th rowspan="2">Other Names</th>
+                <th rowspan="2">Role</th>
+                <th colspan="10" class="permissions-column" style="text-align: center; background-color: #f1f1f1; border: 1px solid #ccc;">
+                    Permissions
+                </th>
+                <th rowspan="2" class="hide_for_execs">Actions</th>
+            </tr>
+            <tr>
+                <th>{{config('membership.permissions.Add_Members.text')}}</th>
+                <th>{{config('membership.permissions.Assign_Role.text')}}</th>
+                <th>{{config('membership.permissions.Decline_Membership.text')}}</th>
+                <th>{{config('membership.permissions.Delete_Members.text')}}</th>
+                <th>{{config('membership.permissions.Edit_Members.text')}}</th>
+                <th>{{config('membership.permissions.Initial_Approval.text')}}</th>
+                <th>{{config('membership.permissions.Provisional_Approval.text')}}</th>
+                <th>{{config('membership.permissions.Final_Approval.text')}}</th>
+                <th>{{config('membership.permissions.See_Members.text')}}</th>
+                <th>{{config('membership.permissions.View_Only.text')}}</th>
+            </tr>
+
+        @else
+            <tr>
+
+                <th>S/R</th>
+                <th>Member Number</th>
+                <th>Title</th>
+                <th>First Name</th>
+                <th>Other Names</th>
+                <th>Phone</th>
+                <th>Age</th>
                 <th>Born Again</th>
-            @endif
-            <th>Gender</th>
-            <th>Marital Status</th>
-            <th>Sub-County</th>
-            <th>Ward</th>
-            <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">Cell Group</th>
-            <th>Employment Status</th>
-            <th>Leadership Status</th>
-            <th>Occupation</th>
-            <th>Other/ Ministries of Interest</th>
-            <th>Level of Education</th>
-            <th>Registered</th>
-            <th>Year Joined</th>
-            <th class="removed removed-table-head"></th>
-            <th class="hide_for_execs">Actions</th>
-        </tr>
+                <th>Gender</th>
+                <th>Marital Status</th>
+                <th>Sub-County</th>
+                <th>Ward</th>
+                <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">Cell Group</th>
+                <th>Employment Status</th>
+                <th>Leadership Status</th>
+                <th>Occupation</th>
+                <th>Other/ Ministries of Interest</th>
+                <th>Level of Education</th>
+                <th>Registered</th>
+                <th>Year Joined</th>
+                <th class="removed removed-table-head"></th>
+                <th class="hide_for_execs">Actions</th>
+            </tr>
+        @endif
         </thead>
         <tboby>
             @foreach($members as $member)
@@ -109,47 +134,62 @@
                                                            ?>
 
                 <tr class="item{--><!--{$member->id}  text-black fw-bolder}">
-                    <td>{{$loop->iteration}}</td>
-                    <td>{{$member->member_number??''}}</td>
-                    <td>{{config('membership.statuses.title')[$member->title]['text']??''}}</td>
-                    <td>{{explode(' ', $member->name)[0] ?? ''}}</td>
-                    <td>{{implode(' ', array_slice(explode(' ', $member->name), 1)) ?? ''}}</td>
-                    <td>{{isset($member->phone)?$member->phone:''}}</td>
-                    <td>{{$full_age??''}}</td>
-                    @if(isset($priv) && $priv)
+                    @if($priv)
+                        <td>{{$loop->iteration}}</td>
+                        <td>{{$member->member_number??''}}</td>
+                        <td>{{config('membership.statuses.title')[$member->title]['text']??''}}</td>
+                        <td>{{explode(' ', $member->name)[0] ?? ''}}</td>
+                        <td>{{implode(' ', array_slice(explode(' ', $member->name), 1)) ?? ''}}</td>
                         <td>{{$member->roles()->first()->name ?? ''}}</td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Add_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Add_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Assign_Role.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Assign_Role.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Decline_Membership.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Decline_Membership.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Delete_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Delete_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Edit_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Edit_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Initial_Approval.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Initial_Approval.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Provisional_Approval.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Provisional_Approval.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Final_Approval.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Final_Approval.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.See_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.See_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.View_Only.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.View_Only.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
                     @else
+                        <td>{{$loop->iteration}}</td>
+                        <td>{{$member->member_number??''}}</td>
+                        <td>{{config('membership.statuses.title')[$member->title]['text']??''}}</td>
+                        <td>{{explode(' ', $member->name)[0] ?? ''}}</td>
+                        <td>{{implode(' ', array_slice(explode(' ', $member->name), 1)) ?? ''}}</td>
+                        <td>{{isset($member->phone)?$member->phone:''}}</td>
+                        <td>{{$years??''}}</td>
+                        {{--                            <td>{{$full_age??''}}</td>--}}
                         <td>{{isset($member->born_again_id)?config('membership.statuses.flag')[$member->born_again_id]:''}}</td>
-                    @endif
-
-                    <td>{{isset($member->gender)?config('membership.statuses.gender')[$member->gender]:''}}</td>
-                    <td>{{isset($marital_status_id)?$marital_status_id:''}}</td>
-                    <td>{{$sub_county}}</td>
-                    <td>{{config('membership.statuses.sub_county')[$member->estate_id]['wards'][$member->ward]['text'] ?? ''}}</td>
-                    <td class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">{{isset($member->cell_group_id)?config('membership.statuses.cell_group')[$member->cell_group_id]:''}}</td>
-                    <td>{{isset($employment_status_id)?$employment_status_id:''}}</td>
-                    <td>{{isset($member->leadership_status_id)?config('membership.statuses.flag')[$member->leadership_status_id]:''}}</td>
-                    <td>{{isset($occupation_id)?$occupation_id:''}}</td>
-                    <td>{{isset($ministries)?$ministries:''}}</td>
-                    <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
-                    <td>{{isset($member->created_at) ? \Carbon\Carbon::parse($member->created_at)->diffForHumans() : ''}}</td>
-                    <td>{{$member->year_joined?explode('-', explode(' ', $member->year_joined)[0])[0]:''}}</td>
-                    @php
-                        if (isset($member->delete_reason)){
-                            $removed_reason = config('membership.statuses.delete_reason')[$member->delete_reason]['text'];
-                        }else if (isset($member->deactivate_reason)){
-                            $removed_reason = config('membership.statuses.deactivate_reason')[$member->deactivate_reason]['text'];
-                        }else if (isset($member->decline_reason)){
-                            $removed_reason = config('membership.statuses.deactivate_reason')[$member->decline_reason]['text'];
-                        }else{
-                            $removed_reason = '';
-                        }
+                        <td>{{isset($member->gender)?config('membership.statuses.gender')[$member->gender]:''}}</td>
+                        <td>{{isset($marital_status_id)?$marital_status_id:''}}</td>
+                        <td>{{$sub_county}}</td>
+                        <td>{{config('membership.statuses.sub_county')[$member->estate_id]['wards'][$member->ward]['text'] ?? ''}}</td>
+                        <td class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">{{isset($member->cell_group_id)?config('membership.statuses.cell_group')[$member->cell_group_id]:''}}</td>
+                        <td>{{isset($employment_status_id)?$employment_status_id:''}}</td>
+                        <td>{{isset($member->leadership_status_id)?config('membership.statuses.flag')[$member->leadership_status_id]:''}}</td>
+                        <td>{{isset($occupation_id)?$occupation_id:''}}</td>
+                        <td>{{isset($ministries)?$ministries:''}}</td>
+                        <td>{{isset($member->education_level_id)?config('membership.statuses.level_of_education')[$member->education_level_id]:''}}</td>
+                        <td>{{isset($member->created_at) ? \Carbon\Carbon::parse($member->created_at)->diffForHumans() : ''}}</td>
+                        <td>{{$member->year_joined?explode('-', explode(' ', $member->year_joined)[0])[0]:''}}</td>
+                        @php
+                            if (isset($member->delete_reason)){
+                                $removed_reason = config('membership.statuses.delete_reason')[$member->delete_reason]['text'];
+                            }else if (isset($member->deactivate_reason)){
+                                $removed_reason = config('membership.statuses.deactivate_reason')[$member->deactivate_reason]['text'];
+                            }else if (isset($member->decline_reason)){
+                                $removed_reason = config('membership.statuses.deactivate_reason')[$member->decline_reason]['text'];
+                            }else{
+                                $removed_reason = '';
+                            }
 //                            @endphp
-                    <td class="removed removed-table-data">{{$removed_reason}}</td>
+                        <td class="removed removed-table-data">{{$removed_reason}}</td>
+                    @endif
                     <td class="hide_for_execs">
                         <select id="conditional-hide" name="" class="browser-default" data-registration_status="{{$member->registration_status}}">
                             <option data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-                                <i class="fa fa-user-alt"></i>Edit
+                                <span><i class="fa fa-edit"></i></span>Edit
                             </option>
                             <option data-id="{{$member->id}}" data-existing="{{$member->existing}}"  data-hide="{{auth()->id()}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary hide-this" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                 @if($member->existing == 1)
@@ -167,8 +207,8 @@
                                 @endif
                             </option>
                             @if(auth()->user()->hasPermissionTo(config('membership.permissions.Assign_Role.text')))
-                                <option data-id="{{$member->id}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
-                                    Assign Role
+                                <option data-id="{{$member->id}}" data-user_title="{{$member->name}} data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
+                                Assign Role
                                 </option>
                             @endif
 
