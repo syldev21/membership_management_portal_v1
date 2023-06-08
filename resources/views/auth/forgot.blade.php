@@ -20,7 +20,7 @@
                             <div class="col-lg-5">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 bg-primary text-white rounded-circle mb-4">Forgot Password!</h1>
+                                        <h1 class="h4 bg-primary text-white rounded mb-4">Forgot Password!</h1>
                                     </div>
                                     <div id="forgot_alert"></div>
                                     <form  class="user" action="#" method="POST" id="forgot_form">
@@ -35,7 +35,9 @@
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="">
-                                            <input type="submit" value="Reset Password" class="btn btn-primary btn-user btn-block" id="forgot_button">
+                                            <button type="submit" class="btn btn-primary btn-user btn-block" id="forgot_button">
+                                                <i class="fas fa-key"></i>&nbsp;&nbsp;&nbsp; Reset Password
+                                            </button>
                                         </div>
                                     </form>
                                     <hr>
@@ -60,7 +62,7 @@
         $(function () {
             $('#forgot_form').submit(function (e) {
                 e.preventDefault();
-                $('#forgot_button').val('Please Wait...');
+                $('#forgot_button').html('Please Wait...');
                 $.ajaxSetup({
 
                     headers: {
@@ -75,14 +77,14 @@
                     success: function (res) {
                         if (res.status == 400){
                             showError('email', res.messages.email);
-                            $('#forgot_button').val('Reset Password')
+                            $('#forgot_button').html('Reset Password')
                         }else if (res.status == 200){
                             $('#forgot_alert').html(showMessage('success', res.messages));
                             $('#forgot_button').val('Reset Password');
                             removeValidationClasses('#forgot_form');
                             $('#forgot_form')[0].reset();
                         }else {
-                            $('#forgot_button').val('Reset Password');
+                            $('#forgot_button').html('Reset Password');
                             $('#forgot_alert').html(showMessage('danger', res.messages));
                         }
                     }

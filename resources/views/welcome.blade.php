@@ -13,22 +13,22 @@
 
                     <div class="card o-hidden border-0 shadow-lg my-5 rounded-5">
 
-                        <div class="card-header p-0 bg-success">
+                        <div class="card-header p-0" style="background-color: green">
                             <div class="align-content-center"><h3 style="text-align: center; color: white">Welcome to VOSH Church Buru Buru Membership Portal</h3>
                             </div>
                         </div>
-                        <div class="card-body p-0" style="background-color:yellowgreen;">
+                        <div class="card-body p-0" style="background-color:seagreen">
                             <div class="bg-body" style="!important;background-color: white">
                                 <div style="float: left; margin-left: 55px; height: 50px">
-                                    <input class="bg-primary rounded-5" id="login_page" type="button" style="height: 50px; width: 250px; color: white" value="Login Page">
+                                    <input class="bg-success font-weight-bold rounded-5" id="login_page" type="button" style="height: 50px; width: 250px; color: white" value="Login Page">
                                 </div>
                                 <div style="float: right; margin-right: 55px">
-                                    <input class="bg-primary rounded-5" id="registration_page" type="button" style="height: 50px; width: 250px; color: white" value="Registration Page">
+                                    <input class="bg-success font-weight-bold rounded-5" id="registration_page" type="button" style="height: 50px; width: 250px; color: white" value="Registration Page">
                                 </div>
 
                             </div>
                         </div>
-                        <div class="card-footer bg-success">
+                        <div class="card-footer" style="background-color: green">
 
                         </div>
                     </div>

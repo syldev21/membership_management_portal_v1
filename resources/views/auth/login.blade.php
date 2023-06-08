@@ -20,7 +20,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 bg-primary text-white rounded-circle mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 bg-primary text-white rounded mb-4">Welcome Back!</h1>
                                     </div>
                                     <div id="login_alert"></div>
                                     <form class="user" action="#" method="POST" id="login_form">
@@ -52,12 +52,14 @@
                                             </div>
                                         </div>
                                         <div class="">
-                                            <input type="submit" value="Login" class="btn btn-primary btn-user btn-block" id="login_button">
+                                            <button type="submit" class="btn btn-primary btn-user btn-block" id="login_button">
+                                                <i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;&nbsp; Login
+                                            </button>
                                         </div>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="/forgot">Forgot Password?</a>
+                                        <a class="small" href="/forgot"><span> <i class="fa fa-question-circle"> </i></span> Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="/register">Create an Account!</a>
@@ -97,7 +99,7 @@
             $('#login_form').submit(function (e){
                 e.preventDefault();
                 removeValidationClasses(this);
-                $('#login_button').val('Please Wait...');
+                $('#login_button').html('Please Wait...');
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -120,7 +122,7 @@
                             }else {
                                 $('#login_alert').html(showMessage('danger', res.messages));
                             }
-                            $('#login_button').val('Login');
+                            $('#login_button').html('Login');
                         }
                     }
                 })

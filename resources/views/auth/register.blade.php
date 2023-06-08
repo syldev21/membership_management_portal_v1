@@ -27,7 +27,7 @@
                             <div class="col-lg-7">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 rounded-circle mb-4 bg-primary text-white">Create an Account</h1>
+                                        <h1 class="h4 rounded mb-4 bg-primary text-white">Create an Account</h1>
                                     </div>
                                     <div id="show-success-alert"></div>
                                     <form  class="user" action="#" method="POST" id="register_form">
@@ -74,7 +74,9 @@
                                             </div>
                                         </div>
                                         <div class="">
-                                            <input type="submit" value="Register" class="btn btn-primary btn-user btn-block" id="register_btn">
+                                            <button type="submit" class="btn btn-primary btn-user btn-block" id="register_btn">
+                                                <i class="fas fa-user-plus"></i>&nbsp;&nbsp;&nbsp; Register
+                                            </button>
                                         </div>
                                     </form>
                                     <hr>
@@ -184,7 +186,7 @@ float: left
 
             $('#register_form').submit(function (e) {
                 e.preventDefault();
-                $('#register_btn').val('Please Wait...');
+                $('#register_btn').html('Please Wait...');
                 $.ajaxSetup({
 
                     headers: {
@@ -201,7 +203,7 @@ float: left
                             $('#show-success-alert').html(showMessage('success', res.messages));
                             $('#register_form')[0].reset();
                             removeValidationClasses('#register_form');
-                            $('#register_btn').val('Register');
+                            $('#register_btn').html('Register');
                         }
                     },
                     error: function(xhr) {
