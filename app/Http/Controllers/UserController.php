@@ -532,6 +532,8 @@ public function profile(Request $request){
             'cnpassword'=>'required|min:6|max:50:same:npassword',
 
         ],[
+            'npassword.required'=>'Please enter a new password!',
+            'cnpassword.required'=>'Please confirm your new password!',
             'cnpassword.same'=>'Password did not match!'
         ]);
 
@@ -557,7 +559,7 @@ public function profile(Request $request){
                 return response()->json([
 
                     'status'=>200,
-                    'messages'=>'New password updated;&nbsp;<a href="/">Login Now</a>',
+                    'messages'=>'New password updated;&nbsp;<a href="/login">Login Now</a>',
                 ]);
             }else{
                 return response()->json([

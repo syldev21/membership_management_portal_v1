@@ -20,7 +20,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-white bg-primary rounded-circle mb-4">Reset Password!</h1>
+                                        <h1 class="h4 text-white bg-primary rounded mb-4">Reset Password!</h1>
                                     </div>
                                     <div id="reset_alert"></div>
                                     <form  class="user" action="#" method="POST" id="reset_form">
@@ -28,9 +28,8 @@
                                         <input type="hidden" name="email" value="{{$email}}">
                                         <input type="hidden" name="token" value="{{$token}}">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                   name="email" id="email" aria-describedby="emailHelp"
-                                                   placeholder="Enter Email Address...">
+                                            <input type="email" class="form-control form-control-user" disabled
+                                                   name="email" id="email" aria-describedby="emailHelp" value="{{$email}}">
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="form-group">
@@ -46,9 +45,15 @@
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="">
-                                            <input type="submit" value="Update Password" class="btn btn-primary btn-user btn-block" id="reset_button">
+                                            <button type="submit" class="btn btn-primary btn-user btn-block" id="reset_button">
+                                                <i class="fa fa-sync-alt"></i>&nbsp;&nbsp;&nbsp; Update Password
+                                            </button>
                                         </div>
                                     </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="/forgot">Back to Reset Request</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +72,7 @@
         $(function () {
             $('#reset_form').submit(function (e) {
                 e.preventDefault();
-                $('#reset_button').val('Please Wait...')
+                $('#reset_button').html('Please Wait...')
                 $.ajaxSetup({
 
                     headers: {
@@ -84,7 +89,7 @@
                         if (res.status == 400){
                             showError('npassword', res.messages.npassword)
                             showError('cnpassword', res.messages.cnpassword)
-                            $('#reset_button').val('Update Password')
+                            $('#reset_button').html('Update Password')
                         }else if (res.status == 401){
                             $('#reset_alert').html(showMessage('danger', res.messages));
                             removeValidationClasses('#reset_form');
