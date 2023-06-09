@@ -36,6 +36,7 @@ $(document).ready(function () {
                         let gender_cell = $(this).data('gender_cell');
 
                         let column_filter = $(this).data('column_filter')
+                        // alert([member_category, category, category_name, registration_progress_id, class_name, priviledged_id, gender_cell, column_filter])
                         // alert(column_filter==1)
 
                         $.ajaxSetup({
@@ -57,79 +58,73 @@ $(document).ready(function () {
                             },
                             success: function (data) {
                                 $('#dashboar').html(data);
-                                if (column_filter==1){
-                                    var table = $('#dt_select').DataTable({
-                                        responsive: true,
-                                        dom: 'Bfrtip',
-                                        buttons: [
-                                            'copy', 'csv', 'excel', 'pdf', 'print'
-                                        ],
-                                        pageLength: 6, // Set the number of records per page
-                                        columns: [
-                                            { visible: false }, // hide the first column
-                                            // { visible: false }, // Show the second column
-                                            null, // Show the third column
-                                            null, // Show the third column
-                                            null, // Show the fourth column
-                                            null, // Show the fifth column
-                                            null, // Show the sixth column
-                                            null, // Show the seventh column
-                                            null, // Show the eigth column
-                                            null, // Show the nineth column
-                                            null, // Show the tenth column
-                                            null, // Show the 11th column
-                                            null, // Show the 12th column
-                                            null, // Show the 13th column
-                                            null, // Show the 14th column
-                                            null, // Show the 15th column
-                                            null, // Show the 16th column
-                                            null, // Show the 17th column
-                                            // Add more null values for additional visible columns
-                                        ]
-                                    });
+
+
+                                var buttons = [
+                                    'copy', 'csv', 'excel', 'pdf', 'print'
+                                ];
+
+                                var tableOptions = {
+                                    responsive: true,
+                                    dom: 'lBfrtip',
+                                    buttons: buttons,
+                                    // pageLength: 6, // Set the number of records per page
+                                    columns: [
+                                        { visible: false }, // hide the first column
+                                        // { visible: false }, // Show the second column
+                                        null, // Show the third column
+                                        null, // Show the third column
+                                        null, // Show the fourth column
+                                        null, // Show the fifth column
+                                        null, // Show the sixth column
+                                        null, // Show the seventh column
+                                        null, // Show the eigth column
+                                        null, // Show the nineth column
+                                        null, // Show the tenth column
+                                        null, // Show the 11th column
+                                        null, // Show the 12th column
+                                        null, // Show the 13th column
+                                        null, // Show the 14th column
+                                        null, // Show the 15th column
+                                        null, // Show the 16th column
+                                        null, // Show the 17th column
+                                        // Add more null values for additional visible columns
+                                    ]
+                                };
+
+                                if (column_filter != 1) {
+                                    // tableOptions.pageLength = 8; // Set the number of records per page
+                                    tableOptions.columns = [
+                                        { visible: false }, // Show the second column
+                                        null, // Show the second column
+                                        null, // Show the third column
+                                        null, // Show the fourth column
+                                        null, // Show the fifth column
+                                        null, // Show the second column
+                                        null, // Show the third column
+                                        null, // Show the fourth column
+                                        null, // Show the fifth column
+                                        null, // Show the second column
+                                        null, // Show the third column
+                                        null, // Show the fourth column
+                                        null, // Show the fifth column
+                                        null, // Show the second column
+                                        null, // Show the third column
+                                        null, // Show the fourth column
+                                        { visible: false }, // Show the fifth column
+                                        { visible: false }, // Show the second column
+                                        { visible: false }, // Show the third column
+                                        { visible: false }, // Show the fourth column
+                                        { visible: false }, // Show the fifth column
+                                        null, // Show the fifth column
+                                    ];
                                 }
-                                else {
-                                    var table = $('#dt_select').DataTable({
-                                        responsive: true,
-                                        dom: 'Bfrtip',
-                                        buttons: [
-                                            'copy', 'csv', 'excel', 'pdf', 'print'
-                                        ],
-                                        pageLength: 8, // Set the number of records per page
-                                        columns: [
-                                            // Hide the first column (e.g., ID)
-                                            { visible: false }, // Show the second column
-                                            null, // Show the second column
-                                            null, // Show the third column
-                                            null, // Show the fourth column
-                                            null, // Show the fifth column
-                                            null, // Show the second column
-                                            null, // Show the third column
-                                            null, // Show the fourth column
-                                            null, // Show the fifth column
-                                            null, // Show the second column
-                                            null, // Show the third column
-                                            null, // Show the fourth column
-                                            null, // Show the fifth column
-                                            null, // Show the second column
-                                            null, // Show the third column
-                                            null, // Show the fourth column
-                                            { visible: false }, // Show the fifth column
-                                            { visible: false }, // Show the second column
-                                            { visible: false }, // Show the third column
-                                            { visible: false }, // Show the fourth column
-                                            { visible: false }, // Show the fifth column
-                                            null, // Show the fifth column
-                                            // Add more null values for additional visible columns
-                                        ]
-                                    });
-                                }
-
-
-
+                                var table = $('#dt_select').DataTable(tableOptions);
                                 // Show all columns when exporting
                                 table.buttons().container()
                                     .appendTo('#dt_select_wrapper .col-md-6:eq(0)');
+                                // Set the current pageLength value in the length menu
+                                $('.dataTables_length select').val(table.page.len());
                             }
                         });
                     });

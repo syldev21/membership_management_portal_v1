@@ -703,188 +703,174 @@
             $('.spanned_status_category').removeClass('text-danger')
             $('.spanned_status_category').removeClass('text-warning')
 
-            // // Import DataTables CSS and JavaScript CDN links dynamically
-            // $.getScript("https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js", function () {
-            //     $.getScript("https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js", function () {
-            //         $.getScript("https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js", function () {
-            //             $.getScript("https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js", function () {
-            //                 $('<link>')
-            //                     .appendTo('head')
-            //                     .attr({
-            //                         type: 'text/css',
-            //                         rel: 'stylesheet',
-            //                         href: 'https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css'
-            //                     });
-            //
-            //                 // Inside the callback functions, DataTables and buttons libraries are loaded and ready to use
-            //             });
-            //         });
-            //     });
-            // });
+            $.getScript("https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js", function () {
+                $.getScript("https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js", function () {
+                    $.getScript("https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js", function () {
+                        $.getScript("https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js", function () {
+                            $('<link>')
+                                .appendTo('head')
+                                .attr({
+                                    type: 'text/css',
+                                    rel: 'stylesheet',
+                                    href: 'https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css'
+                                });
 
-            // $('#report_status_category').change(function (e){
-            //     e.preventDefault()
-            //     var active = $(this).val()
-            //     var category_name =$('#member_category_name').data('category_name')
-            //     var member_category =$('#member_category_name').data('member_category')
-            //     var category =$('#member_category_name').data('category')
-            //
-            //     if($(this).val() == 'inactive'){
-            //         $('#report_status_category').removeClass('bg-success')
-            //         $('#report_status_category').addClass('bg-warning')
-            //         $('#report_status_category').removeClass('bg-danger')
-            //         $('#report_status_category').removeClass('bg-info')
-            //         $('#conditional_report_status').val($('#conditional_report_status').data('inactive'))
-            //         $('.spanned_status_category').html(' -Inactive')
-            //         $('.removed').show()
-            //         $('.removed-table-head').html('Deactivating Reason')
-            //
-            //         $('.spanned_status_category').addClass('text-warning')
-            //         $('.spanned_status_category').removeClass('text-success')
-            //         $('.spanned_status_category').removeClass('text-danger')
-            //     }else if($(this).val() == 'deleted'){
-            //         $('#report_status_category').removeClass('bg-success')
-            //         $('#report_status_category').removeClass('bg-warning')
-            //         $('#report_status_category').removeClass('bg-info')
-            //         $('#report_status_category').addClass('bg-danger')
-            //         $('#conditional_report_status').val($('#conditional_report_status').data('deleted'))
-            //         $('.spanned_status_category').html(' -Deleted')
-            //         $('.removed').show()
-            //         $('.removed-table-head').html('Deleting Reason')
-            //
-            //         $('.spanned_status_category').removeClass('text-warning')
-            //         $('.spanned_status_category').removeClass('text-success')
-            //         $('.spanned_status_category').addClass('text-danger')
-            //
-            //         $('.hide_for_deleted').hide()
-            //         $('.show_for_deleted').show()
-            //     }else if ($(this).val() == 'all'){
-            //         $('#report_status_category').removeClass('bg-success')
-            //         $('#report_status_category').removeClass('bg-warning')
-            //         $('#report_status_category').removeClass('bg-danger')
-            //         $('#report_status_category').addClass('bg-info')
-            //         $('#conditional_report_status').val($('#conditional_report_status').data('all'))
-            //         $('.spanned_status_category').html(' -All Registered')
-            //         $('.removed').hide()
-            //         $('.removed-table-head').html('Deleting/ Deactivating/ Decline Reason')
-            //
-            //         $('.spanned_status_category').removeClass('text-warning')
-            //         $('.spanned_status_category').removeClass('text-success')
-            //         $('.spanned_status_category').removeClass('text-danger')
-            //         $('.spanned_status_category').addClass('text-info')
-            //     }else {
-            //         $('#report_status_category').addClass('bg-success')
-            //         $('#report_status_category').removeClass('bg-warning')
-            //         $('#report_status_category').removeClass('bg-danger')
-            //         $('#report_status_category').removeClass('bg-info')
-            //         $('#conditional_report_status').val($('#conditional_report_status').data('active'))
-            //         $('.spanned_status_category').html(' -Active')
-            //         $('.removed').hide()
-            //         $('.removed-table-head').html('')
-            //
-            //         $('.spanned_status_category').removeClass('text-warning')
-            //         $('.spanned_status_category').addClass('text-success')
-            //         $('.spanned_status_category').removeClass('text-danger')
-            //     }
-            //
-            //     $.ajax({
-            //         url: '/status-based-members',
-            //         method: 'get',
-            //         data: {
-            //             active: active,
-            //             category_name:category_name,
-            //             member_category:member_category,
-            //             category:category,
-            //         },
-            //         success: function (response) {
-            //             $('#tbldv').html(response)
-            //         }
-            //     });
-            //
-            //
-            // })
+                            $('#report_status_category').change(function (e) {
+                                e.preventDefault()
+                                // return;
+                                var active = $(this).val()
+                                var category_name = $('#member_category_name').data('category_name')
+                                var member_category = $('#member_category_name').data('member_category')
+                                var category = $('#member_category_name').data('category')
 
-            $('#report_status_category').change(function (e){
-                e.preventDefault()
-                var active = $(this).val()
-                var category_name =$('#member_category_name').data('category_name')
-                var member_category =$('#member_category_name').data('member_category')
-                var category =$('#member_category_name').data('category')
 
-                if($(this).val() == 'inactive'){
-                    $('#report_status_category').removeClass('bg-success')
-                    $('#report_status_category').addClass('bg-warning')
-                    $('#report_status_category').removeClass('bg-danger')
-                    $('#report_status_category').removeClass('bg-info')
-                    $('#conditional_report_status').val($('#conditional_report_status').data('inactive'))
-                    $('.spanned_status_category').html(' -Inactive')
-                    $('.removed').show()
-                    $('.removed-table-head').html('Deactivating Reason')
+                                if ($(this).val() == 'inactive') {
+                                    $('#report_status_category').removeClass('bg-success')
+                                    $('#report_status_category').addClass('bg-warning')
+                                    $('#report_status_category').removeClass('bg-danger')
+                                    $('#report_status_category').removeClass('bg-info')
+                                    $('#conditional_report_status').val($('#conditional_report_status').data('inactive'))
+                                    $('.spanned_status_category').html(' -Inactive')
+                                    $('.removed').show()
+                                    $('.removed-table-head').html('Deactivating Reason')
 
-                    $('.spanned_status_category').addClass('text-warning')
-                    $('.spanned_status_category').removeClass('text-success')
-                    $('.spanned_status_category').removeClass('text-danger')
-                }else if($(this).val() == 'deleted'){
-                    $('#report_status_category').removeClass('bg-success')
-                    $('#report_status_category').removeClass('bg-warning')
-                    $('#report_status_category').removeClass('bg-info')
-                    $('#report_status_category').addClass('bg-danger')
-                    $('#conditional_report_status').val($('#conditional_report_status').data('deleted'))
-                    $('.spanned_status_category').html(' -Deleted')
-                    $('.removed').show()
-                    $('.removed-table-head').html('Deleting Reason')
+                                    $('.spanned_status_category').addClass('text-warning')
+                                    $('.spanned_status_category').removeClass('text-success')
+                                    $('.spanned_status_category').removeClass('text-danger')
+                                } else if ($(this).val() == 'deleted') {
+                                    $('#report_status_category').removeClass('bg-success')
+                                    $('#report_status_category').removeClass('bg-warning')
+                                    $('#report_status_category').removeClass('bg-info')
+                                    $('#report_status_category').addClass('bg-danger')
+                                    $('#conditional_report_status').val($('#conditional_report_status').data('deleted'))
+                                    $('.spanned_status_category').html(' -Deleted')
+                                    $('.removed').show()
+                                    $('.removed-table-head').html('Deleting Reason')
 
-                    $('.spanned_status_category').removeClass('text-warning')
-                    $('.spanned_status_category').removeClass('text-success')
-                    $('.spanned_status_category').addClass('text-danger')
+                                    $('.spanned_status_category').removeClass('text-warning')
+                                    $('.spanned_status_category').removeClass('text-success')
+                                    $('.spanned_status_category').addClass('text-danger')
 
-                    $('.hide_for_deleted').hide()
-                    $('.show_for_deleted').show()
-                }else if ($(this).val() == 'all'){
-                    $('#report_status_category').removeClass('bg-success')
-                    $('#report_status_category').removeClass('bg-warning')
-                    $('#report_status_category').removeClass('bg-danger')
-                    $('#report_status_category').addClass('bg-info')
-                    $('#conditional_report_status').val($('#conditional_report_status').data('all'))
-                    $('.spanned_status_category').html(' -All Registered')
-                    $('.removed').hide()
-                    $('.removed-table-head').html('Deleting/ Deactivating/ Decline Reason')
+                                    $('.hide_for_deleted').hide()
+                                    $('.show_for_deleted').show()
+                                } else if ($(this).val() == 'all') {
+                                    $('#report_status_category').removeClass('bg-success')
+                                    $('#report_status_category').removeClass('bg-warning')
+                                    $('#report_status_category').removeClass('bg-danger')
+                                    $('#report_status_category').addClass('bg-info')
+                                    $('#conditional_report_status').val($('#conditional_report_status').data('all'))
+                                    $('.spanned_status_category').html(' -All Registered')
+                                    $('.removed').hide()
+                                    $('.removed-table-head').html('Deleting/ Deactivating/ Decline Reason')
 
-                    $('.spanned_status_category').removeClass('text-warning')
-                    $('.spanned_status_category').removeClass('text-success')
-                    $('.spanned_status_category').removeClass('text-danger')
-                    $('.spanned_status_category').addClass('text-info')
-                }else {
-                    $('#report_status_category').addClass('bg-success')
-                    $('#report_status_category').removeClass('bg-warning')
-                    $('#report_status_category').removeClass('bg-danger')
-                    $('#report_status_category').removeClass('bg-info')
-                    $('#conditional_report_status').val($('#conditional_report_status').data('active'))
-                    $('.spanned_status_category').html(' -Active')
-                    $('.removed').hide()
-                    $('.removed-table-head').html('')
+                                    $('.spanned_status_category').removeClass('text-warning')
+                                    $('.spanned_status_category').removeClass('text-success')
+                                    $('.spanned_status_category').removeClass('text-danger')
+                                    $('.spanned_status_category').addClass('text-info')
+                                } else if ($(this).val() == 'active'){
+                                    $('#report_status_category').addClass('bg-success')
+                                    $('#report_status_category').removeClass('bg-warning')
+                                    $('#report_status_category').removeClass('bg-danger')
+                                    $('#report_status_category').removeClass('bg-info')
+                                    $('#conditional_report_status').val($('#conditional_report_status').data('active'))
+                                    $('.spanned_status_category').html(' -Active')
+                                    $('.removed').hide()
+                                    $('.removed-table-head').html('')
 
-                    $('.spanned_status_category').removeClass('text-warning')
-                    $('.spanned_status_category').addClass('text-success')
-                    $('.spanned_status_category').removeClass('text-danger')
-                }
+                                    $('.spanned_status_category').removeClass('text-warning')
+                                    $('.spanned_status_category').addClass('text-success')
+                                    $('.spanned_status_category').removeClass('text-danger')
+                                }
 
-                $.ajax({
-                    url: '/status-based-members',
-                    method: 'get',
-                    data: {
-                        active: active,
-                        category_name:category_name,
-                        member_category:member_category,
-                        category:category,
-                    },
-                    success: function (response) {
-                        $('#tbldv').html(response)
-                    }
+                                $.ajax({
+                                    url: '/status-based-members',
+                                    method: 'get',
+                                    data: {
+                                        active: active,
+                                        category_name: category_name,
+                                        member_category: member_category,
+                                        category: category,
+                                    },
+                                    success: function (response) {
+                                        $('#tbldv').html(response)
+
+                                        var buttons = [
+                                            'copy', 'csv', 'excel', 'pdf', 'print'
+                                        ];
+
+                                        var tableOptions = {
+                                            responsive: true,
+                                            dom: 'lBfrtip',
+                                            buttons: buttons,
+                                            // pageLength: 6, // Set the number of records per page
+                                            columns: [
+                                                { visible: false }, // hide the first column
+                                                // { visible: false }, // Show the second column
+                                                null, // Show the third column
+                                                null, // Show the third column
+                                                null, // Show the fourth column
+                                                null, // Show the fifth column
+                                                null, // Show the sixth column
+                                                null, // Show the seventh column
+                                                null, // Show the eigth column
+                                                null, // Show the nineth column
+                                                null, // Show the tenth column
+                                                null, // Show the 11th column
+                                                null, // Show the 12th column
+                                                null, // Show the 13th column
+                                                null, // Show the 14th column
+                                                null, // Show the 15th column
+                                                null, // Show the 16th column
+                                                null, // Show the 17th column
+                                                // Add more null values for additional visible columns
+                                            ]
+                                        };
+
+                                        if (category_name != 'Privileged Users') {
+                                            // tableOptions.pageLength = 8; // Set the number of records per page
+                                            tableOptions.columns = [
+                                                { visible: false }, // Show the second column
+                                                null, // Show the second column
+                                                null, // Show the third column
+                                                null, // Show the fourth column
+                                                null, // Show the fifth column
+                                                null, // Show the second column
+                                                null, // Show the third column
+                                                null, // Show the fourth column
+                                                null, // Show the fifth column
+                                                null, // Show the second column
+                                                null, // Show the third column
+                                                null, // Show the fourth column
+                                                null, // Show the fifth column
+                                                null, // Show the second column
+                                                null, // Show the third column
+                                                null, // Show the fourth column
+                                                { visible: false }, // Show the fifth column
+                                                { visible: false }, // Show the second column
+                                                { visible: false }, // Show the third column
+                                                { visible: false }, // Show the fourth column
+                                                { visible: false }, // Show the fifth column
+                                                null, // Show the fifth column
+                                            ];
+                                        }
+
+                                        var table = $('#dt_select').DataTable(tableOptions);
+
+
+                                        // Show all columns when exporting
+                                        table.buttons().container()
+                                            .appendTo('#dt_select_wrapper .col-md-6:eq(0)');
+                                        // Set the current pageLength value in the length menu
+                                        $('.dataTables_length select').val(table.page.len());
+                                    }
+                                });
+
+
+                            })
+                        });
+                    });
                 });
-
-
-            })
+            });
 
 
 
