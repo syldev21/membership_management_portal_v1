@@ -26,3 +26,11 @@
         </li>
     </ul>
 </nav>
+<script>
+    $(document).ready(function() {
+        $("#sidebarToggle").click(function() {
+            $("#layoutSidenav").toggleClass("collapsed");
+            // $("#layoutSidenav_content").toggleClass("collapsed");
+        });
+    });
+</script>

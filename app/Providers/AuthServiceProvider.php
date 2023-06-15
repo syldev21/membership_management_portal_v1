@@ -30,16 +30,16 @@ class AuthServiceProvider extends ServiceProvider
 
 
         //Define permissions
-        $Add_Members = Permission::findOrCreate(config('membership.permissions.Add_Members.text')); //line 33
+        $Add_Members = Permission::findOrCreate(config('membership.permissions.Add_Members.text'));
         $Assign_Role = Permission::findOrCreate(config('membership.permissions.Assign_Role.text'));
         $Decline_Membership = Permission::findOrCreate(config('membership.permissions.Decline_Membership.text'));
         $Delete_Members = Permission::findOrCreate(config('membership.permissions.Delete_Members.text'));
         $Edit_Members = Permission::findOrCreate(config('membership.permissions.Edit_Members.text'));
-        $Initial_Approval = Permission::findOrCreate(config('membership.permissions.Initial_Approval.text'));
-        $Provisional_Approval = Permission::findOrCreate(config('membership.permissions.Provisional_Approval.text'));
-        $Final_Approval = Permission::findOrCreate(config('membership.permissions.Final_Approval.text'));
+        $prepare_registration = Permission::findOrCreate(config('membership.permissions.prepare_registration.text'));
+        $review_registration = Permission::findOrCreate(config('membership.permissions.review_registration.text'));
+        $approve_registration = Permission::findOrCreate(config('membership.permissions.approve_registration.text'));
         $See_Members = Permission::findOrCreate(config('membership.permissions.See_Members.text'));
-        $View_Only = Permission::findOrCreate(config('membership.permissions.View_Only.text'));
+        $generate_report = Permission::findOrCreate(config('membership.permissions.generate_report.text'));
 
 
         //Define roles and assign permissions
@@ -50,53 +50,57 @@ class AuthServiceProvider extends ServiceProvider
             $Decline_Membership,
             $Delete_Members,
             $Edit_Members,
-            $Initial_Approval,
-            $Provisional_Approval,
-            $Final_Approval,
-            $See_Members
+            $prepare_registration,
+            $review_registration,
+            $approve_registration,
+            $See_Members,
+            $generate_report
         ]);
 
         $viewRole = Role::findOrCreate(config('membership.roles.view.text'));
         $viewRole->syncPermissions(
             [
             $See_Members,
-            $View_Only
+            $generate_report
             ]
         );
-        $pastorRole = Role::findOrCreate(config('membership.roles.pastor_in_charge.text'));
-        $pastorRole->syncPermissions(
+        $approverRole = Role::findOrCreate(config('membership.roles.approver.text'));
+        $approverRole->syncPermissions(
             [
             $Add_Members,
             $Decline_Membership,
             $Delete_Members,
             $Edit_Members,
-            $Initial_Approval,
-            $Provisional_Approval,
-            $Final_Approval,
-            $See_Members
+            $prepare_registration,
+            $review_registration,
+            $approve_registration,
+            $See_Members,
+                $generate_report
             ]
         );
-        $secretaryRole=Role::findOrCreate(config('membership.roles.secretary.text'));
-        $secretaryRole->syncPermissions(
+        $reviewerRole=Role::findOrCreate(config('membership.roles.reviewer.text'));
+        $reviewerRole->syncPermissions(
             [
                 $Add_Members,
                 $Decline_Membership,
                 $Delete_Members,
                 $Edit_Members,
-                $Initial_Approval,
-                $Provisional_Approval,
-                $See_Members
+                $prepare_registration,
+                $review_registration,
+                $See_Members,
+                $generate_report
             ]
         );
-        $cellPastorRole = Role::findOrCreate(config('membership.roles.cell_group_pastor.text'));
-        $cellPastorRole->syncPermissions(
+        $preparerRole = Role::findOrCreate(config('membership.roles.preparer.text'));
+        $preparerRole->syncPermissions(
             [
                 $Add_Members,
                 $Decline_Membership,
                 $Delete_Members,
                 $Edit_Members,
-                $Initial_Approval,
-                $See_Members
+                $prepare_registration,
+                $See_Members,
+                $generate_report
             ]
         );
     }

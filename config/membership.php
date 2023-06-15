@@ -81,21 +81,21 @@ return [
             'id'=>4,
             'text'=>'Edit Members'
         ],
-        'Initial_Approval'=>[
+        'prepare_registration'=>[
             'id'=>5,
-            'text'=>'Initial Approval'
+            'text'=>'Prepare Registration'
         ],
-        'Provisional_Approval'=>[
+        'review_registration'=>[
             'id'=>6,
-            'text'=>'Provisional Approval'
+            'text'=>'Review Registration'
         ],
-        'Final_Approval'=>[
+        'approve_registration'=>[
             'id'=>7,
-            'text'=>'Final Approval'
+            'text'=>'Approve Registration'
         ],
-        'View_Only'=>[
+        'generate_report'=>[
             'id'=>8,
-            'text'=>'View Only'
+            'text'=>'Generate Report'
         ],
         'See_Members'=>[
             'id'=>9,
@@ -112,17 +112,17 @@ return [
             'id'=>2,
             'text'=>'View'
         ],
-        'pastor_in_charge'=>[
+        'approver'=>[
             'id'=>3,
-            'text'=>'Pastor in Charge'
+            'text'=>'Approver'
         ],
-        'secretary'=>[
+        'reviewer'=>[
             'id'=>4,
-            'text'=>'Secretary'
+            'text'=>'Reviewer'
         ],
-        'cell_group_pastor'=>[
+        'preparer'=>[
             'id'=>5,
-            'text'=>'Cell Group Pastor'
+            'text'=>'Preparer'
         ]
 
     ],
@@ -990,23 +990,23 @@ return [
         'roles'=>[
             1=>[
                 'id'=>1,
-                'text'=>'View Only'
+                'text'=>'Admin'
             ],
             2=>[
                 'id'=>2,
-                'text'=>'Admin'
+                'text'=>'View'
             ],
             3=>[
                 'id'=>3,
-                'text'=>'Pastor in Charge'
+                'text'=>'Approver'
             ],
             4=>[
                 'id'=>4,
-                'text'=>'Church Secretary'
+                'text'=>'Reviewer'
             ],
             5=>[
                 'id'=>5,
-                'text'=>'Cell Group Pastor'
+                'text'=>'Preparer'
             ]
 
         ],

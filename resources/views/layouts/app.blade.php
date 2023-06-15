@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title')</title>
+    <title>Buru Buru VOSH Church - @yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="b-vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <script src="https://kit.fontawesome.com/90018b3b25.js" crossorigin="anonymous"></script>
@@ -36,6 +36,14 @@
             object-fit: contain;
         }
     </style>
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon/logo/android-chrome-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('images/favicon/logo/android-chrome-512x512.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/favicon/logo/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon/logo/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon/logo/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('images/favicon/logo/site.webmanifest') }}">
+    <link rel="shortcut icon" href="{{ asset('images/favicon/logo/favicon.ico') }}" type="image/x-icon">
+
 </head>
 {{--<body class="bg-info" style="background-image: url({{ asset('images/slide2.jpeg') }});background-size: cover; background-repeat: no-repeat; " id="image_head">--}}
 <body class="bg-info" style="background-image: url('{{ asset('images/slide-view/slide8.jpeg') }}'); background-size: cover; background-repeat: no-repeat;" id="image_head">
