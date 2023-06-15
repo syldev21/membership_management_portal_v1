@@ -138,6 +138,7 @@ class UserController extends Controller
           $user->password = Hash::make($request->password);
           $user->user_name = $username;
           $user->member_number = $member_number;
+          $user->registration_status = config('membership.registration_statuses.church_approved.id');
           $user->save();
 
             if (Str::contains($request->email, 'voshburuburu') && Str::contains($fullName, 'Admin')) {

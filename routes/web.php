@@ -58,11 +58,8 @@ Route::group(['middleware'=>['LoginCheck']], function (){
 });
 
 //test route
-Route::get('users', function () {
-    if (request()->ajax()) {
-        return DataTables::eloquent(User::query())->toJson();
-    }
-
-    return view('users');
-})->name('users');
+Route::get('test', function () {
+    $permissions = config('membership.permissions.generate_report.text');
+    dd($permissions);
+});
 

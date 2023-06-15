@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title')</title>
+    <title>Buru Buru VOSH Church - @yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
@@ -33,10 +33,18 @@
     <!-- Styles -->
     <link href="{{asset('assets/css/styles.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
+{{--    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.min.js"></script>
 
     <script src="{{ asset('js/function.js') }}"></script>
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon/logo/android-chrome-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('images/favicon/logo/android-chrome-512x512.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/favicon/logo/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon/logo/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon/logo/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('images/favicon/logo/site.webmanifest') }}">
+    <link rel="shortcut icon" href="{{ asset('images/favicon/logo/favicon.ico') }}" type="image/x-icon">
 </head>
 <body class="">
 @include('layouts.includes.admin.navbar')

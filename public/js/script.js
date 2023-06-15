@@ -89,34 +89,39 @@ $(document).ready(function () {
                                         null, // Show the 16th column
                                         null, // Show the 17th column
                                         // Add more null values for additional visible columns
-                                    ]
+                                    ],
+                                    select: {
+                                        style: 'multi', // Allow multiple row selection
+                                    },
+                                    order: [], // Disable initial sorting
+                                    searching: true,
                                 };
 
                                 if (column_filter != 1) {
                                     // tableOptions.pageLength = 8; // Set the number of records per page
                                     tableOptions.columns = [
-                                        { visible: false }, // Show the second column
-                                        null, // Show the second column
-                                        null, // Show the third column
-                                        null, // Show the fourth column
-                                        null, // Show the fifth column
-                                        null, // Show the second column
-                                        null, // Show the third column
-                                        null, // Show the fourth column
-                                        null, // Show the fifth column
-                                        null, // Show the second column
-                                        null, // Show the third column
-                                        null, // Show the fourth column
-                                        null, // Show the fifth column
-                                        null, // Show the second column
-                                        null, // Show the third column
-                                        null, // Show the fourth column
-                                        { visible: false }, // Show the fifth column
-                                        { visible: false }, // Show the second column
-                                        { visible: false }, // Show the third column
-                                        { visible: false }, // Show the fourth column
-                                        { visible: false }, // Show the fifth column
-                                        null, // Show the fifth column
+                                        { visible: false }, // Show the 1st column
+                                        null, // Show the 2nd column
+                                        null, // Show the 3rd column
+                                        null, // Show the 4th column
+                                        null, // Show the 5th column
+                                        null, // Show the 6th column
+                                        null, // Show the 7th column
+                                        null, // Show the 8th column
+                                        null, // Show the 9th column
+                                        null, // Show the 10th column
+                                        null, // Show the 11th column
+                                        null, // Show the 12th column
+                                        null, // Show the 12th column
+                                        null, // Show the 15th column
+                                        null, // Show the 16th column
+                                        null, // Show the 17th column
+                                        { visible: false }, // Show the 18th column
+                                        { visible: false }, // Show the 19th column
+                                        { visible: false }, // Show the 20th column
+                                        { visible: false }, // Show the 21st column
+                                        { visible: false }, // Show the 22nd column
+                                        null, // Show the 23rd column
                                     ];
                                 }
                                 var table = $('#dt_select').DataTable(tableOptions);

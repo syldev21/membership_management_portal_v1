@@ -16,11 +16,9 @@
             </select>
             <input type="hidden" id="member_category_name" data-category="{{$category}}" data-category_name="{{$category_name??null}}" data-member_category="{{$member_age_cluster_category_id ?? null}}">
         </div>
-        @if(auth()->user()->hasPermissionTo(config('membership.permissions.View_Only.text')))
-            <div style="float: right" id=""><button class="disabled btn btn-primary">View Only</button></div>
-        @else
-            <div style="float: right" id="add_new_one"><button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editModal">Add New Member</button></div>
-        @endif
+        <input type="hidden" value="{{auth()->user()->hasPermissionTo(config('membership.permissions.Add_Members.text'))}}" id="can-add-members">
+        <div style="float: right" id="add_new_one"><button class="btn btn-primary" id="edit_modal_button"  data-bs-toggle="modal" data-bs-target="#editModal">Add New Member</button></div>
+
 
 
     </div>
@@ -48,11 +46,11 @@
                     <th>{{config('membership.permissions.Decline_Membership.text')}}</th>
                     <th>{{config('membership.permissions.Delete_Members.text')}}</th>
                     <th>{{config('membership.permissions.Edit_Members.text')}}</th>
-                    <th>{{config('membership.permissions.Initial_Approval.text')}}</th>
-                    <th>{{config('membership.permissions.Provisional_Approval.text')}}</th>
-                    <th>{{config('membership.permissions.Final_Approval.text')}}</th>
+                    <th>{{config('membership.permissions.prepare_registration.text')}}</th>
+                    <th>{{config('membership.permissions.review_registration.text')}}</th>
+                    <th>{{config('membership.permissions.approve_registration.text')}}</th>
                     <th>{{config('membership.permissions.See_Members.text')}}</th>
-                    <th>{{config('membership.permissions.View_Only.text')}}</th>
+                    <th>{{config('membership.permissions.generate_report.text')}}</th>
                 </tr>
 
                 @else
@@ -173,11 +171,11 @@
                             <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Decline_Membership.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Decline_Membership.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
                             <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Delete_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Delete_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
                             <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Edit_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Edit_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
-                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Initial_Approval.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Initial_Approval.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
-                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Provisional_Approval.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Provisional_Approval.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
-                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Final_Approval.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Final_Approval.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.prepare_registration.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.prepare_registration.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.review_registration.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.review_registration.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.approve_registration.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.approve_registration.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
                             <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.See_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.See_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
-                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.View_Only.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.View_Only.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                            <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.generate_report.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.generate_report.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
                             @else
                             <td>{{$loop->iteration}}</td>
                             <td>{{$member->member_number??''}}</td>
@@ -641,6 +639,27 @@
 <script>
         $(document).ready( function () {
 
+            // Disable modal popup
+
+            if ($('#can-add-members').val() != 1) {
+                $('#editModal').on('show.bs.modal', function(e) {
+                    e.preventDefault();
+                    $(this).modal('hide');
+                });
+                $('#add_new_one').hover(function (e) {
+                    e.preventDefault()
+                    $('#edit_modal_button').html('Restricted Action')
+                    $('#edit_modal_button').removeClass('btn-primary')
+                    $('#edit_modal_button').addClass('btn-danger')
+                },
+                    function(e) {
+                        e.preventDefault();
+                        $('#edit_modal_button').html('Add New Member');
+                        $('#edit_modal_button').addClass('btn-primary')
+                        $('#edit_modal_button').removeClass('btn-danger')
+                    }
+                );
+            }
             //have the below section in the status based members file
             if ($('#auth_user_role').val() == 'Cell Group Pastor' && $('#display_for_progress').val() == 1) {
                 if ($('#conditional-hide').data('registration_status') > 2) {
@@ -806,7 +825,7 @@
                                             columns: [
                                                 { visible: false }, // hide the first column
                                                 // { visible: false }, // Show the second column
-                                                null, // Show the third column
+                                                null, // Show the second column
                                                 null, // Show the third column
                                                 null, // Show the fourth column
                                                 null, // Show the fifth column
@@ -823,7 +842,12 @@
                                                 null, // Show the 16th column
                                                 null, // Show the 17th column
                                                 // Add more null values for additional visible columns
-                                            ]
+                                            ],
+                                            select: {
+                                                style: 'multi', // Allow multiple row selection
+                                            },
+                                            order: [], // Disable initial sorting
+                                            searching: true,
                                         };
 
                                         if (category_name != 'Privileged Users') {
@@ -834,23 +858,23 @@
                                                 null, // Show the third column
                                                 null, // Show the fourth column
                                                 null, // Show the fifth column
-                                                null, // Show the second column
-                                                null, // Show the third column
-                                                null, // Show the fourth column
-                                                null, // Show the fifth column
-                                                null, // Show the second column
-                                                null, // Show the third column
-                                                null, // Show the fourth column
-                                                null, // Show the fifth column
-                                                null, // Show the second column
-                                                null, // Show the third column
-                                                null, // Show the fourth column
-                                                { visible: false }, // Show the fifth column
-                                                { visible: false }, // Show the second column
-                                                { visible: false }, // Show the third column
-                                                { visible: false }, // Show the fourth column
-                                                { visible: false }, // Show the fifth column
-                                                null, // Show the fifth column
+                                                null, // Show the 6th column
+                                                null, // Show the 7th column
+                                                null, // Show the 8th column
+                                                null, // Show the 9th column
+                                                null, // Show the 10th column
+                                                null, // Show the 11th column
+                                                null, // Show the 12th column
+                                                null, // Show the 12th column
+                                                null, // Show the 15th column
+                                                null, // Show the 16th column
+                                                null, // Show the 17th column
+                                                { visible: false }, // Show the 18th column
+                                                { visible: false }, // Show the 19th column
+                                                { visible: false }, // Show the 20th column
+                                                { visible: false }, // Show the 21st column
+                                                { visible: false }, // Show the 22nd column
+                                                null, // Show the 23rd column
                                             ];
                                         }
 

@@ -26,7 +26,7 @@
                             <a class="nav-link church-members" href="#" data-id="{{config('membership.age_clusters.All_members.id')}}"><i class="text-white fa fa-group"></i>&nbsp;{{config('membership.age_clusters.All_members.text')}}</a>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseGender" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" id="cell">
                                 <div class="sb-nav-link-icon"><i class="text-white fas fa-genderless"></i></div>
-                                Gender-Based
+                                Gender
                                 <div class="sb-sidenav-collapse-arrow"><i class="text-white fa fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="pagesCollapseGender" aria-labelledby="headingOne" data-bs-parent="#collapseLayouts">

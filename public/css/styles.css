@@ -1,0 +1,18 @@
+#layoutSidenav {
+    width: 250px; /* Initial width of the sidebar */
+    transition: width 0.3s ease;
+}
+
+#layoutSidenav.collapsed {
+    width: 60px; /* Collapsed width of the sidebar */
+}
+
+#layoutSidenav_content {
+    /* Adjust main content width to accommodate the sidebar */
+    margin-left: 250px; /* Equal to initial sidebar width */
+    transition: margin-left 0.3s ease;
+}
+
+#layoutSidenav_content.collapsed {
+    margin-left: 60px; /* Equal to collapsed sidebar width */
+}
