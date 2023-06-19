@@ -34,10 +34,6 @@ class User extends Authenticatable
         'token_expire'
     ];
 
-    public function customRoles()
-    {
-        return $this->hasMany(CustomModelHasRole::class, 'mode_id', 'id');
-    }
     public function hasAnyRole()
     {
         return $this->roles()->exists();

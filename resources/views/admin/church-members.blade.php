@@ -17,7 +17,7 @@
             <input type="hidden" id="member_category_name" data-category="{{$category}}" data-category_name="{{$category_name??null}}" data-member_category="{{$member_age_cluster_category_id ?? null}}">
         </div>
         <input type="hidden" value="{{auth()->user()->hasPermissionTo(config('membership.permissions.Add_Members.text'))}}" id="can-add-members">
-        <div style="float: right" id="add_new_one"><button class="btn btn-primary" id="edit_modal_button"  data-bs-toggle="modal" data-bs-target="#editModal">Add New Member</button></div>
+        <div style="float: right" id="add_new_one"><button class="btn btn-primary" id="edit_modal_button"  data-bs-toggle="modal" data-bs-target="#editModal"><span><i class="fa fa-user-plus text-black"></i> </span>Add Member</button></div>
 
 
 
@@ -212,49 +212,72 @@
                             <td class="removed removed-table-data">{{$removed_reason}}</td>
                             @endif
                             <td class="hide_for_execs">
-                                <select id="conditional-hide" name="" class="browser-default" data-registration_status="{{$member->registration_status}}">
-                                    <option data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-                                        <span><i class="fa fa-edit"></i></span>Edit
-                                    </option>
-                                    <option data-id="{{$member->id}}" data-existing="{{$member->existing}}"  data-hide="{{auth()->id()}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary hide-this" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                        @if($member->existing == 1)
-                                            Delete
-                                        @else
-                                            Reinstate
-                                        @endif
-                                    </option>
-                                    <option data-id="{{$member->id}}" data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" data-activate="{{$member->active}}" id="deactivate" value="{{$member->id}}" class="user_status  hide-this" data-bs-toggle="modal" data-bs-target="#activateModal">
-                                        @if($member->active !== 1)
-                                            Activate
+                                <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                                    <li class="nav-item dropdown bg-info">
+                                        <a class="text-black nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span><i class="fa fa-bars"></i></span> Select an Action </a>
 
-                                        @else
-                                            Deactivate
-                                        @endif
-                                    </option>
-                                    @if(auth()->user()->hasPermissionTo(config('membership.permissions.Assign_Role.text')))
-                                        <option data-id="{{$member->id}}" data-user_title="{{$member->name}} data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
-                                            Assign Role
-                                        </option>
-                                    @endif
-
-                                    endHasRole
-                                    <option data-cell_group="{{config('membership.statuses.cell_group')[$member->cell_group_id]??null}}" data-user_first_name="{{explode(' ', $member->name)[0]}}"  data-user_name="{{$member->name}}" data-id="{{$member->id}}" data-bs-toggle="modal" data-bs-target="#reviewModal" data-registration_status="{{$member->registration_status}}" id="reviewRegistration">
-                                            @if($member->registration_status== config('membership.registration_statuses.cell_group_registered.id'))
-                                                Approve new Member
-                                            @elseif($member->registration_status== config('membership.registration_statuses.cell_group_approved.id'))
-                                                Submit for Approval
-                                            @elseif($member->registration_status== config('membership.registration_statuses.church_registered.id'))
-                                                Provisionally Approve
-                                            @elseif($member->registration_status== config('membership.registration_statuses.church_provisionally_approved.id'))
-                                                Finally Approve
-                                            @elseif($member->registration_status== config('membership.registration_statuses.church_approved.id'))
-                                                Decline
-                                                @else
-                                                Reinstate
+                                        <ul class="dropdown-menu dropdown-menu-end bg-info" aria-labelledby="navbarDropdown">
+                                            <li>
+                                                <a  href="#" data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="dropdown-item btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-edit"></i>
+                                                    Edit
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a  href="#" data-id="{{$member->id}}" data-existing="{{$member->existing}}"  data-hide="{{auth()->id()}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_name="{{$member->name}}" id="delete" value="" class="dropdown-item hide-this" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                    @if($member->existing == 1)
+                                                        <i class="fa fa-trash"></i>
+                                                        Delete
+                                                    @else
+                                                        <i class="fa fa-undo"></i>
+                                                        Reinstate
+                                                    @endif
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a  href="#" data-id="{{$member->id}}" data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" data-activate="{{$member->active}}" id="deactivate" value="{{$member->id}}" class="dropdown-item user_status  hide-this" data-bs-toggle="modal" data-bs-target="#activateModal">
+                                                    @if($member->active !== 1)
+                                                        <i class="fa fa-toggle-on"></i>
+                                                        Activate
+                                                    @else
+                                                        <i class="fa fa-toggle-off"></i>
+                                                        Deactivate
+                                                    @endif
+                                                </a>
+                                            </li>
+                                            @if(auth()->user()->hasPermissionTo(config('membership.permissions.Assign_Role.text')))
+                                            <li>
+                                                <a href="#" data-id="{{$member->id}}" data-user_title="{{$member->name}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#roleModal">
+                                                <i class="fas fa-user-tag"></i>
+                                                Assign Role
+                                                </a>
+                                            </li>
                                             @endif
-                                    </option>
-                                </select>
-
+                                            <li>
+                                                <a href="#" class="dropdown-item" data-cell_group="{{config('membership.statuses.cell_group')[$member->cell_group_id]??null}}" data-user_first_name="{{explode(' ', $member->name)[0]}}"  data-user_name="{{$member->name}}" data-id="{{$member->id}}" data-bs-toggle="modal" data-bs-target="#reviewModal" data-registration_status="{{$member->registration_status}}" id="reviewRegistration">
+                                                    @if($member->registration_status== config('membership.registration_statuses.cell_group_registered.id'))
+                                                        <i class="fas fa-clipboard-check"></i>
+                                                        Prepare
+                                                    @elseif($member->registration_status== config('membership.registration_statuses.cell_group_approved.id'))
+                                                        <i class="fas fa-check"></i>
+                                                        Submit
+                                                    @elseif($member->registration_status== config('membership.registration_statuses.church_registered.id'))
+                                                        <i class="fas fa-search"></i>
+                                                        Review
+                                                    @elseif($member->registration_status== config('membership.registration_statuses.church_provisionally_approved.id'))
+                                                        <i class="fas fa-thumbs-up"></i>
+                                                        Approve
+                                                    @elseif($member->registration_status== config('membership.registration_statuses.church_approved.id'))
+                                                        <i class="fas fa-thumbs-down"></i>
+                                                        Decline
+                                                    @else
+                                                        <i class="fas fa-undo"></i>
+                                                        Reinstate
+                                                    @endif
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </td>
                         </tr>
                     @endforeach
@@ -341,7 +364,7 @@
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="name">Email</label>
+                                            <label  class="fw-bold" for="name">Email <span class="optional">(Optional)</span></label>
                                             <input type="email" name="email" class="form-control rounded-0 " id="email" value="">
                                             <div class="invalid-feedback"></div>
                                         </div>
@@ -380,7 +403,7 @@
                                                     <select id="country_code" name="country_code"></select>
                                                 </div>
                                             </div>
-                                            <div class="invalid-feedback hide-status"></div>
+                                            <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="col-lg">
                                             <label  class="fw-bold hide-status" for="marital_status">Marital Status</label>
@@ -639,7 +662,16 @@
 <script>
         $(document).ready( function () {
 
-            // Disable modal popup
+            var input = document.querySelector("#phone");
+            var iti = window.intlTelInput(input, {
+            });
+
+            var countryCodeInput = document.querySelector("#country_code");
+            countryCodeInput.addEventListener("change", function() {
+                var countryCode = this.value;
+                input.setAttribute("data-country_code", countryCode); // Set the country code as a data attribute on the phone input field
+                iti.setCountry(countryCode);
+            });
 
             if ($('#can-add-members').val() != 1) {
                 $('#editModal').on('show.bs.modal', function(e) {
@@ -933,6 +965,11 @@
                 }
             })
             $("body").on('click', '#edit, #add_new_one', function (e) {
+                if(e.target.id == 'edit'){
+                    $('.optional').hide()
+                }else {
+                    $('.optional').show()
+                }
                 e.preventDefault()
                 $('.edit-modal-title').html('Edit '+$(this).data('user_first_name'))
                 $('#user_id').val($(this).data('id'))
@@ -1216,7 +1253,7 @@
                     $('#review_btn').addClass('bg-warning')
                     $('.decline-modal-title').addClass('text-white')
                     $('#review_btn').addClass('text-white')
-                    $('.decline-modal-title').html('Accept '+$(this).data('user_name')+ " 's Member in "+$(this).data('cell_group'))
+                    $('.decline-modal-title').html('Prepare '+$(this).data('user_name')+ " 's Member in "+$(this).data('cell_group'))
                 }else if($(this).data('registration_status') == 2){
                     $('.modal_color').removeClass('bg-danger')
                     $('.modal_color').addClass('bg-primary')
@@ -1225,7 +1262,7 @@
                     $('#review_btn').addClass('bg-primary')
                     $('.decline-modal-title').addClass('text-white')
                     $('#review_btn').addClass('text-white')
-                    $('.decline-modal-title').html('Submit '+$(this).data('user_name')+ " 's Details as a "+$(this).data('cell_group')+' member for Further Action')
+                    $('.decline-modal-title').html('Submit '+$(this).data('user_name')+ " 's Details as a "+$(this).data('cell_group')+' member for Review')
                 }else if($(this).data('registration_status') == 3){
                     $('.modal_color').removeClass('bg-danger')
                     $('.modal_color').addClass('bg-info')
@@ -1234,7 +1271,7 @@
                     $('#review_btn').addClass('bg-info')
                     $('.decline-modal-title').addClass('text-white')
                     $('#review_btn').addClass('text-white')
-                    $('.decline-modal-title').html('Provisionally approve '+$(this).data('user_name')+ " 's Membership Request from "+$(this).data('cell_group'))
+                    $('.decline-modal-title').html('Review '+$(this).data('user_name')+ " 's Membership Request from "+$(this).data('cell_group'))
                 }else if($(this).data('registration_status') == 4){
                     $('.modal_color').removeClass('bg-danger')
                     $('.modal_color').addClass('bg-success')
@@ -1243,7 +1280,7 @@
                     $('#review_btn').addClass('bg-success')
                     $('.decline-modal-title').addClass('text-white')
                     $('#review_btn').addClass('text-white')
-                    $('.decline-modal-title').html('Confirm Final Approval of '+$(this).data('user_name')+ " 's Membership from "+$(this).data('cell_group'))
+                    $('.decline-modal-title').html('Approve '+$(this).data('user_name')+ " 's Membership from "+$(this).data('cell_group'))
                 }else if($(this).data('registration_status') == 5){
                     $('.decline-modal-title').addClass('text-white')
                     $('#review_btn').addClass('text-white')

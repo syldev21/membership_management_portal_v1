@@ -24,9 +24,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage1 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage1.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage1 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage1.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage1 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage1.id'))->where('active', 0)->where('existing', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage1');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                                $active_stage1 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                                $inactive_stage1 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                                $deleted_stage1 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage1}}
@@ -47,9 +58,20 @@
                 <div class="card-body bg-info">
 
                     @php
-                        $active_stage2 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage2.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage2 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage2.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage2 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage2.id'))->where('existing', 0)->where('existing', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage2');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage2 = count(App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage2 = count(App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage2 = count(App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('existing', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage2}}
@@ -70,9 +92,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage3 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage3.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage3 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage3.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage3 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage3.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage3');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage3 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage3 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage3 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage3 }}
@@ -93,9 +126,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage4 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage4.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage4 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage4.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage4 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage4.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage4');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage4 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage4 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage4 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage4 }}
@@ -116,9 +160,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage5 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage5.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage5 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage5.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage5 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage5.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage5');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage5 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage5 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage5 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage5 }}
@@ -139,9 +194,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage6 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage6.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage6 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage6.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage6 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage6.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage6');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage6 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage6 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage6 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage6 }}
@@ -166,9 +232,20 @@
                 <div class="card-body bg-info">
 
                     @php
-                        $active_stage7 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage7.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage7 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage7.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage7 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage7.id'))->where('existing', 0)->where('existing', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage7');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage7 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage7 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage7 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('existing', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage7}}
@@ -189,9 +266,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage8 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage8.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage8 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage8.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage8 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage8.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage8');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage8 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage8 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage8 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage8 }}
@@ -212,9 +300,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage9 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage9.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage9 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage9.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage9 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage9.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage9');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage9 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage9 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage9 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage9 }}
@@ -235,9 +334,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage10 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage10.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage10 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage10.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage10 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage10.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage10');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage10 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage10 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage10 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage10 }}
@@ -258,9 +368,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage11 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage11.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage11 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage11.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage11 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage11.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage11');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage11 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage11 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage11 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage11 }}
@@ -281,9 +402,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage12 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage12.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage12 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage12.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage12 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage12.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage12');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage12 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage12 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage12 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage12 }}
@@ -306,9 +438,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage13 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage13.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage13 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage13.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage13 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage13.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage13');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage13 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage13 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage13 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage13 }}
@@ -329,9 +472,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage14 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage14.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage14 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage14.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage14 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage14.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage14');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage14 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage14 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage14 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage14 }}
@@ -352,9 +506,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage15 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage15.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage15 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage15.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage15 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage15.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage15');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage15 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage15 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage15 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage15 }}
@@ -375,9 +540,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage16 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage16.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage16 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage16.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage16 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage16.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage16');
+                            $age_cluster_array = [$category_details['start'], $category_details['end']];
+                        $active_stage16 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage16 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage16 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($age_cluster_array) {
+                                        $query->whereBetween(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), $age_cluster_array);
+                                    })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage16 }}
@@ -398,9 +574,20 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active_stage17 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage17.id'))->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive_stage17 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage17.id'))->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted_stage17 = count(\App\Models\User::where('cell_group_id', '!=', null)->where('age_cluster', config('membership.age_clusters.stage17.id'))->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $category_details = config('membership.age_clusters.stage17');
+                            $end_age_detail = $category_details['start'];
+                        $active_stage17 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($category_details) {
+                                $query->where(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), '>=', $category_details['start']);
+                            })->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive_stage17 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($category_details) {
+                                $query->where(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), '>=', $category_details['start']);
+                            })->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted_stage17 = count(\App\Models\User::where('cell_group_id', '!=', null)
+                                ->where(function ($query) use ($category_details) {
+                                $query->where(\Illuminate\Support\Facades\DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), '>=', $category_details['start']);
+                            })->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active_stage17 }}
@@ -421,9 +608,9 @@
                 </div>
                 <div class="card-body bg-info">
                     @php
-                        $active = count(\App\Models\User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('active', 1)->where('registration_status', 5)->get());
-                        $inactive = count(\App\Models\User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
-                        $deleted = count(\App\Models\User::where('age_cluster', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
+                        $active = count(\App\Models\User::where('dob', '!=', null)->where('cell_group_id', '!=', null)->where('active', 1)->where('registration_status', 5)->get());
+                        $inactive = count(\App\Models\User::where('dob', '!=', null)->where('cell_group_id', '!=', null)->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get());
+                        $deleted = count(\App\Models\User::where('dob', '!=', null)->where('cell_group_id', '!=', null)->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get());
                     @endphp
                     <div class="active_category">
                         {{$active }}
@@ -467,71 +654,456 @@
             </thead>
             <tboby>
                 @foreach(config('membership.cell_group') as $cell_group)
-                    <tr class="active_category">
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{$cell_group['text']}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage1')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage2')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage3')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage4')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage5')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage6')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage7')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage8')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage9')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage10')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage11')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage12')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage13')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage14')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage15')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage16')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage17')['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where('age_cluster', '!=', null)->where(['cell_group_id'=>$cell_group['id']])->where('active', 1)->where('registration_status', 5)->get())}}</td>
-                    </tr>
+                <tr class="active_category">
+                    @php
+                        $age_clusters = config('membership.age_clusters');
+                        $cell_group_id = $cell_group['id'];
+                    @endphp
+
+                    <td>{{$loop->iteration}}</td>
+                    <td>{{$cell_group['text']}}</td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage1']['start'], $age_clusters['stage1']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage2']['start'], $age_clusters['stage2']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage3']['start'], $age_clusters['stage3']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage4']['start'], $age_clusters['stage4']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage5']['start'], $age_clusters['stage5']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage6']['start'], $age_clusters['stage6']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage7']['start'], $age_clusters['stage7']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage8']['start'], $age_clusters['stage8']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage9']['start'], $age_clusters['stage9']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage10']['start'], $age_clusters['stage10']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage11']['start'], $age_clusters['stage11']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage12']['start'], $age_clusters['stage12']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage13']['start'], $age_clusters['stage13']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage14']['start'], $age_clusters['stage14']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage15']['start'], $age_clusters['stage15']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage16']['start'], $age_clusters['stage16']['end']]);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->where(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), '>=', $age_clusters['stage17']['start']);
+                                })
+                                ->count() }}
+                    </td>
+                    <td>{{count(\App\Models\User::where('dob', '!=', null)->where(['cell_group_id' => $cell_group_id])->where('active', 1)->where('registration_status', 5)->get())}}</td>
+                </tr>
                <tr class="inactive_category">
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{$cell_group['text']}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage1')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage2')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage3')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage4')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage5')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage6')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage7')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage8')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage9')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage10')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage11')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage12')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage13')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage14')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage15')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage16')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage17')['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where('age_cluster', '!=', null)->where(['cell_group_id'=>$cell_group['id']])->where('active', 0)->where('registration_status', 5)->get())}}</td>
+                    @php
+                    $inactive_members = \App\Models\User::where(['cell_group_id'=>$cell_group['id']])->where('active', 0)->where('existing', 1)->where('registration_status', 5);
+                    @endphp
+                   <td>{{$loop->iteration}}</td>
+                   <td>{{$cell_group['text']}}</td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage1']['start'], $age_clusters['stage1']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage2']['start'], $age_clusters['stage2']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage3']['start'], $age_clusters['stage3']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage4']['start'], $age_clusters['stage4']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage5']['start'], $age_clusters['stage5']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage6']['start'], $age_clusters['stage6']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage7']['start'], $age_clusters['stage7']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage8']['start'], $age_clusters['stage8']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage9']['start'], $age_clusters['stage9']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage10']['start'], $age_clusters['stage10']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage11']['start'], $age_clusters['stage11']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage12']['start'], $age_clusters['stage12']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage13']['start'], $age_clusters['stage13']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage14']['start'], $age_clusters['stage14']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage15']['start'], $age_clusters['stage15']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage16']['start'], $age_clusters['stage16']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)
+                                ->where('existing', 1)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->where(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), '>=', $age_clusters['stage17']['start']);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{count(\App\Models\User::where('dob', '!=', null)->where(['cell_group_id'=>$cell_group['id']])->where('active', 0)->where('registration_status', 5)->get())}}</td>
                     </tr>
                <tr class="deleted_category">
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{$cell_group['text']}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage1')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage2')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage3')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage4')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage5')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage6')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage7')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage8')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage9')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage10')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage11')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage12')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage13')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage14')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage15')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage16')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where(['cell_group_id'=>$cell_group['id'], 'age_cluster'=>config('membership.age_clusters.stage17')['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
-                        <td>{{count(\App\Models\User::where('age_cluster', '!=', null)->where(['cell_group_id'=>$cell_group['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
+                   @php
+                   $deleted_members = \App\Models\User::where(['cell_group_id'=>$cell_group['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5);
+                   @endphp
+                   <td>{{$loop->iteration}}</td>
+                   <td>{{$cell_group['text']}}</td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage1']['start'], $age_clusters['stage1']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage2']['start'], $age_clusters['stage2']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage3']['start'], $age_clusters['stage3']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage4']['start'], $age_clusters['stage4']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage5']['start'], $age_clusters['stage5']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage6']['start'], $age_clusters['stage6']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage7']['start'], $age_clusters['stage7']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage8']['start'], $age_clusters['stage8']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage9']['start'], $age_clusters['stage9']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage10']['start'], $age_clusters['stage10']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage11']['start'], $age_clusters['stage11']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage12']['start'], $age_clusters['stage12']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage13']['start'], $age_clusters['stage13']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage14']['start'], $age_clusters['stage14']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage15']['start'], $age_clusters['stage15']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$age_clusters['stage16']['start'], $age_clusters['stage16']['end']]);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{ \App\Models\User::where('cell_group_id', $cell_group_id)
+                                ->where('active', 0)->where('existing', 0)
+                            ->where('registration_status', 5)
+                            ->where(function ($query) use ($age_clusters) {
+                                    $query->where(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), '>=', $age_clusters['stage17']['start']);
+                                })
+                                ->count() }}
+                   </td>
+                   <td>{{count(\App\Models\User::where('dob', '!=', null)->where(['cell_group_id'=>$cell_group['id']])->where('existing', 0)->where('active', 0)->where('registration_status', 5)->get())}}</td>
                     </tr>
                 @endforeach
             </tboby>

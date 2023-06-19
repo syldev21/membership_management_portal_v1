@@ -59,7 +59,20 @@ Route::group(['middleware'=>['LoginCheck']], function (){
 
 //test route
 Route::get('test', function () {
-    $permissions = config('membership.permissions.generate_report.text');
-    dd($permissions);
+    $age_clusters = config('membership.age_clusters');
+    $startAge = $age_clusters['stage13']['start'];
+    $endAge = $age_clusters['stage13']['end'];
+
+    $query = \App\Models\User::where('cell_group_id', 6)
+        ->where('active', 1)
+        ->where('registration_status', 5)
+        ->where(function ($query) use ($startAge, $endAge) {
+            $query->whereBetween(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE())'), [$startAge, $endAge]);
+        });
+
+    $active_members = $query->get();
+    $rawSql = $query->toSql();
+
+    dd(count($active_members), $rawSql);
 });
 

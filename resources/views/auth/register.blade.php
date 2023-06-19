@@ -14,12 +14,6 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-{{--                            <div class="col-lg-7 d-none d-lg-block" style="display: flex; justify-content: center; align-items: center; overflow: hidden">--}}
-{{--                                <img src="{{ asset('images/login.jpeg') }}" class="img-responsive" style="flex-shrink: 0; min-width: 100%; min-height: 100%">--}}
-{{--                            </div>--}}
-{{--                            <div class="col-lg-7 d-none d-lg-block" style="display: flex; justify-content: center; align-items: center; overflow: hidden">--}}
-{{--                                <img src="{{ asset('images/login.jpeg') }}" class="img-responsive" style="flex-shrink: 0; max-width: 100%; max-height: 100%;">--}}
-{{--                            </div>--}}
                             <div class="col-lg-4 d-none d-lg-block image-container">
                                 <img src="{{ asset('images/login.jpeg') }}" class="img-responsive">
                             </div>
@@ -49,7 +43,7 @@
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                    name="email" id="email" aria-describedby="emailHelp"
-                                                   placeholder="Enter Email Address...">
+                                                   placeholder="Enter Email Address (Optional)">
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="row">
@@ -245,9 +239,6 @@ float: left
                     error: function(xhr) {
                         if (xhr.status === 422) {
                             var errors = xhr.responseJSON.messages;
-                            alert(errors)
-                            return;
-
                             showError('firstName', errors.firstName);
                             showError('otherNames', errors.otherNames);
                             showError('email', errors.email);
