@@ -25,19 +25,19 @@ return [
       ],
       'cell_group_approved'=>[
           'id'=>2,
-          'text'=>'Approved'
+          'text'=>'Prepared'
       ],
       'church_registered'=>[
           'id'=>3,
-          'text'=>'Registered'
+          'text'=>'Submitted'
       ],
       'church_provisionally_approved'=>[
           'id'=>4,
-          'text'=>'Provisionally Approved'
+          'text'=>'Reviewed'
       ],
       'church_approved'=>[
           'id'=>5,
-          'text'=>'Approved'
+          'text'=>'Full Member'
       ],
     ],
     'delete_reason'=>[
@@ -835,15 +835,15 @@ return [
             'text'=>'Stage 4'
         ]
         ,'stage5'=>[
-            'start'=>10,
+            'start'=>20,
             'end'=>24,
             'id'=>5,
             'text'=>'Stage 5'
         ]
         ,'stage6'=>[
-            'start'=>0,
-            'end'=>25,
-            'id'=>29,
+            'start'=>25,
+            'end'=>29,
+            'id'=>6,
             'text'=>'Stage 6'
         ]
         ,'stage7'=>[
@@ -1073,19 +1073,19 @@ return [
             ],
             2=>[
                 'id'=>2,
-                'text'=>'Approved'
+                'text'=>'Prepared'
             ],
             3=>[
                 'id'=>3,
-                'text'=>'Registered'
+                'text'=>'Submitted'
             ],
             4=>[
                 'id'=>4,
-                'text'=>'Provisionally Approved'
+                'text'=>'Reviewed'
             ],
             5=>[
                 'id'=>5,
-                'text'=>'Approved'
+                'text'=>'Full Member'
             ],
         ],
        'sub_county'=>[
@@ -1590,15 +1590,15 @@ return [
                 'text'=>'Stage 4'
             ]
             ,5=>[
-                'start'=>10,
+                'start'=>20,
                 'end'=>24,
                 'id'=>5,
                 'text'=>'Stage 5'
             ]
-            ,29=>[
-                'start'=>0,
+            ,6=>[
+                'start'=>24,
                 'end'=>25,
-                'id'=>29,
+                'id'=>6,
                 'text'=>'Stage 6'
             ]
             ,7=>[

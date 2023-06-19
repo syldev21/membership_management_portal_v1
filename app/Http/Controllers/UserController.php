@@ -70,7 +70,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'firstName' => 'required|max:50',
             'otherNames' => 'required|max:50',
-            'email' => 'required|email|unique:users|max:100',
+            'email' => 'nullable|email|unique:users|max:100',
             'password' => 'required|min:6|max:50',
             'confirm_password' => 'required|min:6|same:password',
             'terms' => 'accepted', // Use 'accepted' rule for checkbox validation
@@ -78,7 +78,8 @@ class UserController extends Controller
             'confirm_password.same' => 'Password did not match!',
             'confirm_password.required' => 'Confirm password is required!',
             'terms.accepted' => 'You need to read and accept our terms and conditions!',
-        ]);
+        ]
+        );
 
         if ($validator->fails()) {
             return response()->json(['messages' => $validator->messages()], 422);
@@ -273,56 +274,6 @@ public function profile(Request $request){
                     ]);
                 }
                 $age = Carbon::parse($request->dob)->age;
-
-                if ($age<5){
-                    $age_cluster = config('membership.age_clusters.stage1.id');
-                }elseif($age>=5 && $age<10){
-                    $age_cluster = config('membership.age_clusters.stage2.id');
-                }elseif($age>=10 && $age<15){
-                    $age_cluster = config('membership.age_clusters.stage3.id');
-                }elseif($age>=15 && $age<20){
-                    $age_cluster = config('membership.age_clusters.stage4.id');
-                }
-                elseif($age>=20 && $age<25){
-                    $age_cluster = config('membership.age_clusters.stage5.id');
-                }
-                elseif($age>=25 && $age<30){
-                    $age_cluster = config('membership.age_clusters.stage6.id');
-                }
-                elseif($age>=30 && $age<35){
-                    $age_cluster = config('membership.age_clusters.stage7.id');
-                }
-                elseif($age>=35 && $age<40){
-                    $age_cluster = config('membership.age_clusters.stage8.id');
-                }
-                elseif($age>=40 && $age<45){
-                    $age_cluster = config('membership.age_clusters.stage9.id');
-                }
-                elseif($age>=45 && $age<50){
-                    $age_cluster = config('membership.age_clusters.stage10.id');
-                }
-                elseif($age>=50 && $age<55){
-                    $age_cluster = config('membership.age_clusters.stage11.id');
-                }
-                elseif($age>=55 && $age<60){
-                    $age_cluster = config('membership.age_clusters.stage12.id');
-                }
-                elseif($age>=60 && $age<65){
-                    $age_cluster = config('membership.age_clusters.stage13.id');
-                }
-                elseif($age>=65 && $age<70){
-                    $age_cluster = config('membership.age_clusters.stage14.id');
-                }
-                elseif($age>=70 && $age<75){
-                    $age_cluster = config('membership.age_clusters.stage15.id');
-                }
-                elseif($age>=75 && $age<80){
-                    $age_cluster = config('membership.age_clusters.stage16.id');
-                }
-                elseif($age>=80){
-                    $age_cluster = config('membership.age_clusters.stage17.id');
-                }
-
                 if ($age<18){
                     $value = 'N/A';
                 }
@@ -376,7 +327,6 @@ public function profile(Request $request){
                     'ministry_id' => $request->ministry,
                     'occupation_id' => $value ?? $request->occupation,
                     'education_level_id' => $request->education_level,
-                    'age_cluster' => $age_cluster ?? null,
                     'ministries_of_interest' => isset($request->check_box)?implode (',', $request->check_box):null,
                     'year_joined' => $request->year_joined??null,
                 ];

@@ -21,11 +21,11 @@
                 <th>{{config('membership.permissions.Decline_Membership.text')}}</th>
                 <th>{{config('membership.permissions.Delete_Members.text')}}</th>
                 <th>{{config('membership.permissions.Edit_Members.text')}}</th>
-                <th>{{config('membership.permissions.Initial_Approval.text')}}</th>
-                <th>{{config('membership.permissions.Provisional_Approval.text')}}</th>
-                <th>{{config('membership.permissions.Final_Approval.text')}}</th>
+                <th>{{config('membership.permissions.prepare_registration.text')}}</th>
+                <th>{{config('membership.permissions.review_registration.text')}}</th>
+                <th>{{config('membership.permissions.approve_registration.text')}}</th>
                 <th>{{config('membership.permissions.See_Members.text')}}</th>
-                <th>{{config('membership.permissions.View_Only.text')}}</th>
+                <th>{{config('membership.permissions.generate_report.text')}}</th>
             </tr>
 
         @else
@@ -146,11 +146,11 @@
                         <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Decline_Membership.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Decline_Membership.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
                         <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Delete_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Delete_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
                         <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Edit_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Edit_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
-                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Initial_Approval.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Initial_Approval.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
-                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Provisional_Approval.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Provisional_Approval.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
-                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Final_Approval.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Final_Approval.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.prepare_registration.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.prepare_registration.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.review_registration.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.review_registration.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.approve_registration.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.approve_registration.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
                         <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.See_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.See_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
-                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.View_Only.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.View_Only.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
+                        <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.generate_report.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.generate_report.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
                     @else
                         <td>{{$loop->iteration}}</td>
                         <td>{{$member->member_number??''}}</td>
@@ -187,49 +187,72 @@
                         <td class="removed removed-table-data">{{$removed_reason}}</td>
                     @endif
                     <td class="hide_for_execs">
-                        <select id="conditional-hide" name="" class="browser-default" data-registration_status="{{$member->registration_status}}">
-                            <option data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-                                <span><i class="fa fa-edit"></i></span>Edit
-                            </option>
-                            <option data-id="{{$member->id}}" data-existing="{{$member->existing}}"  data-hide="{{auth()->id()}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_name="{{$member->name}}" id="delete" value="" class="btn btn-primary hide-this" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                @if($member->existing == 1)
-                                    Delete
-                                @else
-                                    Reinstate
-                                @endif
-                            </option>
-                            <option data-id="{{$member->id}}" data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" data-activate="{{$member->active}}" id="deactivate" value="{{$member->id}}" class="user_status  hide-this" data-bs-toggle="modal" data-bs-target="#activateModal">
-                                @if($member->active !== 1)
-                                    Activate
+                        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                            <li class="nav-item dropdown bg-info">
+                                <a class="text-black nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span><i class="fa fa-bars"></i></span> Select an Action </a>
 
-                                @else
-                                    Deactivate
-                                @endif
-                            </option>
-                            @if(auth()->user()->hasPermissionTo(config('membership.permissions.Assign_Role.text')))
-                                <option data-id="{{$member->id}}" data-user_title="{{$member->name}} data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
-                                Assign Role
-                                </option>
-                            @endif
-
-                            endHasRole
-                            <option data-cell_group="{{config('membership.statuses.cell_group')[$member->cell_group_id]??null}}" data-user_first_name="{{explode(' ', $member->name)[0]}}"  data-user_name="{{$member->name}}" data-id="{{$member->id}}" data-bs-toggle="modal" data-bs-target="#reviewModal" data-registration_status="{{$member->registration_status}}" id="reviewRegistration">
-                                @if($member->registration_status== config('membership.registration_statuses.cell_group_registered.id'))
-                                    Approve new Member
-                                @elseif($member->registration_status== config('membership.registration_statuses.cell_group_approved.id'))
-                                    Submit for Approval
-                                @elseif($member->registration_status== config('membership.registration_statuses.church_registered.id'))
-                                    Provisionally Approve
-                                @elseif($member->registration_status== config('membership.registration_statuses.church_provisionally_approved.id'))
-                                    Finally Approve
-                                @elseif($member->registration_status== config('membership.registration_statuses.church_approved.id'))
-                                    Decline
-                                @else
-                                    Reinstate
-                                @endif
-                            </option>
-                        </select>
-
+                                <ul class="dropdown-menu dropdown-menu-end bg-info" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a  href="#" data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="dropdown-item btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-edit"></i>
+                                            Edit
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a  href="#" data-id="{{$member->id}}" data-existing="{{$member->existing}}"  data-hide="{{auth()->id()}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_name="{{$member->name}}" id="delete" value="" class="dropdown-item hide-this" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                            @if($member->existing == 1)
+                                                <i class="fa fa-trash"></i>
+                                                Delete
+                                            @else
+                                                <i class="fa fa-undo"></i>
+                                                Reinstate
+                                            @endif
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a  href="#" data-id="{{$member->id}}" data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" data-activate="{{$member->active}}" id="deactivate" value="{{$member->id}}" class="dropdown-item user_status  hide-this" data-bs-toggle="modal" data-bs-target="#activateModal">
+                                            @if($member->active !== 1)
+                                                <i class="fa fa-toggle-on"></i>
+                                                Activate
+                                            @else
+                                                <i class="fa fa-toggle-off"></i>
+                                                Deactivate
+                                            @endif
+                                        </a>
+                                    </li>
+                                    @if(auth()->user()->hasPermissionTo(config('membership.permissions.Assign_Role.text')))
+                                        <li>
+                                            <a href="#" data-id="{{$member->id}}" data-user_title="{{$member->name}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#roleModal">
+                                                <i class="fas fa-user-tag"></i>
+                                                Assign Role
+                                            </a>
+                                        </li>
+                                    @endif
+                                    <li>
+                                        <a href="#" class="dropdown-item" data-cell_group="{{config('membership.statuses.cell_group')[$member->cell_group_id]??null}}" data-user_first_name="{{explode(' ', $member->name)[0]}}"  data-user_name="{{$member->name}}" data-id="{{$member->id}}" data-bs-toggle="modal" data-bs-target="#reviewModal" data-registration_status="{{$member->registration_status}}" id="reviewRegistration">
+                                            @if($member->registration_status== config('membership.registration_statuses.cell_group_registered.id'))
+                                                <i class="fas fa-clipboard-check"></i>
+                                                Prepare
+                                            @elseif($member->registration_status== config('membership.registration_statuses.cell_group_approved.id'))
+                                                <i class="fas fa-check"></i>
+                                                Submit
+                                            @elseif($member->registration_status== config('membership.registration_statuses.church_registered.id'))
+                                                <i class="fas fa-search"></i>
+                                                Review
+                                            @elseif($member->registration_status== config('membership.registration_statuses.church_provisionally_approved.id'))
+                                                <i class="fas fa-thumbs-up"></i>
+                                                Approve
+                                            @elseif($member->registration_status== config('membership.registration_statuses.church_approved.id'))
+                                                <i class="fas fa-thumbs-down"></i>
+                                                Decline
+                                            @else
+                                                <i class="fas fa-undo"></i>
+                                                Reinstate
+                                            @endif
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </td>
                 </tr>
             @endforeach
