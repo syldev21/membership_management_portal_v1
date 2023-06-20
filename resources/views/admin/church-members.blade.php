@@ -214,63 +214,65 @@
                             <td class="hide_for_execs">
                                 <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                                     <li class="nav-item dropdown bg-info">
-                                        <a class="text-black nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span><i class="fa fa-bars"></i></span> Select an Action </a>
+                                        <a class="text-black nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Select an Action <span><i class="fa fa-bars"></i></span></a>
 
-                                        <ul class="dropdown-menu dropdown-menu-end bg-info" aria-labelledby="navbarDropdown">
+                                        <ul class="dropdown-menu dropdown-menu-end bg-black" aria-labelledby="navbarDropdown">
+{{--                                        <ul class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="navbarDropdown">--}}
                                             <li>
-                                                <a  href="#" data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="dropdown-item btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-edit"></i>
+                                                <a  href="#" data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                                                    <i class="text-primary fw-bold fa fa-edit"></i>&nbsp;&nbsp;
                                                     Edit
                                                 </a>
                                             </li>
                                             <li>
-                                                <a  href="#" data-id="{{$member->id}}" data-existing="{{$member->existing}}"  data-hide="{{auth()->id()}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_name="{{$member->name}}" id="delete" value="" class="dropdown-item hide-this" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <a  href="#" data-id="{{$member->id}}" data-existing="{{$member->existing}}"  data-hide="{{auth()->id()}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_name="{{$member->name}}" id="delete" value="" class="dropdown-item hide-this text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                                     @if($member->existing == 1)
-                                                        <i class="fa fa-trash"></i>
+                                                        <i class="text-danger fw-bold fa fa-trash"></i>&nbsp;&nbsp;
                                                         Delete
                                                     @else
-                                                        <i class="fa fa-undo"></i>
+                                                        <i class="text-danger fw-bold fa fa-undo"></i>&nbsp;&nbsp;
                                                         Reinstate
                                                     @endif
                                                 </a>
                                             </li>
                                             <li>
-                                                <a  href="#" data-id="{{$member->id}}" data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" data-activate="{{$member->active}}" id="deactivate" value="{{$member->id}}" class="dropdown-item user_status  hide-this" data-bs-toggle="modal" data-bs-target="#activateModal">
-                                                    @if($member->active !== 1)
-                                                        <i class="fa fa-toggle-on"></i>
-                                                        Activate
-                                                    @else
-                                                        <i class="fa fa-toggle-off"></i>
+                                                <a  href="#" data-id="{{$member->id}}" data-hide="{{auth()->id()}}" data-user_name="{{$member->name}}" data-activate="{{$member->active}}" id="deactivate" value="{{$member->id}}" class="dropdown-item user_status  hide-this text-warning" data-bs-toggle="modal" data-bs-target="#activateModal">
+                                                    @if($member->active == 1)
+                                                        <i class="text-warning fw-bold fa fa-person-circle-xmark"></i>&nbsp;&nbsp;
                                                         Deactivate
+                                                    @else
+                                                        <i class="text-warning fw-bold fa fa-person-chart-line"></i>&nbsp;&nbsp;
+                                                        Activate
                                                     @endif
                                                 </a>
                                             </li>
                                             @if(auth()->user()->hasPermissionTo(config('membership.permissions.Assign_Role.text')))
                                             <li>
-                                                <a href="#" data-id="{{$member->id}}" data-user_title="{{$member->name}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#roleModal">
-                                                <i class="fas fa-user-tag"></i>
+                                                <a href="#" data-id="{{$member->id}}" data-user_title="{{$member->name}}" data-user_name="{{$member->name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="role" value="{{$member->id}}" class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#roleModal">
+                                                <i class="text-success fw-bold fas fa-user-tag"></i>&nbsp;&nbsp;
                                                 Assign Role
                                                 </a>
                                             </li>
                                             @endif
                                             <li>
-                                                <a href="#" class="dropdown-item" data-cell_group="{{config('membership.statuses.cell_group')[$member->cell_group_id]??null}}" data-user_first_name="{{explode(' ', $member->name)[0]}}"  data-user_name="{{$member->name}}" data-id="{{$member->id}}" data-bs-toggle="modal" data-bs-target="#reviewModal" data-registration_status="{{$member->registration_status}}" id="reviewRegistration">
+                                                <a href="#" class="dropdown-item text-secondary" data-cell_group="{{config('membership.statuses.cell_group')[$member->cell_group_id]??null}}" data-user_first_name="{{explode(' ', $member->name)[0]}}"  data-user_name="{{$member->name}}" data-id="{{$member->id}}" data-bs-toggle="modal" data-bs-target="#reviewModal" data-registration_status="{{$member->registration_status}}" id="reviewRegistration">
                                                     @if($member->registration_status== config('membership.registration_statuses.cell_group_registered.id'))
-                                                        <i class="fas fa-clipboard-check"></i>
+                                                        <i class="text-secondary fw-bold fas fa-clipboard-check"></i>&nbsp;&nbsp;
                                                         Prepare
                                                     @elseif($member->registration_status== config('membership.registration_statuses.cell_group_approved.id'))
-                                                        <i class="fas fa-check"></i>
+                                                        <i class="text-secondary fw-bold fas fa-check"></i>&nbsp;&nbsp;
                                                         Submit
                                                     @elseif($member->registration_status== config('membership.registration_statuses.church_registered.id'))
-                                                        <i class="fas fa-search"></i>
+                                                        <i class="text-secondary fw-bold fas fa-search"></i>&nbsp;&nbsp;
                                                         Review
                                                     @elseif($member->registration_status== config('membership.registration_statuses.church_provisionally_approved.id'))
-                                                        <i class="fas fa-thumbs-up"></i>
+                                                        <i class="text-secondary fw-bold fas fa-thumbs-up"></i>&nbsp;&nbsp;
                                                         Approve
                                                     @elseif($member->registration_status== config('membership.registration_statuses.church_approved.id'))
-                                                        <i class="fas fa-thumbs-down"></i>
+                                                        <i class="text-secondary fw-bold fas fa-thumbs-down"></i>&nbsp;&nbsp;
                                                         Decline
                                                     @else
-                                                        <i class="fas fa-undo"></i>
+                                                        <i class="text-secondary fw-bold fas fa-undo"></i>&nbsp;&nbsp;
                                                         Reinstate
                                                     @endif
                                                 </a>
