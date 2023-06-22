@@ -126,6 +126,22 @@
                                             <input  data-toggle="tooltip" data-placement="bottom" title="The year you joined VOSH not necessarily Buru Buru!" type="date" hidden=""  name="year_joined" class="form-control rounded-0 profile_edit" id="year_joined" value="">
                                             <div class="invalid-feedback"></div>
                                         </div>
+{{--                                        <div class="col-lg">--}}
+{{--                                            <label class="fw-bolder" for="year_joined">Year Joined VOSH</label>--}}
+{{--                                            <select name="year_joined" class="form-control rounded-0 profile_edit" id="year_joined">--}}
+{{--                                                <option value="">Select Year</option>--}}
+{{--                                                <?php--}}
+{{--                                                $currentYear = date('Y');--}}
+{{--                                                $startYear = 1900; // Define the starting year--}}
+{{--                                                $endYear = $currentYear; // Define the ending year (you can change it to your desired maximum year)--}}
+
+{{--                                                for ($year = $endYear; $year >= $startYear; $year--) {--}}
+{{--                                                    echo '<option value="' . $year . '">' . $year . '</option>';--}}
+{{--                                                }--}}
+{{--                                                ?>--}}
+{{--                                            </select>--}}
+{{--                                            <div class="invalid-feedback"></div>--}}
+{{--                                        </div>--}}
                                         <div class="col-lg profile">
                                             <?php
                                             if (isset(auth()->user()->dob)){

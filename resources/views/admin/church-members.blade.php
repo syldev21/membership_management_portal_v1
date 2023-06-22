@@ -213,10 +213,10 @@
                             @endif
                             <td class="hide_for_execs">
                                 <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                                    <li class="nav-item dropdown bg-info">
-                                        <a class="text-black nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Select an Action <span><i class="fa fa-bars"></i></span></a>
+                                    <li class="nav-item dropdown text-center">
+                                        <a class="text-black nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span><i class="fa fa-bars"></i></span></a>
 
-                                        <ul class="dropdown-menu dropdown-menu-end bg-black" aria-labelledby="navbarDropdown">
+                                        <ul style="background-color: lightcyan" class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 {{--                                        <ul class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="navbarDropdown">--}}
                                             <li>
                                                 <a  href="#" data-id="{{$member->id}}" data-user_first_name="{{explode(' ', $member->name)[0]}}" data-user_other_names="{{isset($member->name)?implode(' ', array_slice(explode(' ', $member->name), 1)):''}}" data-u_name="{{$member->user_name}}" data-user_email="{{$member->email}}"  data-user_phone="{{$member->phone}}" id="edit" value="{{$member->id}}" class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#editModal">
@@ -366,8 +366,8 @@
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="name">Email <span class="optional">(Optional)</span></label>
-                                            <input type="email" name="email" class="form-control rounded-0 " id="email" value="">
+                                            <label  class="fw-bold" for="name">Email or Phone</label>
+                                            <input type="text" name="unique_id" class="form-control rounded-0 " id="unique_id" value="">
                                             <div class="invalid-feedback"></div>
                                         </div>
                                     </div>
@@ -1146,7 +1146,7 @@
                         if(response.status == 400){
                             showError('firstName', response.messages.firstName);
                             showError('otherNames', response.messages.otherNames);
-                            showError('email', response.messages.email);
+                            showError('unique_id', response.messages.unique_id);
                             showError('dob', response.messages.dob);
                             showError('title', response.messages.title);
                             showError('cell_group', response.messages.cell_group);

@@ -61,7 +61,6 @@ class AuthServiceProvider extends ServiceProvider
         $viewRole->syncPermissions(
             [
             $See_Members,
-            $generate_report
             ]
         );
         $approverRole = Role::findOrCreate(config('membership.roles.approver.text'));
@@ -95,8 +94,6 @@ class AuthServiceProvider extends ServiceProvider
         $preparerRole->syncPermissions(
             [
                 $Add_Members,
-                $Decline_Membership,
-                $Delete_Members,
                 $Edit_Members,
                 $prepare_registration,
                 $See_Members,

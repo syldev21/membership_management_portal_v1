@@ -357,12 +357,25 @@ class DashboardController extends Controller
             $validator_array = [
                 'firstName'=>'required|regex:/^[a-zA-Z]+$/',
                 'otherNames'=>'required',
-                'email'=>'nullable|email|unique:users|min:11|max:30',
+                'unique_id' => [
+                    'required',
+                    'max:100',
+                    function ($attribute, $value, $fail) {
+                        // Check if the value is a valid email address or phone number
+                        if (!filter_var($value, FILTER_VALIDATE_EMAIL) && !preg_match('/^[0-9]{10}$/', $value)) {
+                            $attribute = 'unique identifier';
+                            $fail('The '.$attribute.' must be a valid email address or phone number.');
+                        }
+                    },
+//                'unique:users',
+                ],
                 'title'=>'required',
                 'dob' => 'required|date|before_or_equal:today',
                 'cell_group'=>'required',
                 'phone' => ['required', 'digits:9', 'numeric', 'unique:users'],
                 'year_joined' => 'required|date|before_or_equal:today',
+                'unique_id.required' => 'The unique ID field is required.',
+                'unique_id.max' => 'The unique ID must not exceed :max characters.',
             ];
             if (isset($age) && $age<18) {
                 unset($validator_array['phone']);
@@ -390,6 +403,11 @@ class DashboardController extends Controller
                 ]);
             }
             else{
+                if (filter_var($request->unique_id, FILTER_VALIDATE_EMAIL)){
+                    $attribute_text = 'email';
+                }elseif (preg_match('/^[0-9]{10}$/', $request->unique_id)){
+                    $attribute_text = 'phone';
+                }
                 // Get the last part of the member number after the last forward slash
                 $parts = explode('/', $member_number);
                 $last_part = end($parts);
@@ -419,7 +437,7 @@ class DashboardController extends Controller
                 $user_name = $username;
                 $user = new User();
                 $user->name = $fullName;
-                $user->email = $request->email;
+                $attribute_text == 'email'?$user->email=$request->unique_id:$user->phone=$request->unique_id;
                 $user->gender=$request->gender??null;
                 $user->dob=$request->dob??null;
                 $user->phone=$value ?? $request->phone??null;
@@ -563,12 +581,14 @@ class DashboardController extends Controller
                     'messages'=>$request->member_first_name."'s membership status status reinstated successfully!"
                 ]);
             }else if ($registration_status == 1){
-                $user->update(['registration_status'=>config('membership.registration_statuses.cell_group_approved.id')]);
-                return $response;
-            }else if ($registration_status == 2){
                 $user->update(['registration_status'=>config('membership.registration_statuses.church_registered.id')]);
                 return $response;
-            }else if ($registration_status == 3){
+            }
+//            else if ($registration_status == 2){
+//                $user->update(['registration_status'=>config('membership.registration_statuses.church_registered.id')]);
+//                return $response;
+//            }
+            else if ($registration_status == 3){
                 $user->update(['registration_status'=>config('membership.registration_statuses.church_provisionally_approved.id')]);
 
                 return $response;

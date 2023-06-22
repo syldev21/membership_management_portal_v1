@@ -38,13 +38,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.min.js"></script>
 
     <script src="{{ asset('js/function.js') }}"></script>
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon/logo/android-chrome-192x192.png') }}">
-    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('images/favicon/logo/android-chrome-512x512.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/favicon/logo/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon/logo/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon/logo/favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ asset('images/favicon/logo/site.webmanifest') }}">
-    <link rel="shortcut icon" href="{{ asset('images/favicon/logo/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon/logo-official/android-chrome-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('images/favicon/logo-official/android-chrome-512x512.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/favicon/logo-official/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon/logo-official/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon/logo-official/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('images/favicon/logo-official/site.webmanifest') }}">
+    <link rel="shortcut icon" href="{{ asset('images/favicon/logo-official/favicon.ico') }}" type="image/x-icon">
 </head>
 <body class="">
 @include('layouts.includes.admin.navbar')

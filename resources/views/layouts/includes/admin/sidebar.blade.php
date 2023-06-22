@@ -5,7 +5,11 @@
         <div class="sb-sidenav-menu fw-bolder fs-6 text-white">
             <div class="nav">
                 <div class="">
-                    <a href="{{route('profile')}}"><img src="{{asset('images/login.jpeg')}}" data-toggle="tooltip" data-placement="top"></a>
+{{--                    <a href="{{route('profile')}}"><img src="{{asset('images/login.jpeg')}}" data-toggle="tooltip" data-placement="top"></a>--}}
+
+                    <a href="{{route('profile')}}" style="display: flex; align-items: center;">
+                        <img src="{{asset('images/vosh_official_logo.jpg')}}" alt="Vosh Official Logo" data-toggle="tooltip" data-placement="top" style="max-width: 100%; height: auto; margin: 0 auto;">
+                    </a>
                 </div>
                 <input type="hidden" class="is_a_cell_group_pastor" data-cell_group="{{\App\Models\User::where('id', auth()->id())->with('roles')->first()->cell_group_id??null}}" value="{{\App\Models\User::where('id', auth()->id())->with('roles')->first()->roles[0]->role_id??null}}">
                 @if(auth()->user()->can('See Members'))
@@ -37,58 +41,58 @@
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapse41" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" id="cell">
                                 <div class="sb-nav-link-icon"><i class="text-white fa fa-child"></i></div>
-                                Stages 1-4
+                                Ages {{config('membership.age_clusters.stage1.start')}}-{{config('membership.age_clusters.stage4.end')}}
                                 <div class="sb-sidenav-collapse-arrow"><i class="text-white fa fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="pagesCollapse41" aria-labelledby="headingOne" data-bs-parent="#collapseLayouts">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage1.id')}}"><i class="text-white fa fa-child"></i>&nbsp;{{config('membership.age_clusters.stage1.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage2.id')}}"><i class="text-white fa fa-child"></i>&nbsp;{{config('membership.age_clusters.stage2.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage3.id')}}"><i class="text-white fa fa-child"></i>&nbsp;{{config('membership.age_clusters.stage3.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage4.id')}}"><i class="text-white fa fa-child"></i>&nbsp;{{config('membership.age_clusters.stage4.text')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage1.id')}}"><i class="text-white fa fa-child"></i>&nbsp;{{config('membership.age_clusters.stage1.start')}}-{{config('membership.age_clusters.stage1.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage2.id')}}"><i class="text-white fa fa-child"></i>&nbsp;{{config('membership.age_clusters.stage2.start')}}-{{config('membership.age_clusters.stage2.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage3.id')}}"><i class="text-white fa fa-child"></i>&nbsp;{{config('membership.age_clusters.stage3.start')}}-{{config('membership.age_clusters.stage3.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage4.id')}}"><i class="text-white fa fa-child"></i>&nbsp;{{config('membership.age_clusters.stage4.start')}}-{{config('membership.age_clusters.stage4.end')}}</a>
                                 </nav>
                             </div>
 
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapse42" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" id="cell">
                                 <div class="sb-nav-link-icon"><i class="text-white fa fa-child-reaching"></i></div>
-                                Stages 5-8
+                                Ages {{config('membership.age_clusters.stage5.start')}}-{{config('membership.age_clusters.stage8.end')}}
                                 <div class="sb-sidenav-collapse-arrow"><i class="text-white fa fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="pagesCollapse42" aria-labelledby="headingOne" data-bs-parent="#collapseLayouts">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage5.id')}}"><i class="text-white fa fa-child-reaching">&nbsp;</i>{{config('membership.age_clusters.stage5.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage6.id')}}"><i class="text-white fa fa-child-reaching">&nbsp;</i>{{config('membership.age_clusters.stage6.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage7.id')}}"><i class="text-white fa fa-child-reaching">&nbsp;</i>{{config('membership.age_clusters.stage7.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage8.id')}}"><i class="text-white fa fa-child-reaching">&nbsp;</i>{{config('membership.age_clusters.stage8.text')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage5.id')}}"><i class="text-white fa fa-child-reaching">&nbsp;</i>{{config('membership.age_clusters.stage5.start')}}-{{config('membership.age_clusters.stage5.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage6.id')}}"><i class="text-white fa fa-child-reaching">&nbsp;</i>{{config('membership.age_clusters.stage6.start')}}-{{config('membership.age_clusters.stage6.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage7.id')}}"><i class="text-white fa fa-child-reaching">&nbsp;</i>{{config('membership.age_clusters.stage7.start')}}-{{config('membership.age_clusters.stage7.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage8.id')}}"><i class="text-white fa fa-child-reaching">&nbsp;</i>{{config('membership.age_clusters.stage8.start')}}-{{config('membership.age_clusters.stage8.end')}}</a>
                                 </nav>
                             </div>
 
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapse43" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" id="cell">
                                 <div class="sb-nav-link-icon"><i class="text-white fa fa-person"></i></div>
-                                Stages 9-12
+                                Ages {{config('membership.age_clusters.stage9.start')}}-{{config('membership.age_clusters.stage12.end')}}
                                 <div class="sb-sidenav-collapse-arrow"><i class="text-white fa fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="pagesCollapse43" aria-labelledby="headingOne" data-bs-parent="#collapseLayouts">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage9.id')}}"><i class="text-white fa fa-person"></i>&nbsp;{{config('membership.age_clusters.stage9.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage10.id')}}"><i class="text-white fa fa-person"></i>&nbsp;{{config('membership.age_clusters.stage10.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage11.id')}}"><i class="text-white fa fa-person"></i>&nbsp;{{config('membership.age_clusters.stage11.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage12.id')}}"><i class="text-white fa fa-person"></i>&nbsp;{{config('membership.age_clusters.stage12.text')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage9.id')}}"><i class="text-white fa fa-person"></i>&nbsp;{{config('membership.age_clusters.stage9.start')}}-{{config('membership.age_clusters.stage9.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage10.id')}}"><i class="text-white fa fa-person"></i>&nbsp;{{config('membership.age_clusters.stage10.start')}}-{{config('membership.age_clusters.stage10.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage11.id')}}"><i class="text-white fa fa-person"></i>&nbsp;{{config('membership.age_clusters.stage11.start')}}-{{config('membership.age_clusters.stage11.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage12.id')}}"><i class="text-white fa fa-person"></i>&nbsp;{{config('membership.age_clusters.stage12.start')}}-{{config('membership.age_clusters.stage12.end')}}</a>
                                 </nav>
                             </div>
 
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapse44" aria-expanded="false" aria-controls="pagesCollapseCellGroupLevel" id="cell">
                                 <div class="sb-nav-link-icon"><i class="text-white fa fa-person-cane"></i></div>
-                                Stages 13-17
+                                Ages {{config('membership.age_clusters.stage13.start')}} and Older
                                 <div class="sb-sidenav-collapse-arrow"><i class="text-white fa fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="pagesCollapse44" aria-labelledby="headingOne" data-bs-parent="#collapseLayouts">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage13.id')}}"><i class="text-white fa fa-person-cane"></i>&nbsp;{{config('membership.age_clusters.stage13.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage14.id')}}"><i class="text-white fa fa-person-cane"></i>&nbsp;{{config('membership.age_clusters.stage14.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage15.id')}}"><i class="text-white fa fa-person-cane"></i>&nbsp;{{config('membership.age_clusters.stage15.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage16.id')}}"><i class="text-white fa fa-person-cane"></i>&nbsp;{{config('membership.age_clusters.stage16.text')}}</a>
-                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage17.id')}}"><i class="text-white fa fa-person-cane"></i>&nbsp;{{config('membership.age_clusters.stage17.text')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage13.id')}}"><i class="text-white fa fa-person-cane"></i>&nbsp;{{config('membership.age_clusters.stage13.start')}}-{{config('membership.age_clusters.stage13.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage14.id')}}"><i class="text-white fa fa-person-cane"></i>&nbsp;{{config('membership.age_clusters.stage14.start')}}-{{config('membership.age_clusters.stage14.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage15.id')}}"><i class="text-white fa fa-person-cane"></i>&nbsp;{{config('membership.age_clusters.stage15.start')}}-{{config('membership.age_clusters.stage15.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage16.id')}}"><i class="text-white fa fa-person-cane"></i>&nbsp;{{config('membership.age_clusters.stage16.start')}}-{{config('membership.age_clusters.stage16.end')}}</a>
+                                    <a class="nav-link church-members text-dark" href="#" data-id="{{config('membership.age_clusters.stage17.id')}}"><i class="text-white fa fa-person-cane"></i>&nbsp;{{config('membership.age_clusters.stage17.start')}} and Older</a>
                                 </nav>
                             </div>
                         </nav>
@@ -264,7 +268,7 @@
                             <div class="collapse" id="pagesCollapseCellGroupLevel" aria-labelledby="headingOne" data-bs-parent="#pagesCollapseRegistration">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link progressive-registration text-dark" href="#" data-id="{{config('membership.registration_statuses.cell_group_registered.id')}}">{{config('membership.registration_statuses.cell_group_registered.text')}}</a>
-                                    <a class="nav-link progressive-registration text-dark" href="#" data-id="{{config('membership.registration_statuses.cell_group_approved.id')}}">{{config('membership.registration_statuses.cell_group_approved.text')}}</a>
+{{--                                    <a class="nav-link progressive-registration text-dark" href="#" data-id="{{config('membership.registration_statuses.cell_group_approved.id')}}">{{config('membership.registration_statuses.cell_group_approved.text')}}</a>--}}
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseChurchLevel" aria-expanded="false" aria-controls="pagesCollapseChurchLevel" id="church">

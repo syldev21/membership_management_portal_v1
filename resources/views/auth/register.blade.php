@@ -15,7 +15,7 @@
                         <!-- Nested Row within Card Body -->
                         <div class="row">
                             <div class="col-lg-4 d-none d-lg-block image-container">
-                                <img src="{{ asset('images/login.jpeg') }}" class="img-responsive">
+                                <img src="{{ asset('images/vosh_official_logo.jpg') }}" class="img-responsive">
                             </div>
                             <div class="vr"></div>
                             <div class="col-lg-7">
@@ -27,39 +27,41 @@
                                     <form  class="user" action="#" method="POST" id="register_form">
                                         @csrf
                                         <div class="row">
-                                            <div class="form-group col-lg-4">
-                                                <input type="text" class="form-control form-control-user"
-                                                       name="firstName" id="firstName" aria-describedby="emailHelp"
-                                                       placeholder="First Name...">
+                                            <div class="form-group input-container col-lg-4" style="position: relative;">
+                                                <i class="fa fa-sharp fa-solid fa-user" style="position: absolute;top: 50%;left: 10px;transform: translateY(-50%);font-size: 16px;color: #aaa;"></i>
+                                                <input style="padding-left: 30px; " type="text" class="form-control form-control-user" name="firstName" id="firstName" aria-describedby="emailHelp"
+                                                       placeholder="First Name..." />
                                                 <div class="invalid-feedback"></div>
                                             </div>
-                                            <div class="form-group col-lg-8">
-                                                <input type="text" class="form-control form-control-user"
-                                                       name="otherNames" id="otherNames" aria-describedby="emailHelp"
-                                                       placeholder="Other Names...">
+
+                                            <div class="form-group input-container col-lg-8" style="position: relative;">
+                                                <i class="fa fa-sharp fa-solid fa-user" style="position: absolute;top: 50%;left: 10px;transform: translateY(-50%);font-size: 16px;color: #aaa;"></i>
+                                                <input style="padding-left: 30px; " type="text" class="form-control form-control-user" name="otherNames" id="otherNames" aria-describedby="emailHelp"
+                                                       placeholder="Other Names" />
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                   name="email" id="email" aria-describedby="emailHelp"
-                                                   placeholder="Enter Email Address (Optional)">
+                                        <div class="form-group input-containe" style="position: relative;">
+                                            <i class="fa fa-duotone fa-envelope" style="position: absolute;top: 50%;left: 10px;transform: translateY(-50%);font-size: 16px;color: #aaa;"></i>
+                                            <input style="padding-left: 30px; " type="text" class="form-control form-control-user" name="unique_id" id="unique_id" aria-describedby="emailHelp"
+                                                   placeholder="Email or Phone" />
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="row">
-                                            <div class="form-group col">
-                                                <input type="password" class="form-control form-control-user"
-                                                       name="password" id="password" aria-describedby="emailHelp"
-                                                       placeholder="Password">
+                                            <div class="form-group input-container col-lg-6" style="position: relative;">
+                                                <i class="fa fa-sharp fa-solid fa-lock" style="position: absolute;top: 50%;left: 10px;transform: translateY(-50%);font-size: 16px;color: #aaa;"></i>
+                                                <input style="padding-left: 30px; " type="password" class="form-control form-control-user" name="password" id="password" aria-describedby="emailHelp"
+                                                       placeholder="Password" />
                                                 <div class="invalid-feedback"></div>
                                             </div>
-                                            <div class="form-group col">
-                                                <input type="password" class="form-control form-control-user"
-                                                       name="confirm_password" id="confirm_password" aria-describedby="emailHelp"
-                                                       placeholder="Confirm Password">
+                                            <div class="form-group input-container col-lg-6" style="position: relative;">
+                                                <i class="fa fa-sharp fa-solid fa-lock" style="position: absolute;top: 50%;left: 10px;transform: translateY(-50%);font-size: 16px;color: #aaa;"></i>
+                                                <input style="padding-left: 30px; " type="password" class="form-control form-control-user" name="confirm_password" id="confirm_password" aria-describedby="emailHelp"
+                                                       placeholder="Confirm Password" />
                                                 <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
+
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" id="terms" name="terms" data-bs-toggle="modal" data-bs-target="#termsModal" value="">
@@ -107,7 +109,7 @@
                             @csrf
                             <div class="my-2">
                                 <h5 class="text-primary fw-bolder">In line with Chapter 3 of the Revised VOSH Constitution 2018 on Membership:</h5>
-                                <ol class="text-white fw-bolder" style="background-color: darkblue">
+                                <ol class="fw-bolder" style="background-color: cyan">
                                     <li>
                                         <span class="fw-bolder">Membership: </span>Shall be open to any person, subject to being born again and adherence to statement of faith irrespective of nationality, race, and color. However, minors will automatically become members up to age of eighteen so long as their parents are church members.
                                     </li>
@@ -241,7 +243,7 @@ float: left
                             var errors = xhr.responseJSON.messages;
                             showError('firstName', errors.firstName);
                             showError('otherNames', errors.otherNames);
-                            showError('email', errors.email);
+                            showError('unique_id', errors.unique_id);
                             showError('password', errors.password);
                             showError('confirm_password', errors.confirm_password);
                             showError('terms', errors.terms);
