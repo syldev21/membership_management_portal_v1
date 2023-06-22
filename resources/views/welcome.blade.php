@@ -20,10 +20,10 @@
                         <div class="card-body p-0" style="background-color:seagreen">
                             <div class="bg-body" style="!important;background-color: white">
                                 <div style="float: left; margin-left: 55px; height: 50px">
-                                    <input class="bg-success font-weight-bold rounded-5" id="login_page" type="button" style="height: 50px; width: 250px; color: white" value="Login Page">
+                                    <button class="bg-success font-weight-bold rounded-5" id="login_page" type="button" style="height: 50px; width: 250px; color: white" value=""><span></span>Login Page</button>
                                 </div>
                                 <div style="float: right; margin-right: 55px">
-                                    <input class="bg-success font-weight-bold rounded-5" id="registration_page" type="button" style="height: 50px; width: 250px; color: white" value="Registration Page">
+                                    <button class="bg-success font-weight-bold rounded-5" id="registration_page" type="button" style="height: 50px; width: 250px; color: white" value=""><span></span>Registration Page</button>
                                 </div>
 
                             </div>
@@ -44,7 +44,7 @@
         $(function (){
             $('#login_page').click(function (e){
                 e.preventDefault();
-                $('#login_page').val('Redirecting to login page...');
+                $('#login_page').html('Redirecting to login page...');
                 $.ajaxSetup({
 
                     headers: {
@@ -62,7 +62,7 @@
             }) ;
             $('#registration_page').click(function (e){
                 e.preventDefault();
-                $('#registration_page').val('Redirecting to Registration page...');
+                $('#registration_page').html('Redirecting to Registration page...');
                 $.ajaxSetup({
 
                     headers: {

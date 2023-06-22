@@ -14,7 +14,7 @@
                         <!-- Nested Row within Card Body -->
                         <div class="row">
                             <div class="col-lg-6 d-none d-lg-block image-container">
-                                <img src="{{ asset('images/login.jpeg') }}" class="img-responsive">
+                                <img src="{{ asset('images/vosh_official_logo.jpg') }}" class="img-responsive">
                             </div>
                             <div class="vr"></div>
                             <div class="col-lg-5">
@@ -28,10 +28,10 @@
                                         <div class="mb-3 text-secondary">
                                             Enter your email and we will send you a password rest link
                                         </div>
-                                        <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                   name="email" id="email" aria-describedby="emailHelp"
-                                                   placeholder="Enter Email Address...">
+                                        <div class="form-group input-containe" style="position: relative;">
+                                            <i class="fa fa-duotone fa-envelope" style="position: absolute;top: 50%;left: 10px;transform: translateY(-50%);font-size: 16px;color: #aaa;"></i>
+                                            <input style="padding-left: 30px; " type="email" class="form-control form-control-user" name="email" id="email" aria-describedby="emailHelp"
+                                                   placeholder="Email" />
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="">

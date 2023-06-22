@@ -70,20 +70,38 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'firstName' => 'required|max:50',
             'otherNames' => 'required|max:50',
-            'email' => 'nullable|email|unique:users|max:100',
+            'unique_id' => [
+                'required',
+                'max:100',
+                function ($attribute, $value, $fail) {
+                    // Check if the value is a valid email address or phone number
+                    if (!filter_var($value, FILTER_VALIDATE_EMAIL) && !preg_match('/^[0-9]{10}$/', $value)) {
+                        $attribute = 'unique identifier';
+                        $fail('The '.$attribute.' must be a valid email address or phone number.');
+                    }
+                },
+//                'unique:users',
+            ],
             'password' => 'required|min:6|max:50',
             'confirm_password' => 'required|min:6|same:password',
-            'terms' => 'accepted', // Use 'accepted' rule for checkbox validation
+            'terms' => 'accepted',
         ], [
             'confirm_password.same' => 'Password did not match!',
             'confirm_password.required' => 'Confirm password is required!',
             'terms.accepted' => 'You need to read and accept our terms and conditions!',
-        ]
-        );
-
+            'unique_id.required' => 'The unique ID field is required.',
+            'unique_id.max' => 'The unique ID must not exceed :max characters.',
+//            'unique_id.unique' => 'The unique ID has already been taken.',
+        ]);
+        $attribute_text = '';
         if ($validator->fails()) {
             return response()->json(['messages' => $validator->messages()], 422);
         }else{
+            if (filter_var($request->unique_id, FILTER_VALIDATE_EMAIL)){
+                $attribute_text = 'email';
+            }elseif (preg_match('/^[0-9]{10}$/', $request->unique_id)){
+                $attribute_text = 'phone';
+            }
           $fullName = implode(' ', [$request->firstName, $request->otherNames]);
 
           $member = User::orderBy("id","DESC")->first();
@@ -132,10 +150,11 @@ class UserController extends Controller
 //          $digits = str_pad($digits, 4, "0", STR_PAD_LEFT);
 
 // Concatenate the first name and digits to create the username
+
           $username = $request->firstName . $digits;
           $user = new User();
           $user->name = $fullName;
-          $user->email = $request->email;
+          $attribute_text == 'email'?$user->email=$request->unique_id:$user->phone=$request->unique_id;
           $user->password = Hash::make($request->password);
           $user->user_name = $username;
           $user->member_number = $member_number;
@@ -155,12 +174,12 @@ class UserController extends Controller
             }
                 return  response()->json([
                     'status'=>200,
-                    'messages'=>'Admin Registered Successfully;&nbsp; Your username is '.$username.' <a href="/login">Login Now</a>',
+                    'messages' => 'Admin Registered Successfully;&nbsp; Your username is '.$username.'<span class="text-warning"> Remember to keep it safely. You will need it for login</span> <a href="/login">Login Now</a>',
                 ]);
         }else{
                 return  response()->json([
                     'status'=>200,
-                    'messages'=>'Registered Successfully;&nbsp; Your username is '.$username.' <a href="/login">Login Now</a>',
+                    'messages' => 'Registered Successfully;&nbsp; Your username is '.$username.'.<span class="text-warning"> Remember to keep it safely. You will need it for login. </span> <a href="/login">Login Now</a>'
                 ]);
             }
 
@@ -173,7 +192,7 @@ class UserController extends Controller
             'login' => 'required',
             'password' => 'required|min:6|max:100',
         ], [
-            'login.required' => 'Kindly enter the system generated username or the email you used for registration!',
+            'login.required' => 'Either username or email is required',
             'password.required' => 'The password field is required!',
             'password.min' => 'The password must be at least 6 characters!',
             'password.max' => 'The password may not be greater than 100 characters!',

@@ -1,19 +1,6 @@
 <?php
 
 return [
-    'country_codes'=>[
-        '+254'=>'Kenya',
-
-        '+255'=>'Tanzania',
-
-        '+256'=>'Uganda',
-
-        '+1'=>'USA',
-
-        '+44'=>'United Kingdom',
-
-        '+191'=>'India',
-    ],
     'registration_statuses'=>[
       'declined_members'=>[
           'id'=>0,
@@ -21,7 +8,7 @@ return [
       ],
       'cell_group_registered'=>[
           'id'=>1,
-          'text'=>'Registered'
+          'text'=>'Application'
       ],
       'cell_group_approved'=>[
           'id'=>2,
@@ -738,12 +725,8 @@ return [
             'id' => '2'
         ],
         'diploma' => [
-            'text' => 'Certificate/ Diploma',
+            'text' => 'Post Secondary/Tertiary',
             'id' => '3'
-        ],
-        'university' => [
-            'text' => 'University Degree',
-            'id' => '4'
         ]
     ],
     'ministry' => [
@@ -1069,7 +1052,7 @@ return [
             ],
             1=>[
                 'id'=>1,
-                'text'=>'Registered'
+                'text'=>'Application'
             ],
             2=>[
                 'id'=>2,
@@ -1532,9 +1515,7 @@ return [
 
             2 =>'High School/ O Level',
 
-            3 =>'Diploma Certificate',
-
-            4 =>'University Degree',
+            3 =>'Post Secondary/ Tertiary',
 
         ],
         'ministry' => [

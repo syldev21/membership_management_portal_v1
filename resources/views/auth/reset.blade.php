@@ -14,7 +14,7 @@
                         <!-- Nested Row within Card Body -->
                         <div class="row">
                             <div class="col-lg-5 d-none d-lg-block image-container">
-                                <img src="{{ asset('images/login.jpeg') }}" class="img-responsive">
+                                <img src="{{ asset('images/vosh_official_logo.jpg') }}" class="img-responsive">
                             </div>
                             <div class="vr"></div>
                             <div class="col-lg-6">

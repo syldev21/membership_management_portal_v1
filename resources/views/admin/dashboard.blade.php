@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-xl-2 col-md-6">
             <div class="card text-white">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: red">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
                     Stage 1
                 </div>
                 <div class="card-body bg-info">
@@ -52,7 +52,7 @@
             </div>
         </div><div class="col-xl-2 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orangered">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
                     Stage 2
                 </div>
                 <div class="card-body bg-info">
@@ -87,7 +87,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card  text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
                     Stage 3
                 </div>
                 <div class="card-body bg-info">
@@ -155,7 +155,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
                     Stage 5
                 </div>
                 <div class="card-body bg-info">
@@ -189,7 +189,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
                     Stage 6
                 </div>
                 <div class="card-body bg-info">
@@ -226,7 +226,7 @@
     <div class="row">
         <div class="col-xl-2 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orangered">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
                     Stage 7
                 </div>
                 <div class="card-body bg-info">
@@ -261,7 +261,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card  text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
                     Stage 8
                 </div>
                 <div class="card-body bg-info">
@@ -295,7 +295,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card  text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
                     Stage 9
                 </div>
                 <div class="card-body bg-info">
@@ -329,7 +329,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card  text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
                     Stage 10
                 </div>
                 <div class="card-body bg-info">
@@ -363,7 +363,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card  text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
                     Stage 11
                 </div>
                 <div class="card-body bg-info">
@@ -397,7 +397,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
                     Stage 12
                 </div>
                 <div class="card-body bg-info">
@@ -433,7 +433,7 @@
     <div class="row">
         <div class="col-xl-2 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
                     Stage 13
                 </div>
                 <div class="card-body bg-info">
@@ -467,7 +467,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
                     Stage 14
                 </div>
                 <div class="card-body bg-info">
@@ -501,7 +501,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
                     Stage 15
                 </div>
                 <div class="card-body bg-info">
@@ -535,7 +535,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
                     Stage 16
                 </div>
                 <div class="card-body bg-info">
@@ -569,7 +569,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
                     Stage 17
                 </div>
                 <div class="card-body bg-info">
@@ -603,7 +603,7 @@
         </div>
         <div class="col-xl-2 col-md-6">
             <div class="card bg-primary text-white mb-2">
-                <div class="card-header  d-flex align-items-center justify-content-between">
+                <div class="card-header  d-flex align-items-center justify-content-between" style="background-color: orangered">
                     All
                 </div>
                 <div class="card-body bg-info">

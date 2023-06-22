@@ -14,7 +14,7 @@
                         <!-- Nested Row within Card Body -->
                         <div class="row">
                             <div class="col-lg-5 d-none d-lg-block image-container">
-                                <img src="{{ asset('images/login.jpeg') }}" class="img-responsive">
+                                <img src="{{ asset('images/vosh_official_logo.jpg') }}" class="img-responsive">
                             </div>
                             <div class="vr"></div>
                             <div class="col-lg-6">
@@ -25,23 +25,16 @@
                                     <div id="login_alert"></div>
                                     <form class="user" action="#" method="POST" id="login_form">
                                         @csrf
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                   name="login" id="login" aria-describedby="emailHelp"
-                                                   placeholder="Enter User Name or Email...">
+                                        <div class="form-group input-container" style="position: relative;">
+                                            <i class="fa fa-user input-icon" style="position: absolute;top: 50%;left: 10px;transform: translateY(-50%);font-size: 16px;color: #aaa;"></i>
+                                            <input style="padding-left: 30px; " type="text" class="form-control form-control-user" name="login" id="login" aria-describedby="emailHelp"
+                                                   placeholder="Enter User Name/Email" />
                                             <div class="invalid-feedback"></div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <input type="password" class="form-control form-control-user"
-                                                       name="password" id="password" aria-describedby="emailHelp"
-                                                       placeholder="Password"><span class="input-group-text" id="toggle-password">
-                                                        <i class="fa fa-eye"></i>
-                                                    </span>
-                                                <div class="input-group-append rounded-right">
-
-                                                </div>
-                                            </div>
+                                        <div class="form-group input-container" style="position: relative;">
+                                            <i class="fa fa-sharp fa-solid fa-lock" style="position: absolute;top: 50%;left: 10px;transform: translateY(-50%);font-size: 16px;color: #aaa;"></i>
+                                            <input style="padding-left: 30px; " type="password" class="form-control form-control-user" name="password" id="password" aria-describedby="emailHelp"
+                                                   placeholder="Password" />
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="form-group">
