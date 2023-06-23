@@ -28,7 +28,24 @@ class DashboardController extends Controller
             dd($exception);
         }
     }
+    public function alignPhone(Request $request){
+        if (preg_match('/^[0-9]{10}$/', $request->unique_id)) {
+            // Check if the number starts with zero and remove the zero
+            $uniqueId = $request->unique_id;
+            if (substr($uniqueId, 0, 1) === '0') {
+                $uniqueId = substr($uniqueId, 1);
+            }
 
+            return response()->json([
+                'status' => 200,
+                'unique_id' => $uniqueId
+            ]);
+        }else{
+            return response()->json([
+                'status' => 400,
+            ]);
+        }
+    }
     public function conditionTitleArray(Request $request){
         $email = $request->email;
         return view('admin.conditional_title_array', ['email'=>$email]);
@@ -245,16 +262,20 @@ class DashboardController extends Controller
             if ($request->priviledged_id) {
                 $members = User::has('roles')->get();
                 $priv = true;
-            } else if (\auth()->user()->roles()->first()->name == config('membership.roles.preparer.text')) {
+            } else if (Auth::user()->roles()->first()->name == config('membership.roles.preparer.text')) {
+
+
                 $loggedin_user = Auth::user();
                 $filteredMembers = collect([]);
-
-                foreach ($members->get() as $member) {
+                $unfiltered_members = $members->get();
+//                dump($filteredMembers);
+                foreach ($unfiltered_members as $member) {
                     if ($member->cell_group_id == $loggedin_user->cell_group_id) {
                         $filteredMembers->push($member);
+//                        dump($filteredMembers);
                     }
                 }
-
+//                dd($filteredMembers);
                 $members = $filteredMembers;
                 $priv = false;
             } else {
@@ -384,9 +405,6 @@ class DashboardController extends Controller
             $validator = Validator::make($request->all(),
                 $validator_array,
                 [
-                'email.required'=>'The email field is required!',
-                'email.min'=>'The email address cannot be less than 11 characters!',
-                'email.max'=>'The email address cannot be more than 30 characters!',
                 'title.required'=>'Choose a title  from the drop down menu!',
                 'dob.required'=>'Pick the date of birth from the calender!',
                 'year_joined.required'=>"Pick the year you joined VOSH Church Int'l from the calender!",
@@ -437,7 +455,7 @@ class DashboardController extends Controller
                 $user_name = $username;
                 $user = new User();
                 $user->name = $fullName;
-                $attribute_text == 'email'?$user->email=$request->unique_id:$user->phone=$request->unique_id;
+                $attribute_text == 'email'?$user->email=$request->unique_id:$user->email=null;
                 $user->gender=$request->gender??null;
                 $user->dob=$request->dob??null;
                 $user->phone=$value ?? $request->phone??null;

@@ -136,16 +136,16 @@ return [
         'chokaa_berea' => [
             'text' => 'Chokaa-Berea',
             'id' => 4,
+        ],"langata" => [
+            'text' => "Lang'ata",
+            'id' => 5
+        ],'Jericho' => [
+            'text' => "Jericho",
+            'id' => 6
         ],
         'diaspora' => [
             'text' => 'Diaspora',
-            'id' => 5,
-        ],"langata" => [
-            'text' => "Lang'ata",
-            'id' => 6
-        ],'Jericho' => [
-            'text' => "Jericho",
-            'id' => 7
+            'id' => 7,
         ],'not_sure'=>[
             'text'=>'Not sure',
             'id'=>8
@@ -1460,9 +1460,9 @@ return [
             2 =>'Umoja-Bethel',
             3 =>'Kariobangi South',
             4 =>'Chokaa-Berea',
-            5 =>'Diaspora',
-            6 =>"Lang'ata",
-            7 =>"Jericho",
+            5 =>"Lang'ata",
+            6 =>"Jericho",
+            7 =>'Diaspora',
             8 =>"Not Sure",
         ],
         'gender' => [

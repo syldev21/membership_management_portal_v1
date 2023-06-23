@@ -34,6 +34,7 @@
                     <th rowspan="2">Title</th>
                     <th rowspan="2">First Name</th>
                     <th rowspan="2">Other Names</th>
+                    <th rowspan="2">Cell Group</th>
                     <th rowspan="2">Role</th>
                     <th colspan="10" class="permissions-column" style="text-align: center; background-color: #f1f1f1; border: 1px solid #ccc;">
                         Permissions
@@ -165,6 +166,7 @@
                             <td>{{config('membership.statuses.title')[$member->title]['text']??''}}</td>
                             <td>{{explode(' ', $member->name)[0] ?? ''}}</td>
                             <td>{{implode(' ', array_slice(explode(' ', $member->name), 1)) ?? ''}}</td>
+                            <td>{{isset($member->cell_group_id)?config('membership.statuses.cell_group')[$member->cell_group_id]:''}}</td>
                             <td>{{$member->roles()->first()->name ?? ''}}</td>
                             <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Add_Members.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Add_Members.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
                             <td><i class="{{ $member->hasPermissionTO(config('membership.permissions.Assign_Role.text')) ? 'fa fa-check' : 'fa fa-x' }}" style="color: white; background-color: {{ $member->hasPermissionTO(config('membership.permissions.Assign_Role.text')) ? 'green' : 'red' }}; border-radius: 50%; padding: 5px;"></i></td>
@@ -366,7 +368,7 @@
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="col-lg">
-                                            <label  class="fw-bold" for="name">Email or Phone</label>
+                                            <label  class="fw-bold" for="name">Email <span class="spanned_or_phone">or Phone</span></label>
                                             <input type="text" name="unique_id" class="form-control rounded-0 " id="unique_id" value="">
                                             <div class="invalid-feedback"></div>
                                         </div>
@@ -396,7 +398,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg">
-                                            <label  class="fw-bold hide-status" for="phone">Phone</label>
+                                            <label class="fw-bold hide-status" for="phone">Phone</label>
                                             <div class="input-group">
                                                 <div>
                                                     <input type="tel" id="phone" name="phone" placeholder="Phone number">
@@ -407,6 +409,7 @@
                                             </div>
                                             <div class="invalid-feedback"></div>
                                         </div>
+
                                         <div class="col-lg">
                                             <label  class="fw-bold hide-status" for="marital_status">Marital Status</label>
                                             <select  name="marital_status" id="marital_status" class="form-select rounded-0  hide-status hide-field">
@@ -664,14 +667,48 @@
 <script>
         $(document).ready( function () {
 
+            // $('#phone').prop('disabled', true);
+
+            $('#unique_id').on('blur', function (e){
+                e.preventDefault()
+                var elementContent = $('.edit-modal-title').html();
+
+                if (elementContent.indexOf('Register') !== -1) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        url: '{{route('align_phone')}}',
+                        method: 'post',
+                        // data: $(this).serialize()+ "&id="+id,
+                        data: {
+                            unique_id: $(this).val(),
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status == 200) {
+                                // $('#phone').prop('disabled', true);
+                                $('#phone').val(response.unique_id)
+                            } else {
+                                // $('#phone').prop('disabled', false);
+                            }
+                        }
+                    });
+                }
+            });
+
             var input = document.querySelector("#phone");
             var iti = window.intlTelInput(input, {
+                preferredCountries: ["KE"] // Set Kenya as a preferred country
             });
 
             var countryCodeInput = document.querySelector("#country_code");
             countryCodeInput.addEventListener("change", function() {
                 var countryCode = this.value;
-                input.setAttribute("data-country_code", countryCode); // Set the country code as a data attribute on the phone input field
+                input.setAttribute("data-country_code", countryCode);
                 iti.setCountry(countryCode);
             });
 
@@ -968,9 +1005,9 @@
             })
             $("body").on('click', '#edit, #add_new_one', function (e) {
                 if(e.target.id == 'edit'){
-                    $('.optional').hide()
+                    $('.spanned_or_phone').hide()
                 }else {
-                    $('.optional').show()
+                    $('.spanned_or_phone').show()
                 }
                 e.preventDefault()
                 $('.edit-modal-title').html('Edit '+$(this).data('user_first_name'))

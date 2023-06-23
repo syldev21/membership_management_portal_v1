@@ -2,7 +2,7 @@
     <input type="hidden" value="1" id="testa">
     <div style="float: left">
         <h1 class="mt-4">Dashboard</h1>
-        <h3 class="mb-2"><span class="spanned_status bg-success bg-warning bg-danger"></span> Members at Church Level</h3>
+        <h3 class="mb-2"><span class="spanned_status"></span> Members at Church Level</h3>
     </div>
     <div style="float: right">
         <label  class="fw-bold" for="estate">Member Status Category</label>
@@ -17,10 +17,10 @@
 </div>
 <div class="container-fluid px-4">
     <div class="row">
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card text-white">
                 <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
-                    Stage 1
+                    Age {{config('membership.age_clusters.stage1.start')}}-{{config('membership.age_clusters.stage1.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -50,10 +50,10 @@
                     </div>
                 </div>
             </div>
-        </div><div class="col-xl-2 col-md-6">
+        </div><div class="col-xl-1 col-md-6">
             <div class="card text-white mb-2">
                 <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
-                    Stage 2
+                    Age {{config('membership.age_clusters.stage2.start')}}-{{config('membership.age_clusters.stage2.end')}}
                 </div>
                 <div class="card-body bg-info">
 
@@ -85,10 +85,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card  text-white mb-2">
                 <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
-                    Stage 3
+                    Age {{config('membership.age_clusters.stage3.start')}}-{{config('membership.age_clusters.stage3.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -119,10 +119,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card text-white mb-2">
                 <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
-                    Stage 4
+                    Age {{config('membership.age_clusters.stage4.start')}}-{{config('membership.age_clusters.stage4.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -153,10 +153,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card text-white mb-2">
                 <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
-                    Stage 5
+                    Age {{config('membership.age_clusters.stage5.start')}}-{{config('membership.age_clusters.stage5.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -187,10 +187,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card text-white mb-2">
                 <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
-                    Stage 6
+                    Age {{config('membership.age_clusters.stage6.start')}}-{{config('membership.age_clusters.stage6.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -221,13 +221,10 @@
                 </div>
             </div>
         </div>
-
-    </div>
-    <div class="row">
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
-                    Stage 7
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                    Age {{config('membership.age_clusters.stage7.start')}}-{{config('membership.age_clusters.stage7.end')}}
                 </div>
                 <div class="card-body bg-info">
 
@@ -259,10 +256,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card  text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
-                    Stage 8
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                    Age {{config('membership.age_clusters.stage8.start')}}-{{config('membership.age_clusters.stage8.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -293,10 +290,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card  text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
-                    Stage 9
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                    Age {{config('membership.age_clusters.stage9.start')}}-{{config('membership.age_clusters.stage9.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -327,10 +324,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+
+    </div>
+    <div class="row">
+    </div>
+    <div class="row">
+        <div class="col-xl-1 col-md-6">
             <div class="card  text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
-                    Stage 10
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                    Age {{config('membership.age_clusters.stage10.start')}}-{{config('membership.age_clusters.stage10.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -361,10 +363,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card  text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
-                    Stage 11
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                    Age {{config('membership.age_clusters.stage11.start')}}-{{config('membership.age_clusters.stage11.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -395,10 +397,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: greenyellow">
-                    Stage 12
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                    Age {{config('membership.age_clusters.stage12.start')}}-{{config('membership.age_clusters.stage12.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -429,12 +431,10 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
-                    Stage 13
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                    Age {{config('membership.age_clusters.stage13.start')}}-{{config('membership.age_clusters.stage13.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -465,10 +465,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
-                    Stage 14
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                    Age {{config('membership.age_clusters.stage14.start')}}-{{config('membership.age_clusters.stage14.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -499,10 +499,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
-                    Stage 15
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                    Age {{config('membership.age_clusters.stage15.start')}}-{{config('membership.age_clusters.stage15.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -533,10 +533,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
-                    Stage 16
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                    Age {{config('membership.age_clusters.stage16.start')}}-{{config('membership.age_clusters.stage16.end')}}
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -567,10 +567,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card text-white mb-2">
-                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: orange">
-                    Stage 17
+                <div class="card-header d-flex align-items-center justify-content-between" style="!important;background-color: yellowgreen">
+                    Age {{config('membership.age_clusters.stage17.start')}}<i class="fa fa-arrow-right"></i>
                 </div>
                 <div class="card-body bg-info">
                     @php
@@ -601,9 +601,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-2 col-md-6">
+        <div class="col-xl-1 col-md-6">
             <div class="card bg-primary text-white mb-2">
-                <div class="card-header  d-flex align-items-center justify-content-between" style="background-color: orangered">
+                <div class="card-header  d-flex align-items-center justify-content-between" style="background-color: grey">
                     All
                 </div>
                 <div class="card-body bg-info">
@@ -626,29 +626,29 @@
         </div>
     </div>
     <div class="table table-responsive m-2" id="main">
-        <h3 class="mb-2"><span class="spanned_status bg-success bg-warning bg-danger"></span> Members at Cell Group Level</h3>
+        <h3 class="mb-2"><span class="spanned_status"></span> Members at Cell Group Level</h3>
         <table id="dt_select" class="table table-responsive table-striped table-bordered thead-light table-hover" cellspacing="0" width="100%" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
             <thead class="bg-info">
                 <tr>
                     <th>S/R</th>
                     <th>Cell Group</th>
-                    <th>Stage 1</th>
-                    <th>Stage 2</th>
-                    <th>Stage 3</th>
-                    <th>Stage 4</th>
-                    <th>Stage 5</th>
-                    <th>Stage 6</th>
-                    <th>Stage 7</th>
-                    <th>Stage 8</th>
-                    <th>Stage 9</th>
-                    <th>Stage 10</th>
-                    <th>Stage 11</th>
-                    <th>Stage 12</th>
-                    <th>Stage 13</th>
-                    <th>Stage 14</th>
-                    <th>Stage 15</th>
-                    <th>Stage 16</th>
-                    <th>Stage 17</th>
+                    <th>Age {{config('membership.age_clusters.stage1.start')}}-{{config('membership.age_clusters.stage1.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage2.start')}}-{{config('membership.age_clusters.stage2.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage3.start')}}-{{config('membership.age_clusters.stage3.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage4.start')}}-{{config('membership.age_clusters.stage4.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage5.start')}}-{{config('membership.age_clusters.stage5.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage6.start')}}-{{config('membership.age_clusters.stage6.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage7.start')}}-{{config('membership.age_clusters.stage7.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage8.start')}}-{{config('membership.age_clusters.stage8.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage9.start')}}-{{config('membership.age_clusters.stage9.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage10.start')}}-{{config('membership.age_clusters.stage10.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage11.start')}}-{{config('membership.age_clusters.stage11.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage12.start')}}-{{config('membership.age_clusters.stage12.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage13.start')}}-{{config('membership.age_clusters.stage13.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage14.start')}}-{{config('membership.age_clusters.stage14.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage15.start')}}-{{config('membership.age_clusters.stage15.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage16.start')}}-{{config('membership.age_clusters.stage16.end')}}</th>
+                    <th>Age {{config('membership.age_clusters.stage17.start')}} and older</th>
                     <th>Total</th>
                 </tr>
             </thead>
@@ -1185,9 +1185,9 @@
         $('.inactive_category').hide()
         $('.deleted_category').hide()
         $('.spanned_status').html('Active')
-        $('.spanned_status').removeClass('bg-danger')
-        $('.spanned_status').removeClass('bg-warning')
-        $('tfoot').addClass('bg-success')
+        // $('.spanned_status').removeClass('bg-danger')
+        // $('.spanned_status').removeClass('bg-warning')
+        // $('tfoot').addClass('bg-success')
         $('tfoot').removeClass('bg-warning')
         $('tfoot').removeClass('bg-danger')
         $('#member_status_category').addClass('bg-success')
@@ -1200,9 +1200,9 @@
                 $('.inactive_category').show()
                 $('.deleted_category').hide()
                 $('.spanned_status').html('Inactive')
-                $('.spanned_status').removeClass('bg-danger')
-                $('.spanned_status').removeClass('bg-success')
-                $('.spanned_status').addClass('bg-warning')
+                // $('.spanned_status').removeClass('bg-danger')
+                // $('.spanned_status').removeClass('bg-success')
+                // $('.spanned_status').addClass('bg-warning')
                 $('tfoot').removeClass('bg-success')
                 $('tfoot').addClass('bg-warning')
                 $('tfoot').removeClass('bg-danger')
@@ -1214,9 +1214,9 @@
                 $('.inactive_category').hide()
                 $('.deleted_category').show()
                 $('.spanned_status').html('Deleted')
-                $('.spanned_status').removeClass('bg-success')
-                $('.spanned_status').removeClass('bg-warning')
-                $('.spanned_status').addClass('bg-danger')
+                // $('.spanned_status').removeClass('bg-success')
+                // $('.spanned_status').removeClass('bg-warning')
+                // $('.spanned_status').addClass('bg-danger')
                 $('tfoot').removeClass('bg-success')
                 $('tfoot').removeClass('bg-warning')
                 $('tfoot').addClass('bg-danger')
@@ -1228,9 +1228,9 @@
                 $('.inactive_category').hide()
                 $('.deleted_category').hide()
                 $('.spanned_status').html('Active')
-                $('.spanned_status').removeClass('bg-danger')
-                $('.spanned_status').removeClass('bg-warning')
-                $('.spanned_status').addClass('bg-success')
+                // $('.spanned_status').removeClass('bg-danger')
+                // $('.spanned_status').removeClass('bg-warning')
+                // $('.spanned_status').addClass('bg-success')
                 $('tfoot').addClass('bg-success')
                 $('tfoot').removeClass('bg-warning')
                 $('tfoot').removeClass('bg-danger')

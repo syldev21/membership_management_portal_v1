@@ -55,6 +55,7 @@ Route::group(['middleware'=>['LoginCheck']], function (){
     Route::post('/admin-assign-role', [\App\Http\Controllers\Admin\DashboardController::class, 'adminAssignRole'])->name('members.assign');
     Route::post('/admin-assign-id', [\App\Http\Controllers\Admin\DashboardController::class, 'adminAssignId'])->name('members.assign_id');
     Route::post('/admin-review-membership', [\App\Http\Controllers\Admin\DashboardController::class, 'reviewMembership'])->name('admin.review-membership');
+    Route::post('/align-phone', [\App\Http\Controllers\Admin\DashboardController::class, 'alignPhone'])->name('align_phone');
 });
 
 //test route
