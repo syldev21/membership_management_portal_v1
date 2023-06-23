@@ -77,6 +77,7 @@ $(document).ready(function () {
                                         null, // Show the fourth column
                                         null, // Show the fifth column
                                         null, // Show the sixth column
+                                        null, // Show the sixth column
                                         null, // Show the seventh column
                                         null, // Show the eigth column
                                         null, // Show the nineth column

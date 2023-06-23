@@ -323,7 +323,7 @@
 </div>
 <script>
     $(document).ready(function () {
-        if ($('#logged_in_user_role').val() == 'Cell Group Pastor') {
+        if ($('#logged_in_user_role').val() == 'Preparer') {
             var logged_in_user_cell_group = $('#logged_in_user_role').data('id');
             $('.collapsed-cell-categories').each(function() {
                 if ($(this).data('cell_id') == logged_in_user_cell_group) {

@@ -14,10 +14,10 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-4 d-none d-lg-block image-container">
+                            <div class="col-lg- d-none d-lg-block image-container">
                                 <img src="{{ asset('images/vosh_official_logo.jpg') }}" class="img-responsive">
                             </div>
-                            <div class="vr"></div>
+                            <div class="vr bg-warning"></div>
                             <div class="col-lg-7">
                                 <div class="p-5">
                                     <div class="text-center">
@@ -109,7 +109,7 @@
                             @csrf
                             <div class="my-2">
                                 <h5 class="text-primary fw-bolder">In line with Chapter 3 of the Revised VOSH Constitution 2018 on Membership:</h5>
-                                <ol class="fw-bolder" style="background-color: cyan">
+                                <ol class="text-dark fw-bolder" style="">
                                     <li>
                                         <span class="fw-bolder">Membership: </span>Shall be open to any person, subject to being born again and adherence to statement of faith irrespective of nationality, race, and color. However, minors will automatically become members up to age of eighteen so long as their parents are church members.
                                     </li>
