@@ -5,15 +5,33 @@
     <div>
 
         <div style="float: left; width: 75%; height: 38px" class="bar_ups bg-primary text-white"><h2 class="mb-4">{{in_array($category_name, config('membership.statuses.cell_group'))?$category_name. ' Cell Group Members':$category_name.' '.($category_detail_description)}}<span class="spanned_status_category display_for_progress text-danger text-warning text-success bg-body"></span> <span class="spanned_conditional_display"></span></h2></div>
-        <div style="float: left">
-            <select name="" id="report_status_category" class="form-select rounded display_for_progress bg-success bg-warning bg-danger bg-info"  style="color: white">
-                <option value="active">--Choose Report Category--</option>
-                <option value="active">Active Members</option>
-                <option value="inactive">Inactive Members</option>
-                <option value="deleted">Deleted Members</option>
-                <option value="all">All Members</option>
+        <div style="float: left" class="mr-2 ml-5">
+            <div style="float: left">
+                <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                    <li class="nav-item dropdown text-center">
+                        <a class="text-black nav-link dropdown-toggle bg-success" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span><i class=""></i></span>More Criteria</a>
 
-            </select>
+                        <ul style="background-color: lightcyan" class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a  href="#" data-id="" data-user_first_name="" data-user_other_names="" data-u_name="" data-user_email=""  data-user_phone="" id="edit" value="" class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                                    <i class="text-primary fw-bold fa fa-edit"></i>&nbsp;&nbsp;
+                                    Edit
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div style="float: right">
+                <select name="" id="report_status_category" class="form-select rounded display_for_progress bg-success bg-warning bg-danger bg-info"  style="color: white">
+                    <option value="active">Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="deleted">Deleted</option>
+                    <option value="all">All</option>
+
+                </select>
+            </div>
             <input type="hidden" id="member_category_name" data-category="{{$category}}" data-category_name="{{$category_name??null}}" data-member_category="{{$member_age_cluster_category_id ?? null}}">
         </div>
         <input type="hidden" value="{{auth()->user()->hasPermissionTo(config('membership.permissions.Add_Members.text'))}}" id="can-add-members">

@@ -98,7 +98,7 @@
                 <div class="modal-content">
                     <div class="modal-header bg-success">
 
-                        <h5 class="fw-bold text-white" id="exampleModalLabel">Terms and Conditions for MOSH Church Buru Buru Membership Portal Registration</h5>
+                        <h5 class="fw-bold text-white" id="exampleModalLabel">Terms and Conditions for VOSH Church Buru Buru Membership Portal Registration</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <input type="" id="delete_user_id" value="" hidden="hidden">

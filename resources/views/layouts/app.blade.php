@@ -70,7 +70,7 @@
 
 </head>
 {{--<body class="bg-info" style="background-image: url({{ asset('images/slide2.jpeg') }});background-size: cover; background-repeat: no-repeat; " id="image_head">--}}
-<body class="bg-info" style="background-image: url('{{ asset('images/slide-view/slide8.jpeg') }}'); background-size: cover; background-repeat: no-repeat;" id="image_head">
+<body class="bg-info" style="background-image: url('{{ asset('images/slide-view/20221009153116_IMG_1369.JPG') }}'); background-size: cover; background-repeat: no-repeat;" id="image_head">
 
 
 
