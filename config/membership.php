@@ -721,7 +721,7 @@ return [
             'id' => '1'
         ],
         'high_school' => [
-            'text' => 'High School/ O Level',
+            'text' => 'Secondary School/ O Level',
             'id' => '2'
         ],
         'diploma' => [
@@ -1513,7 +1513,7 @@ return [
 
             1 =>'Primary School',
 
-            2 =>'High School/ O Level',
+            2 =>'Secondary School/ O Level',
 
             3 =>'Post Secondary/ Tertiary',
 
