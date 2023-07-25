@@ -189,7 +189,7 @@
                     <td class="hide_for_execs">
                         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                             <li class="nav-item dropdown bg-info">
-                                <a class="text-black nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span><i class="fa fa-bars"></i></span> Select an Action </a>
+                                <a class="text-black nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span><i class="fa fa-bars"></i></span></a>
 
                                 <ul class="dropdown-menu dropdown-menu-end bg-info" aria-labelledby="navbarDropdown">
                                     <li>

@@ -36,6 +36,7 @@
 {{--    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
     <script src="{{ asset('js/function.js') }}"></script>
     <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon/logo-official/android-chrome-192x192.png') }}">
@@ -62,6 +63,7 @@
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{ asset('assets/js/script.min.js') }}"></script>
 <script src="{{asset('js/script.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
 @yield('script')
 </body>

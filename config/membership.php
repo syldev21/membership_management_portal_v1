@@ -122,33 +122,41 @@ return [
     ],
     'cell_group' => [
         'kiambiu' => [
-            'text' => 'Kiambiu',
             'id' => 1,
+            'text' => 'Kiambiu',
+
         ],
         'umoja_bethel' => [
-            'text' => 'Umoja-Bethel',
             'id' => 2,
+            'text' => 'Umoja-Bethel',
+
         ],
         'kariobangi_south' => [
-            'text' => 'Kariobangi South',
             'id' => 3,
+            'text' => 'Kariobangi South',
+
         ],
         'chokaa_berea' => [
-            'text' => 'Chokaa-Berea',
             'id' => 4,
+            'text' => 'Chokaa-Berea',
+
         ],"langata" => [
+            'id' => 5,
             'text' => "Lang'ata",
-            'id' => 5
+
         ],'Jericho' => [
+            'id' => 6,
             'text' => "Jericho",
-            'id' => 6
+
         ],
         'diaspora' => [
-            'text' => 'Diaspora',
             'id' => 7,
+            'text' => 'Diaspora',
+
         ],'not_sure'=>[
+            'id' => 8,
             'text'=>'Not sure',
-            'id'=>8
+
         ]
     ],
     'sub_county'=>[
