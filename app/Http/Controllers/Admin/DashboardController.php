@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\HelperFunctions;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Http\Request;
@@ -21,12 +23,111 @@ class DashboardController extends Controller
 {
     public function index(){
         try {
-            $all_members = count(User::all());
-            return View("admin.dashboard")
-                ->with("all_members", $all_members);
+            $stagecounts = [
+            'stage1_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage1.id')),
+            'stage2_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage2.id')),
+            'stage3_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage3.id')),
+            'stage4_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage4.id')),
+            'stage5_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage5.id')),
+            'stage6_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage6.id')),
+            'stage7_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage7.id')),
+            'stage8_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage8.id')),
+            'stage9_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage9.id')),
+            'stage10_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage10.id')),
+            'stage11_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage11.id')),
+            'stage12_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage12.id')),
+            'stage13_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage13.id')),
+            'stage14_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage14.id')),
+            'stage15_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage15.id')),
+            'stage16_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage16.id')),
+            'stage17_counts' => HelperFunctions::getStageCount(config('membership.age_clusters.stage17.id'))
+            ];
+
+            $age_clusters = config('membership.age_clusters');
+            $cell_groups = config('membership.cell_group');
+
+// Array to store status_counts for each combination of cell group and age cluster
+            $status_counts = [];
+
+// Loop through each cell group
+            foreach ($cell_groups as $cell_group) {
+                $cell_group_id = $cell_group['id'];
+                // Array to store status_counts for each age cluster for the current cell group
+                $cell_group_counts = [];
+
+                // Loop through each age cluster
+                foreach ($age_clusters as $age_cluster) {
+                    // Get status_counts for active, inactive, and deleted statuses separately
+                    $active_count = HelperFunctions::getCountForCriteria($cell_group_id, $age_cluster, 1, 1, 5);
+                    $inactive_count = HelperFunctions::getCountForCriteria($cell_group_id, $age_cluster, 0, 1, 5);
+                    $deleted_count = HelperFunctions::getCountForCriteria($cell_group_id, $age_cluster, 0, 0, 5);
+
+                    // Add the status_counts for the current age cluster to the $cell_group_counts array
+                    $cell_group_counts[$age_cluster['id']] = [
+                        'active' => $active_count,
+                        'inactive' => $inactive_count,
+                        'deleted' => $deleted_count,
+                    ];
+                }
+
+                // Check if the 'name' index exists in the $cell_group array
+                if (isset($cell_group['text'])) {
+                    // Array to store status_counts for the current cell group
+                    $cell_group_data = ['cell_group' => $cell_group['text']];
+
+                    // Loop through each age cluster and add the status_counts to the $cell_group_data array
+                    foreach ($age_clusters as $age_cluster) {
+                        $stage_key = 'stage' . $age_cluster['id'];
+                        $cell_group_data[$stage_key] = $cell_group_counts[$age_cluster['id']]['active'] ?? 0;
+                    }
+
+                    // Add the cell group status_counts to the final status_counts array
+                    $status_counts['active'][] = $cell_group_data;
+
+                    // Loop through each age cluster and add the status_counts to the $cell_group_data array for 'inactive' and 'deleted'
+                    foreach ($age_clusters as $age_cluster) {
+                        $stage_key = 'stage' . $age_cluster['id'];
+                        $cell_group_data[$stage_key] = $cell_group_counts[$age_cluster['id']]['inactive'] ?? 0;
+                    }
+
+                    // Add the cell group status_counts to the final status_counts array for 'inactive'
+                    $status_counts['inactive'][] = $cell_group_data;
+
+                    // Loop through each age cluster and add the status_counts to the $cell_group_data array for 'deleted'
+                    foreach ($age_clusters as $age_cluster) {
+                        $stage_key = 'stage' . $age_cluster['id'];
+                        $cell_group_data[$stage_key] = $cell_group_counts[$age_cluster['id']]['deleted'] ?? 0;
+                    }
+
+                    $status_counts['deleted'][] = $cell_group_data;
+                }
+            }
+
+            return View("dashboard.main", ["stagecounts"=> $stagecounts, 'status_counts'=>$status_counts]);
         }catch (\Exception $exception){
             dd($exception);
         }
+    }
+    public function statusBasedDashboard(Request $request){
+        $stagecounts = $request->stage_count;
+        $counts = $request->status_count;
+        $view = $request->view;
+        return View($view, ["stagecounts"=> $stagecounts, 'status_counts'=>$counts]);
+    }
+    public function insertActiveDashboard(Request $request){
+        $stagecounts = $request->stage_count;
+        $counts = $request->status_count;
+        $view = $request->view;
+        return view($view, ["stagecounts"=> $stagecounts, 'status_counts'=>$counts]);
+    }
+    public function getPdf(){
+        $html = view('dashboard.main')->render();
+
+        // Generate the PDF using Snappy
+        $pdf = SnappyPdf::loadHTML($html);
+
+        // Download the PDF
+        return $pdf->download('dashboard.pdf');
     }
     public function alignPhone(Request $request){
         if (preg_match('/^[0-9]{10}$/', $request->unique_id)) {
@@ -618,3 +719,4 @@ class DashboardController extends Controller
         }
     }
 }
+//mysqldump -h 10.157.2.52  -p 3320 -u JubiApis -p digital_apps > local_digital_app.sql

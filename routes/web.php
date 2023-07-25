@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 use Faker\Provider\Uuid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +45,8 @@ Route::group(['middleware'=>['LoginCheck']], function (){
     Route::post('/profile-update', [\App\Http\Controllers\UserController::class, 'profileUpdate'])->name('profile.update');
     Route::post('/profile-pass-subcounty', [\App\Http\Controllers\UserController::class, 'profilePasSubcounty'])->name('profile.pass-subcounty');
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/status-based-dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'statusBasedDashboard'])->name('admin.staus-based-dashboard');
+    Route::get('/insert-active-dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'insertActiveDashboard'])->name('admin.insert-active-dashboard');
     Route::get('/side-profile-edit', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('side-profile-edit');
     Route::get('/main-church-members', [\App\Http\Controllers\Admin\DashboardController::class, 'churchMembers'])->name('members.index');
     Route::get('/status-based-members', [\App\Http\Controllers\Admin\DashboardController::class, 'statusBasedMembers']);
@@ -56,6 +59,9 @@ Route::group(['middleware'=>['LoginCheck']], function (){
     Route::post('/admin-assign-id', [\App\Http\Controllers\Admin\DashboardController::class, 'adminAssignId'])->name('members.assign_id');
     Route::post('/admin-review-membership', [\App\Http\Controllers\Admin\DashboardController::class, 'reviewMembership'])->name('admin.review-membership');
     Route::post('/align-phone', [\App\Http\Controllers\Admin\DashboardController::class, 'alignPhone'])->name('align_phone');
+//    Route::get('/generate-pdf', [\App\Http\Controllers\Admin\DashboardController::class, 'getPdf'])->name('generate-pdf');
+    Route::post('/generate-pdf', [\App\Http\Controllers\PDF\PDFController::class, 'generatePDF'])->name('generate-pdf');
+
 });
 
 //test route

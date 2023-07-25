@@ -24,7 +24,7 @@
             </div>
             <div style="float: right">
                 <select name="" id="report_status_category" class="form-select rounded display_for_progress bg-success bg-warning bg-danger bg-info"  style="color: white">
-                    <option value="active">Status</option>
+                    <option value="active">--Status--</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
                     <option value="deleted">Deleted</option>

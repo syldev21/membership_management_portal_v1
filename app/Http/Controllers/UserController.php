@@ -220,12 +220,12 @@ class UserController extends Controller
             $request->session()->put('loggedInUser', Auth::id());
             return response()->json([
                 'status' => 200,
-                'messages' => 'Success',
+                'messages' => ' Login Successful',
             ]);
         } else {
             return response()->json([
                 'status' => 422,
-                'messages' => 'Wrong login and  password combination. Please try again.',
+                'messages' => 'Wrong email and password combination. Please try again.',
             ]);
         }
     }
