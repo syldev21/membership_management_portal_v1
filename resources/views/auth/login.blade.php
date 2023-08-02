@@ -20,7 +20,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 bg-primary text-white rounded mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 bg-primary text-white rounded mb-4 py-2">Welcome Back!</h1>
                                     </div>
                                     <div id="login_alert"></div>
                                     <form class="user" action="#" method="POST" id="login_form">
@@ -44,7 +44,7 @@
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <div class="">
+                                        <div class="text-center">
                                             <button type="submit" class="btn btn-primary btn-user btn-block" id="login_button">
                                                 <i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;&nbsp; Login
                                             </button>
@@ -52,7 +52,7 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="/forgot"><span> <i class="fa fa-question-circle"> </i></span> Forgot Password?</a>
+                                        <a class="small" href="/forgot"><span> <i class="fa fa-question-circle"></i></span> Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="/register">Create an Account!</a>
@@ -72,6 +72,60 @@
 
     </div>
 @endsection
+
+@section('style')
+    <style>
+        /* Background Overlay */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('{{ asset('images/slide-view/_MG_1445.JPG') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        /* Custom button style */
+        .btn-primary {
+            background-color: blue;
+            border-color: blue;
+        }
+
+        .btn-primary:hover {
+            background-color: navy;
+            border-color: navy;
+        }
+
+        .btn-secondary {
+            background-color: red;
+            border-color: red;
+        }
+
+        .btn-secondary:hover {
+            background-color: darkred;
+            border-color: darkred;
+        }
+
+        /* Input style */
+        .form-control-user {
+            border-color: blue;
+        }
+
+        /* Text color */
+        .text-primary {
+            color: blue;
+        }
+
+        .text-secondary {
+            color: red;
+        }
+    </style>
+@endsection
+
 
 @section('script')
     <script>
