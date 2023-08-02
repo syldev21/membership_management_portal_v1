@@ -29,7 +29,7 @@ class UserController extends Controller
     }
     public function index(){
 //        return view('auth.login');
-        return view('welcome');
+        return view('start-page');
     }
     public function register(){
         if (session()->has('loggedInUser')){
@@ -85,9 +85,11 @@ class UserController extends Controller
             'password' => 'required|min:6|max:50',
             'confirm_password' => 'required|min:6|same:password',
             'terms' => 'accepted',
-        ], [
+        ], ['password.required'=>'Password is required',
             'confirm_password.same' => 'Password did not match!',
-            'confirm_password.required' => 'Confirm password is required!',
+            'firstName.required' => 'You first name in required!',
+            'otherNames.required' => 'Please enter other names here!',
+            'confirm_password.required' => 'Confirm your password!',
             'terms.accepted' => 'You need to read and accept our terms and conditions!',
             'unique_id.required' => 'The unique ID field is required.',
             'unique_id.max' => 'The unique ID must not exceed :max characters.',

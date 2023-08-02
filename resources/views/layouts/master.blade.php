@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Buru Buru VOSH Church - @yield('title')</title>
+    <title>VOSH Church Buru Buru |@yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
@@ -38,6 +38,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+
     <script src="{{ asset('js/function.js') }}"></script>
     <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon/logo-official/android-chrome-192x192.png') }}">
     <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('images/favicon/logo-official/android-chrome-512x512.png') }}">
@@ -48,23 +55,23 @@
     <link rel="shortcut icon" href="{{ asset('images/favicon/logo-official/favicon.ico') }}" type="image/x-icon">
 </head>
 <body class="">
-@include('layouts.includes.admin.navbar')
+    @include('layouts.includes.admin.navbar')
 
-<div id="layoutSidenav">
-    @include('layouts.includes.admin.sidebar')
-    <div id="layoutSidenav_content">
-        <main>
-            @yield('content')
-        </main>
-        @include('layouts.includes.admin.footer')
+    <div id="layoutSidenav">
+        @include('layouts.includes.admin.sidebar')
+        <div id="layoutSidenav_content">
+            <main>
+                @yield('content')
+            </main>
+            @include('layouts.includes.admin.footer')
+        </div>
     </div>
-</div>
 
-<script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{ asset('assets/js/script.min.js') }}"></script>
-<script src="{{asset('js/script.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ asset('assets/js/script.min.js') }}"></script>
+    <script src="{{asset('js/script.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
-@yield('script')
+    @yield('script')
 </body>
 </html>

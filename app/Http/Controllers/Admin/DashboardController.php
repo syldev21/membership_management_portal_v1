@@ -313,7 +313,7 @@ class DashboardController extends Controller
                             ->where('cell_group_id', '!=', null)
                             ->where('active', 1)
                             ->where('registration_status', 5);
-                        $category_detail_description = '(All Ages)';
+                        $category_detail_description = '(All Stages)';
                     } elseif (strpos($category, 'gender-based')) {
                         if (isset($gender_cell_group)) {
                             $members = User::where('dob', '!=', null)

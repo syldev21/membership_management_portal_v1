@@ -21,8 +21,8 @@ use Yajra\DataTables\Facades\DataTables;
 */
 
 
-Route::get('/login', [\App\Http\Controllers\UserController::class, 'loginPage']);
-Route::get('/registration-page', [\App\Http\Controllers\UserController::class, 'registrationPage']);
+Route::get('/login', [\App\Http\Controllers\UserController::class, 'loginPage'])->name('login-page');
+Route::get('/registration-page', [\App\Http\Controllers\UserController::class, 'registrationPage'])->name('register-page');
 Route::post('/review-terms', [\App\Http\Controllers\UserController::class, 'reviewTerms']);
 Route::get('/register', [\App\Http\Controllers\UserController::class, 'register']);
 Route::get('/forgot', [\App\Http\Controllers\UserController::class, 'forgot']);
