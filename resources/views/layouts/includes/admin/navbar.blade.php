@@ -1,7 +1,7 @@
 <nav class="sb-topnav navbar navbar-expand" style="background-color: lightcyan">
     <!-- Navbar Brand-->
 {{--    <a class="navbar-brand ps-3" href="index.html"><img src="{{asset('/images.login.jpeg')}}"></a>--}}
-    <div class="sb-sidenav-menu-heading bg-success" style="width: 225px; height: 60px">
+    <div class="sb-sidenav-menu-heading bg-primary" style="width: 225px; height: 60px">
         <div class="small m-4 text-white">VOSH Church Buru Buru</div>
     </div>
     <!-- Sidebar Toggle-->

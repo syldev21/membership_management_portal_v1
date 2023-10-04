@@ -8,8 +8,12 @@ use Illuminate\Http\Request;
 
 class FilteredUserController extends Controller
 {
-    public function filteredUsers(){
-        $members = User::all();
-        return response()->json($members);
+    public function users(){
+        try{
+            $users = User::all();
+        return response()->json($users);
+        }catch(\Exception $e){
+            return response()->json($e->getMessage());
+        }
     }
 }

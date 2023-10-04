@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Conf\Config;
 use App\Mail\ForgotPassword;
 use App\Models\User;
+use App\Models\ActivityLog;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Contracts\Hashing\Hasher;
@@ -29,7 +30,7 @@ class UserController extends Controller
     }
     public function index(){
 //        return view('auth.login');
-        return view('welcome');
+        return view('start-page');
     }
     public function register(){
         if (session()->has('loggedInUser')){
@@ -160,6 +161,10 @@ class UserController extends Controller
           $user->member_number = $member_number;
           $user->registration_status = config('membership.registration_statuses.church_approved.id');
           $user->save();
+          ActivityLog::create([
+                    'activity'=>config('membership.activities.application'),
+                    'created_by'=>$user->id
+                ]);
 
             if (Str::contains($request->email, 'voshburuburu') && Str::contains($fullName, 'Admin')) {
                 User::where('id', $user->id)->update(['title'=>config('membership.title.admin.id')]);
@@ -218,6 +223,10 @@ class UserController extends Controller
 
         if ($usernameValid || $emailValid) {
             $request->session()->put('loggedInUser', Auth::id());
+            ActivityLog::create([
+                'activity'=>config('membership.activities.login'),
+                'created_by'=>Auth::id()
+            ]);
             return response()->json([
                 'status' => 200,
                 'messages' => ' Login Successful',
@@ -244,7 +253,12 @@ public function profile(Request $request){
 //Logout meth
     public function logout(){
         if (session()->has('loggedInUser')){
+            $id = Auth::id();
             session()->pull('loggedInUser');
+            ActivityLog::create([
+                'activity'=>config('membership.activities.logout'),
+                'created_by'=>$id
+            ]);
             return redirect('/');
         }
     }
@@ -271,6 +285,10 @@ public function profile(Request $request){
         User::where('id', $user_id)->update([
             'picture'=>$fileName
         ]);
+        ActivityLog::create([
+            'activity'=>config('membership.activities.profile_image_update'),
+            'created_by'=>$user_id
+        ]);
 
         return response()->json([
             'status'=>200,
@@ -279,7 +297,7 @@ public function profile(Request $request){
     }
 
 //    handle profile update ajax request
-    public function profileUpdate(Request $request){
+        public function profileUpdate(Request $request){
             if (isset($request->dob)){
                 $validator = Validator::make($request->all(), [
                     'dob' => 'date|before_or_equal:today',
@@ -357,7 +375,10 @@ public function profile(Request $request){
                 $user->update(
                     $udpate_data_array
                 );
-
+                ActivityLog::create([
+                    'activity'=>config('membership.activities.profile_update'),
+                    'created_by'=>$user->first()->id
+                ]);
                 return response()->json([
                     'status'=>200,
                     'messages'=>'Profile updated successfully!',
@@ -389,6 +410,11 @@ public function profile(Request $request){
                     $member->first()->roles()->detach(); // Unassign all roles from the user
                     $member->first()->permissions()->sync([]); // Remove all  permissions associated with the user
                 }
+                ActivityLog::create([
+                    'activity'=>config('membership.activities.member_deletion'),
+                    'created_by'=>Auth::id(),
+                    'affected_user'=>$member->first()->id
+                ]);
                 return response()->json([
                     'status' => 200,
                     'messages' => explode(' ', $member->first()->name)[0].' deleted successfully'
@@ -396,6 +422,11 @@ public function profile(Request $request){
             }
         }else{
             $member->update(['existing' => 1, 'active' => 1]);
+            ActivityLog::create([
+                'activity'=>config('membership.activities.reinstating'),
+                'created_by'=>Auth::id(),
+                'affected_user'=>$member->first()->id
+            ]);
             return response()->json([
                 'status' => 200,
                 'messages' => explode(' ', $member->first()->name)[0].' reinstated successfully'
@@ -429,6 +460,11 @@ public function profile(Request $request){
                             $user->permissions()->sync([]); // Remove all associated permissions
                         }
                         if ($deactivated) {
+                            ActivityLog::create([
+                                'activity'=>config('membership.activities.member_deactivating'),
+                                'created_by'=>Auth::id(),
+                                'affected_user'=>$user->id
+                            ]);
                             return response()->json([
                                 'status' => 200,
                                 'messages' => explode(' ', $user->name)[0].' deactivated successfully'
@@ -437,6 +473,11 @@ public function profile(Request $request){
                     }
 
                 } else {
+                    ActivityLog::create([
+                        'activity'=>config('membership.activities.member_activating'),
+                        'created_by'=>Auth::id(),
+                        'affected_user'=>$user->id
+                    ]);
                     $activated = User::where('id', $member_id)->update(['active' => 1]);
                     if ($activated) {
                         return response()->json([
@@ -526,6 +567,10 @@ public function profile(Request $request){
                         'token'=>null,
                         'token_expire'=>null,
                     ]);
+                    ActivityLog::create([
+                        'activity'=>config('membership.activities.password_reset'),
+                        'created_by'=>User::where('email', $request->email)->first()->id
+                        ]);
                 return response()->json([
 
                     'status'=>200,
