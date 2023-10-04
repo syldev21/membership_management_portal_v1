@@ -21,8 +21,8 @@ use Yajra\DataTables\Facades\DataTables;
 */
 
 
-Route::get('/login', [\App\Http\Controllers\UserController::class, 'loginPage']);
-Route::get('/registration-page', [\App\Http\Controllers\UserController::class, 'registrationPage']);
+Route::get('/login', [\App\Http\Controllers\UserController::class, 'loginPage'])->name('login-page');
+Route::get('/registration-page', [\App\Http\Controllers\UserController::class, 'registrationPage'])->name('register-page');
 Route::post('/review-terms', [\App\Http\Controllers\UserController::class, 'reviewTerms']);
 Route::get('/register', [\App\Http\Controllers\UserController::class, 'register']);
 Route::get('/forgot', [\App\Http\Controllers\UserController::class, 'forgot']);
@@ -66,6 +66,53 @@ Route::group(['middleware'=>['LoginCheck']], function (){
 
 //test route
 Route::get('/data', function () {
+    $members = \App\Models\ActivityLog::with('createdByUser')->orderBy('created_by', 'desc')->get();
+    foreach($members as $notification){
+        $user = $notification->createdByUser;
+        $gender_id = $user->gender;
+        if(isset($notification->affected_user)){
+            $affected_user = \App\Models\User::where('id', $notification->affected_user)->first()->name;
+        }
+        if ($gender_id == config('membership.gender.male.id')){
+            $gender_possessive = 'His';
+        }else{
+            $gender_possessive = 'Her';
+        }
+        $activity = config('membership.statuses.activities')[$notification->activity];
+        if ($notification->activity === config('membership.activities.application')||
+            $notification->activity === config('membership.activities.login')||
+            $notification->activity === config('membership.activities.logout')||
+            $notification->activity === config('membership.activities.password_reset')||
+            $notification->activity === config('membership.activities.profile_update')||
+            $notification->activity === config('membership.activities.profile_image_update')
+            ){
+            $activity_refined = str_replace(':gender_poseesive', $gender_possessive, $activity);
+        }elseif($notification->activity === config('membership.activities.creation')||
+        $notification->activity === config('membership.activities.membership_preparation')||
+        $notification->activity === config('membership.activities.membership_review')||
+        $notification->activity === config('membership.activities.membership_approval')||
+        $notification->activity === config('membership.activities.role_assignment')||
+        $notification->activity === config('membership.activities.member_deletion')||
+        $notification->activity === config('membership.activities.member_deactivating')||
+        $notification->activity === config('membership.activities.member_decline')||
+        $notification->activity === config('membership.activities.member_edit')||
+        $notification->activity === config('membership.activities.reinstating')||
+        $notification->activity === config('membership.activities.role_unassignment')||
+        $notification->activity === config('membership.activities.member_activating')
+        ){
+            $activity_refined = str_replace(':username', $affected_user, $activity);
+        }elseif(
+            $notification->activity === config('membership.activities.see_report')||
+            $notification->activity === config('membership.activities.report_generation')
+        ){
+            $category = config('membership.statuses.age_clusters')[$notification->report_category]['text'];
+            $activity_refined = str_replace(':category', $category, $activity);
+        }
+        else{
+            $activity_refined = $activity;
+        }
+    dump($activity_refined);
+    }
 });
 
 

@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Buru Buru VOSH Church - @yield('title')</title>
+    <title>@yield('title')-VOSH Church Buru Buru</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="b-vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <script src="https://kit.fontawesome.com/90018b3b25.js" crossorigin="anonymous"></script>
@@ -35,12 +35,6 @@
             max-height: 100%;
             object-fit: contain;
         }
-
-
-
-
-
-
         .input-container {
             position: relative;
         }
@@ -57,7 +51,70 @@
         .form-control-user {
             padding-left: 30px; /* Adjust as needed */
         }
+        /* Form header style */
+        .form-header {
+            background-color: blue;
+            color: white;
+            border-radius: 5px;
+            padding: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
 
+        /* Custom list style */
+        .text-dark ol {
+            counter-reset: item;
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .text-dark li {
+            display: block;
+        }
+
+        .text-dark li:before {
+            content: counter(item) ".";
+            counter-increment: item;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        /* Custom nested list style */
+        .text-dark ol ol {
+            counter-reset: subitem;
+        }
+
+        .text-dark ol ol li:before {
+            content: counter(item) "." counter(subitem, lower-alpha) ".";
+            counter-increment: subitem;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        .back-to-welcome {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        .curved-arrow {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            transform: rotate(45deg);
+            transform-origin: center;
+        }
+        .curved-arrow::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1.2em;
+            height: 1.2em;
+            border: 2px solid #333;
+            border-width: 2px 0 0 2px;
+            border-radius: 50% 0 0 0;
+            transform: rotate(45deg);
+            transform-origin: 0 100%;
+        }
 
     </style>
     <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon/logo-official/android-chrome-192x192.png') }}">
@@ -70,12 +127,16 @@
 
 </head>
 {{--<body class="bg-info" style="background-image: url({{ asset('images/slide2.jpeg') }});background-size: cover; background-repeat: no-repeat; " id="image_head">--}}
-<body class="bg-info" style="background-image: url('{{ asset('images/slide-view/20221009153116_IMG_1369.JPG') }}'); background-size: cover; background-repeat: no-repeat;" id="image_head">
+{{--<body class="bg-info" style="background-image: url('{{ asset('images/slide-view/20221009153116_IMG_1369.JPG') }}'); background-size: cover; background-repeat: no-repeat;" id="image_head">--}}
+<body class="bg-info" style="background-image: url('{{ asset('images/slide-view/_MG_1432.JPG') }}'); background-size: cover; background-repeat: no-repeat;" id="image_head">
 
 
 
     <main>
-        @yield('content')
+        <div class="container mt-5 page-here">
+            <h1 class="display-4 text-primary" style="text-align: center">Welcome to VOSH Church Buru Buru<br><span style="display: block; text-align: center;">Membership Portal</span></h1>
+            @yield('content')
+        </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>

@@ -283,11 +283,19 @@
                                     <a class="nav-link progressive-registration text-dark" href="#" data-id="{{config('membership.registration_statuses.church_approved.id')}}">{{config('membership.registration_statuses.church_approved.text')}}</a>
                                 </nav>
                             </div>
+                            <a class="nav-link progressive-registration text-danger" data-id="" href="#" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="false" aria-controls="pagesCollapseSettings">
+                                <div class="sb-nav-link-icon text-white"><i class="fas fa-not-equal"></i></div>
+                                One-Off Approval
+                            </a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed text-body" data-column_filter="1" id="priviledged_users" href="#" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="false" aria-controls="pagesCollapseSettings">
                         <div class="sb-nav-link-icon text-white"><i class="fas fa-star"></i></div>
                         Privileged Users
+                    </a>
+                    <a class="nav-link collapsed text-body activity-log" hidden data-column_filter="2" href="#" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="false" aria-controls="pagesCollapseSettings">
+                        <div class="sb-nav-link-icon text-white"><i class="fas fa-star"></i></div>
+                        Activity Log
                     </a>
                 @endif
 
@@ -315,7 +323,7 @@
 
             </div>
         </div>
-        <div class="sb-sidenav-footer bg-success text-white">
+        <div class="sb-sidenav-footer bg-primary text-white">
             <div class="small">Logged in as:</div>
             {{\auth()->user()->title == config('membership.title.member.id')||\auth()->user()->title == config('membership.title.admin.id')?\auth()->user()->name:implode(' ', [config('membership.statuses.title')[auth()->user()->title]['text'], \auth()->user()->name])}}
         </div>

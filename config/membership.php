@@ -1,6 +1,28 @@
 <?php
 
 return [
+    'activities'=>[
+        'application'=>1,
+        'creation'=>2,
+        'login'=>3,
+        'logout'=>4,
+        'password_reset'=>5,
+        'profile_update'=>6,
+        'membership_preparation'=>7,
+        'membership_review'=>8,
+        'membership_approval'=>9,
+        'role_assignment'=>10,
+        'member_deletion'=>11,
+        'member_deactivating'=>12,
+        'member_decline'=>13,
+        'member_edit'=>14,
+        'see_report'=>15,
+        'report_generation'=>16,
+        'profile_image_update'=>17,
+        'reinstating'=>18,
+        'role_unassignment'=>19,
+        'member_activating'=>20
+    ],
     'registration_statuses'=>[
       'declined_members'=>[
           'id'=>0,
@@ -957,6 +979,29 @@ return [
 
 
     'statuses'=>[
+        'activities'=>[
+            1=>'Applied for membership pending approval',
+            2=>"Added :username's membership pending approval",
+            3=>'Logged in to :gender_poseesive account',
+            4=>'Logged out from :gender_poseesive account',
+            5=>'Reset :gender_poseesive password',
+            6=>'Updated :gender_poseesive profile',
+            7=>"Prepared :username's membership",
+            8=>"Reviewed :username's membership",
+            9=>"Approved :username's membership",
+            10=>'Assigned Role to :username',
+            11=>"Deleted :username's membership",
+            12=>"Deactivated :username's membership",
+            13=>"Declined :username's membership",
+            14=>"Updated :username's membership details",
+            15=>"Seen :category membership Report",
+            16=>"Genrated :category membership Report",
+            17=>"Updated :gender_poseesive profile image",
+            18=>"Reinstated :username's membership",
+            19=>'Unassigned Role from :username',
+            20=>"Activated :username's membership"
+            
+        ],
         'deactivate_reason'=>[
 
             1=> [
@@ -1585,8 +1630,8 @@ return [
                 'text'=>'Stage 5'
             ]
             ,6=>[
-                'start'=>24,
-                'end'=>25,
+                'start'=>25,
+                'end'=>29,
                 'id'=>6,
                 'text'=>'Stage 6'
             ]

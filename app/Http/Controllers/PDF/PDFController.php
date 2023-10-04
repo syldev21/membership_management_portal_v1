@@ -21,6 +21,10 @@ class PDFController extends Controller
         $pdf = PDF::loadHTML($html); // Method 'loadHTML' not found in \Knp\Snappy\Pdf
 
         // Download the PDF
+        ActivityLog::create([
+            'activity'=>config('membership.activities.report_generation'),
+            'created_by'=>Auth::id(),
+        ]);
         return $pdf->download('dashboard.pdf');
     }
 }

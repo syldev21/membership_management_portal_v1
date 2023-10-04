@@ -22,6 +22,7 @@
                     </li>
                 </ul>
             </div>
+            <input type= "hidden" id ='conditional_activity' data-id='{{$activity}}'>
             <div style="float: right">
                 <select name="" id="report_status_category" class="form-select rounded display_for_progress bg-success bg-warning bg-danger bg-info"  style="color: white">
                     <option value="active">--Status--</option>
@@ -45,62 +46,130 @@
             <input type="hidden" id="auth_user_role" value="{{$auth_user_role}}">
             <table id="dt_select" class="table table-striped table-bordered thead-dark" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd ">
                 <thead>
+                @if($activity)
+                <tr>
+                    <th>S/R</th>
+                    <th>Member</th>
+                    <th>Activity</th>
+                    <th>Time Elapsed</th>
+                </tr>
+                @else
                 @if($priv)
-                <tr>
-                    <th rowspan="2">S/R</th>
-                    <th rowspan="2">Member Number</th>
-                    <th rowspan="2">Title</th>
-                    <th rowspan="2">First Name</th>
-                    <th rowspan="2">Other Names</th>
-                    <th rowspan="2">Cell Group</th>
-                    <th rowspan="2">Role</th>
-                    <th colspan="10" class="permissions-column" style="text-align: center; background-color: #f1f1f1; border: 1px solid #ccc;">
-                        Permissions
-                    </th>
-                    <th rowspan="2" class="hide_for_execs">Actions</th>
-                </tr>
-                <tr>
-                    <th>{{config('membership.permissions.Add_Members.text')}}</th>
-                    <th>{{config('membership.permissions.Assign_Role.text')}}</th>
-                    <th>{{config('membership.permissions.Decline_Membership.text')}}</th>
-                    <th>{{config('membership.permissions.Delete_Members.text')}}</th>
-                    <th>{{config('membership.permissions.Edit_Members.text')}}</th>
-                    <th>{{config('membership.permissions.prepare_registration.text')}}</th>
-                    <th>{{config('membership.permissions.review_registration.text')}}</th>
-                    <th>{{config('membership.permissions.approve_registration.text')}}</th>
-                    <th>{{config('membership.permissions.See_Members.text')}}</th>
-                    <th>{{config('membership.permissions.generate_report.text')}}</th>
-                </tr>
+                    <tr>
+                        <th rowspan="2">S/R</th>
+                        <th rowspan="2">Member Number</th>
+                        <th rowspan="2">Title</th>
+                        <th rowspan="2">First Name</th>
+                        <th rowspan="2">Other Names</th>
+                        <th rowspan="2">Cell Group</th>
+                        <th rowspan="2">Role</th>
+                        <th colspan="10" class="permissions-column" style="text-align: center; background-color: #f1f1f1; border: 1px solid #ccc;">
+                            Permissions
+                        </th>
+                        <th rowspan="2" class="hide_for_execs">Actions</th>
+                    </tr>
+                    <tr>
+                        <th>{{config('membership.permissions.Add_Members.text')}}</th>
+                        <th>{{config('membership.permissions.Assign_Role.text')}}</th>
+                        <th>{{config('membership.permissions.Decline_Membership.text')}}</th>
+                        <th>{{config('membership.permissions.Delete_Members.text')}}</th>
+                        <th>{{config('membership.permissions.Edit_Members.text')}}</th>
+                        <th>{{config('membership.permissions.prepare_registration.text')}}</th>
+                        <th>{{config('membership.permissions.review_registration.text')}}</th>
+                        <th>{{config('membership.permissions.approve_registration.text')}}</th>
+                        <th>{{config('membership.permissions.See_Members.text')}}</th>
+                        <th>{{config('membership.permissions.generate_report.text')}}</th>
+                    </tr>
 
                 @else
-                <tr>
-
-                    <th>S/R</th>
-                    <th>Member Number</th>
-                    <th>Title</th>
-                    <th>First Name</th>
-                    <th>Other Names</th>
-                    <th>Phone</th>
-                    <th>Age</th>
-                    <th>Born Again</th>
-                    <th>Gender</th>
-                    <th>Marital Status</th>
-                    <th>Sub-County</th>
-                    <th>Ward</th>
-                    <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">Cell Group</th>
-                    <th>Employment Status</th>
-                    <th>Leadership Status</th>
-                    <th>Occupation</th>
-                    <th>Other/ Ministries of Interest</th>
-                    <th>Level of Education</th>
-                    <th>Registered</th>
-                    <th>Year Joined</th>
-                    <th class="removed removed-table-head"></th>
-                    <th class="hide_for_execs">Actions</th>
-                </tr>
+                    <tr>
+                        <th>S/R</th>
+                        <th>Member Number</th>
+                        <th>Title</th>
+                        <th>First Name</th>
+                        <th>Other Names</th>
+                        <th>Phone</th>
+                        <th>Age</th>
+                        <th>Born Again</th>
+                        <th>Gender</th>
+                        <th>Marital Status</th>
+                        <th>Sub-County</th>
+                        <th>Ward</th>
+                        <th class="conditional_show" data-id="{{in_array($category_name, config('membership.statuses.cell_group')) ?? false}}">Cell Group</th>
+                        <th>Employment Status</th>
+                        <th>Leadership Status</th>
+                        <th>Occupation</th>
+                        <th>Other/ Ministries of Interest</th>
+                        <th>Level of Education</th>
+                        <th>Registered</th>
+                        <th>Year Joined</th>
+                        <th class="removed removed-table-head"></th>
+                        <th class="hide_for_execs">Actions</th>
+                    </tr>
+                @endif
                 @endif
                 </thead>
                 <tboby>
+                    @if($activity)
+                    @foreach($members as $notification)
+                            <?php
+                            $user = $notification->createdByUser;
+                            $gender_id = $user->gender;
+                            if(isset($notification->affected_user)){
+                            $affected_user = \App\Models\User::where('id', $notification->affected_user)->first()->name;
+                            }
+                            if ($gender_id == config('membership.gender.male.id')){
+                                $gender_possessive = 'His';
+                            }else{
+                                $gender_possessive = 'Her';
+                            }
+                            $activity = config('membership.statuses.activities')[$notification->activity];
+                            if ($notification->activity === config('membership.activities.application')||
+                                $notification->activity === config('membership.activities.login')||
+                                $notification->activity === config('membership.activities.logout')||
+                                $notification->activity === config('membership.activities.password_reset')||
+                                $notification->activity === config('membership.activities.profile_update')||
+                                $notification->activity === config('membership.activities.profile_image_update')
+                                ){
+                                $activity_refined = str_replace(':gender_poseesive', $gender_possessive, $activity);
+                            }elseif($notification->activity === config('membership.activities.creation')||
+                            $notification->activity === config('membership.activities.membership_preparation')||
+                            $notification->activity === config('membership.activities.membership_review')||
+                            $notification->activity === config('membership.activities.membership_approval')||
+                            $notification->activity === config('membership.activities.role_assignment')||
+                            $notification->activity === config('membership.activities.member_deletion')||
+                            $notification->activity === config('membership.activities.member_deactivating')||
+                            $notification->activity === config('membership.activities.member_decline')||
+                            $notification->activity === config('membership.activities.member_edit')||
+                            $notification->activity === config('membership.activities.reinstating')||
+                            $notification->activity === config('membership.activities.role_unassignment')||
+                            $notification->activity === config('membership.activities.member_activating')
+                            ){
+                                $activity_refined = str_replace(':username', $affected_user, $activity);
+                            }elseif(
+                                $notification->activity === config('membership.activities.see_report')||
+                                $notification->activity === config('membership.activities.report_generation')
+                            ){
+                                if($notification->report_category == 18){
+                                    $categoty = 'Activity Log';
+                                }else{
+                                    $category = config('membership.statuses.age_clusters')[$notification->report_category]['text'];
+                                }
+                            
+                                $activity_refined = str_replace(':category', $category, $activity);
+                            }
+                            else{
+                                $activity_refined = $activity;
+                            }
+                            ?>
+                    <tr class="text-black fw-bolder">
+                        <td>{{$loop->iteration}}</td>
+                        <td>{{$user->name}}</td>
+                        <td>{{$activity_refined}}</td>
+                        <td>{{\Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</td>
+                    </tr>
+                @endforeach
+                    @else
                     @foreach($members as $member)
                         <input type="hidden" class="limited_view_and_action" data-cell_group="{{\App\Models\User::where('id', auth()->id())->with('roles')->first()->cell_group_id ?? null}}" value="{{\App\Models\User::where('id', auth()->id())->with('roles')->first()->roles[0]->role_id ?? null}}">
                         <?php
@@ -303,6 +372,7 @@
                             </td>
                         </tr>
                     @endforeach
+                    @endif
                 </tboby>
             </table>
         </div>
@@ -685,6 +755,11 @@
 <script>
         $(document).ready( function () {
 
+
+            if ($('#conditional_activity').data('id')) {
+                $('#report_status_category').prop('disabled', true)
+            }
+
             // $('#phone').prop('disabled', true);
 
             $('#unique_id').on('blur', function (e){
@@ -806,7 +881,12 @@
             $('#report_status_category').removeClass('bg-warning')
             $('#report_status_category').removeClass('bg-danger')
             $('#conditional_report_status').val($('#conditional_report_status').data('active'))
-            $('.spanned_status_category').html(' -Active')
+            if ($('#conditional_activity').data('id')) {
+                $('.spanned_status_category').html('')
+            }else{
+                $('.spanned_status_category').html(' -Active')
+            }
+
 
             $('.spanned_status_category').removeClass('text-danger')
             $('.spanned_status_category').removeClass('text-warning')

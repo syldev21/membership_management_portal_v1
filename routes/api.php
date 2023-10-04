@@ -17,5 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+// Route for issuing access tokens
+Route::post('/oauth/token', 'AccessTokenController@issueToken');
 
 Route::get('/filtered-members', [\App\Http\Controllers\API\FilteredUserController::class, 'filteredUsers']);
+Route::get('/users', [\App\Http\Controllers\API\FilteredUserController::class, 'users']);

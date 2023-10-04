@@ -25,7 +25,7 @@ $(document).ready(function () {
                         });
 
                     // Inside the callback functions, DataTables and buttons libraries are loaded and ready to use
-                    $('.church-members, .cell_group_members, .progressive-registration, #priviledged_users').click(function (e) {
+                    $('.church-members, .cell_group_members, .progressive-registration, #priviledged_users, .activity-log').click(function (e) {
                         e.preventDefault();
                         let member_category = $(this).data('id');
                         let category = $(this).attr('class');
@@ -61,7 +61,7 @@ $(document).ready(function () {
 
 
                                 var buttons = [
-                                    'copy', 'csv', 'excel', 'pdf', 'print'
+                                    'copy', 'csv', 'excel', 'pdf'
                                 ];
 
                                 var tableOptions = {
@@ -123,6 +123,14 @@ $(document).ready(function () {
                                         { visible: false }, // Show the 21st column
                                         { visible: false }, // Show the 22nd column
                                         null, // Show the 23rd column
+                                    ];
+                                }else if (column_filter != 2) {
+                                    // tableOptions.pageLength = 8; // Set the number of records per page
+                                    tableOptions.columns = [
+                                        null, // Show the 1st column
+                                        null, // Show the 2nd column
+                                        null, // Show the 3rd column
+                                        null, // Show the 4th column
                                     ];
                                 }
                                 var table = $('#dt_select').DataTable(tableOptions);

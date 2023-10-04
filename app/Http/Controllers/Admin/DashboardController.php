@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\HelperFunctions;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\ActivityLog;
 use Barryvdh\Snappy\Facades\SnappyPdf;
 use Carbon\Carbon;
 use Faker\Factory;
@@ -274,7 +275,10 @@ class DashboardController extends Controller
         }else{
             $priv = false;
         }
-
+            ActivityLog::create([
+                'activity'=>config('membership.activities.see_report'),
+                'created_by'=>Auth::id(),
+            ]);
         return view('admin.status_based_members',
             [
                 'auth_user_role'=>$loggedin_user->roles()->first()->name,
@@ -298,8 +302,22 @@ class DashboardController extends Controller
             $class_name = $request->class_name;
 
 //            $loggedin_user = User::where('id', auth()->id())->with('customRoles')->first();
+            if (isset($class_name) && strpos($class_name, 'activity-log')){
 
-            if (isset($class_name) && strpos($class_name, 'progressive-registration')) {
+                $members = ActivityLog::with('createdByUser');
+                $activity = true;
+                $display_for_progress = false;
+                $view = 'admin.church-level-members.activities';
+                ActivityLog::create([
+                'activity'=>config('membership.activities.see_report'),
+                'created_by'=>Auth::id(),
+                'report_category'=>18
+                ]);
+
+            }else{
+                $view = 'admin.church-members';
+                $activity = false;
+                if (isset($class_name) && strpos($class_name, 'progressive-registration')) {
                 $display_for_progress = true;
                 $members = User::where('dob', '!=', null)
                     ->where('cell_group_id', '!=', null)
@@ -359,6 +377,9 @@ class DashboardController extends Controller
                     ;
                 }
             }
+            }
+
+
 
             if ($request->priviledged_id) {
                 $members = User::has('roles')->get();
@@ -383,12 +404,17 @@ class DashboardController extends Controller
                 $members = $members->get();
                 $priv = false;
             }
+                ActivityLog::create([
+                'activity'=>config('membership.activities.see_report'),
+                'created_by'=>Auth::id(),
+                ]);
 
             return view('admin.church-members', [
                 'auth_user_role'=>\auth()->user()->roles()->first()->name,
                 'category_detail_description' => $category_detail_description ?? null,
                 'priv' => $priv,
                 'members' => $members,
+                'activity' => $activity,
                 'category_name' => $member_age_cluster_category_text,
                 'member_age_cluster_category_id' => $member_age_cluster_category_id,
                 'category' => $category,
@@ -433,6 +459,8 @@ class DashboardController extends Controller
         if (isset($request->firstName) || isset($request->otherNames)){
             $fullName = implode(' ', [$request->firstName, $request->otherNames]);
         }
+        // $request->id = 6;
+        // $request->email = 'bonyango@gmail.com';
 
         if (isset($request->id)){
             $udpate_data_array = [
@@ -467,6 +495,12 @@ class DashboardController extends Controller
             $user->update(
                 $udpate_data_array
             );
+            $affected_user_id = $request->id;
+            $activity_id = ActivityLog::insertGetId([
+            'activity'=>config('membership.activities.member_edit'),
+            'created_by'=>Auth::id(),
+            'affected_user'=>$affected_user_id
+            ]);
 
             return response()->json([
                 'status'=>200,
@@ -474,8 +508,6 @@ class DashboardController extends Controller
             ]);
 
         }else{
-
-
             $validator_array = [
                 'firstName'=>'required|regex:/^[a-zA-Z]+$/',
                 'otherNames'=>'required',
@@ -554,28 +586,58 @@ class DashboardController extends Controller
                 $username = $request->firstName . $digits;
                 $fullName = implode(' ', [$request->firstName, $request->otherNames]);
                 $user_name = $username;
-                $user = new User();
-                $user->name = $fullName;
-                $attribute_text == 'email'?$user->email=$request->unique_id:$user->email=null;
-                $user->gender=$request->gender??null;
-                $user->dob=$request->dob??null;
-                $user->phone=$value ?? $request->phone??null;
-                $user->marital_status_id=$value ?? ($request->marital_status??null);
-                $user->estate_id=$request->estate ?? null;
-                $user->ward=$request->ward ?? null;
-                $user->cell_group_id=$request->cell_group ?? null;
-                $user->education_level_id=$request->education_level ?? null;
-                $user->born_again_id=$request->born_again ?? null;
-                $user->leadership_status_id=$request->leadership_status ?? null;
-                $user->ministry_id=$request->ministry ?? null;
-                $user->ministries_of_interest=isset($request->check_box)?implode (',', $request->check_box):null;
-                $user->occupation_id=$value ?? ($request->occupation ?? null);
-                $user->employment_status_id=$value ?? ($request->employment_status ?? null);
-                $user->member_number = $member_number??null;
-                $user->user_name = $username;
-                $user->title = $request->title??null;
-                $user->year_joined = $request->year_joined??null;
-                $user->save();
+                // $user = new User();
+                // $user->name = $fullName;
+                // $attribute_text == 'email'?$user->email=$request->unique_id:$user->email=null;
+                // $user->gender=$request->gender??null;
+                // $user->dob=$request->dob??null;
+                // $user->phone=$value ?? $request->phone??null;
+                // $user->marital_status_id=$value ?? ($request->marital_status??null);
+                // $user->estate_id=$request->estate ?? null;
+                // $user->ward=$request->ward ?? null;
+                // $user->cell_group_id=$request->cell_group ?? null;
+                // $user->education_level_id=$request->education_level ?? null;
+                // $user->born_again_id=$request->born_again ?? null;
+                // $user->leadership_status_id=$request->leadership_status ?? null;
+                // $user->ministry_id=$request->ministry ?? null;
+                // $user->ministries_of_interest=isset($request->check_box)?implode (',', $request->check_box):null;
+                // $user->occupation_id=$value ?? ($request->occupation ?? null);
+                // $user->employment_status_id=$value ?? ($request->employment_status ?? null);
+                // $user->member_number = $member_number??null;
+                // $user->user_name = $username;
+                // $user->title = $request->title??null;
+                // $user->year_joined = $request->year_joined??null;
+                // $user->save();
+
+                $email= $attribute_text == 'email'?$request->unique_id:null;
+                $created_user_id = User::insertGetId([
+                    'name' => $fullName,
+                    'email' => $email,
+                    'gender'=>$request->gender??null,
+                    'dob'=>$request->dob??null,
+                    'phone'=>$value ?? $request->phone??null,
+                    'marital_status_id'=>$value ?? ($request->marital_status??null),
+                    'estate_id'=>$request->estate ?? null,
+                    'ward'=>$request->ward ?? null,
+                    'cell_group_id'=>$request->cell_group ?? null,
+                    'education_level_id'=>$request->education_level ?? null,
+                    'born_again_id'=>$request->born_again ?? null,
+                    'leadership_status_id'=>$request->leadership_status ?? null,
+                    'ministry_id'=>$request->ministry ?? null,
+                    'ministries_of_interest'=>isset($request->check_box)?implode (',', $request->check_box):null,
+                    'occupation_id'=>$value ?? ($request->occupation ?? null),
+                    'employment_status_id'=>$value ?? ($request->employment_status ?? null),
+                    'member_number' => $member_number??null,
+                    'user_name' => $username,
+                    'title' => $request->title??null,
+                    'year_joined' => $request->year_joined??null
+                ]);
+                // dd($created_user_id);
+                ActivityLog::create([
+                'activity'=>config('membership.activities.creation'),
+                'created_by'=>Auth::id(),
+                'affected_user'=>$created_user_id
+                ]);
                 return  response()->json([
                     'status'=>200,
                     'messages'=>'Member Registered Successfully;&nbsp; with username; '.$user_name,
@@ -635,10 +697,20 @@ class DashboardController extends Controller
                     'messages'=>$requestedRole->name.' and associated permissions assigned successfully'
                 ]);
             }
+            ActivityLog::create([
+                'activity'=>config('membership.activities.role_assignment'),
+                'created_by'=>Auth::id(),
+                'affected_user'=>$user->id
+            ]);
         } else {
             // No role is selected, unassign the current role and permissions
             $user->syncRoles([]);
             $user->syncPermissions([]);
+            ActivityLog::create([
+                'activity'=>config('membership.activities.role_unassignment'),
+                'created_by'=>Auth::id(),
+                'affected_user'=>$user->id
+            ]);
             if (isset($currentRole->name)){
                 return response()->json([
                     'status'=>200,
@@ -681,6 +753,11 @@ class DashboardController extends Controller
                     $user->first()->roles()->detach(); // Unassign all roles from the user
                     $user->first()->permissions()->sync([]); // Remove all associated permissions
                 }
+                ActivityLog::create([
+                    'activity'=>config('membership.activities.member_decline'),
+                    'created_by'=>Auth::id(),
+                    'affected_user'=>$user->id
+                ]);
                 return response()->json([
                     'status'=>200,
                     'messages'=>$request->member_first_name."'s membership status declined successfully!"
@@ -695,12 +772,22 @@ class DashboardController extends Controller
             ]);
             if ($registration_status == 0){
                 $user->update(['registration_status'=>$user->first()->previous_registration_status, 'previous_registration_status'=>null]);
+                ActivityLog::create([
+                    'activity'=>config('membership.activities.reinstating'),
+                    'created_by'=>Auth::id(),
+                    'affected_user'=>$user->first()->id
+                ]);
                 return response()->json([
                     'status'=>200,
                     'messages'=>$request->member_first_name."'s membership status status reinstated successfully!"
                 ]);
             }else if ($registration_status == 1){
                 $user->update(['registration_status'=>config('membership.registration_statuses.church_registered.id')]);
+                ActivityLog::create([
+                    'activity'=>config('membership.activities.membership_preparation'),
+                    'created_by'=>Auth::id(),
+                    'affected_user'=>$user->first()->id
+                ]);
                 return $response;
             }
 //            else if ($registration_status == 2){
@@ -709,14 +796,24 @@ class DashboardController extends Controller
 //            }
             else if ($registration_status == 3){
                 $user->update(['registration_status'=>config('membership.registration_statuses.church_provisionally_approved.id')]);
+                ActivityLog::create([
+                    'activity'=>config('membership.activities.membership_review'),
+                    'created_by'=>Auth::id(),
+                    'affected_user'=>$user->first()->id
+                ]);
 
                 return $response;
             }else if ($registration_status == 4){
                 $user->update(['registration_status'=>config('membership.registration_statuses.church_approved.id')]);
+                ActivityLog::create([
+                    'activity'=>config('membership.activities.membership_approval'),
+                    'created_by'=>Auth::id(),
+                    'affected_user'=>$user->first()->id
+                ]);
 
                 return $response;
             }
         }
     }
 }
-//mysqldump -h 10.157.2.52  -p 3320 -u JubiApis -p digital_apps > local_digital_app.sql
+// mysqldump -h 10.157.2.52  -p 3320 -u JubiApis -p digital_apps > local_digital_app.sql
